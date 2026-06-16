@@ -1,46 +1,46 @@
-import { GraduationCap, Award } from 'lucide-react'
+import { Award } from 'lucide-react'
 import Section, { Reveal } from './Section.jsx'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import { education } from '../data/portfolio.js'
 
 export default function Education() {
   return (
-    <Section id="education" kicker="Education" title="Academic background" alt>
-      <div className="grid gap-6 md:grid-cols-2">
+    <Section id="education" index="04" kicker="Education" title="Academic background" alt>
+      <div className="grid gap-6 md:grid-cols-[1.3fr_1fr]">
         <Reveal>
-          <div className="h-full rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-            <div className="flex items-start gap-4">
-              <span className="grid h-11 w-11 flex-none place-items-center rounded-lg bg-accent-soft text-accent">
-                <GraduationCap size={22} />
-              </span>
-              <div>
-                <h3 className="text-lg font-bold text-ink">{education.degree}</h3>
-                <p className="mt-1 text-ink-muted">{education.school}</p>
-                <div className="mt-3 flex flex-wrap items-center gap-3">
-                  <span className="chip">{education.period}</span>
-                  <span className="chip border-accent/20 bg-accent-soft text-accent">
-                    {education.score}
-                  </span>
-                </div>
-              </div>
+          <Card className="flex h-full flex-col p-7">
+            <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-brand-accent">
+              Degree
+            </span>
+            <h3 className="display mt-3 text-2xl font-medium leading-snug text-foreground">
+              {education.degree}
+            </h3>
+            <p className="mt-2 text-muted-foreground">{education.school}</p>
+            <div className="mt-auto flex flex-wrap items-center gap-2.5 pt-6">
+              <Badge variant="tech">{education.period}</Badge>
+              <Badge className="border-transparent bg-primary/10 font-mono text-primary">
+                {education.score}
+              </Badge>
             </div>
-          </div>
+          </Card>
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="h-full rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-            <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-accent">
-              <Award size={16} />
-              Achievements
+          <Card className="flex h-full flex-col p-7">
+            <h3 className="flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-brand-accent">
+              <Award size={15} />
+              Highlights
             </h3>
-            <ul className="space-y-3">
+            <ul className="mt-5 space-y-3.5">
               {education.achievements.map((a, i) => (
-                <li key={i} className="flex gap-3 text-ink-muted">
-                  <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-accent/60" />
+                <li key={i} className="flex gap-3 text-muted-foreground">
+                  <span className="mt-2 h-1 w-1 flex-none rounded-full bg-primary" />
                   <span className="leading-relaxed">{a}</span>
                 </li>
               ))}
             </ul>
-          </div>
+          </Card>
         </Reveal>
       </div>
     </Section>
