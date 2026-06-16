@@ -1,48 +1,51 @@
 import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip'
 import { profile } from '../data/portfolio.js'
+
+const socials = [
+  { href: profile.socials.github, icon: Github, label: 'GitHub' },
+  { href: profile.socials.linkedin, icon: Linkedin, label: 'LinkedIn' },
+  { href: `mailto:${profile.email}`, icon: Mail, label: 'Email' },
+]
 
 export default function Footer() {
   const year = new Date().getFullYear()
   return (
-    <footer className="border-t border-slate-200 bg-white">
-      <div className="container-x flex flex-col items-center justify-between gap-4 py-8 sm:flex-row">
-        <p className="text-sm text-ink-faint">
-          © {year} {profile.name}. Built with React, Vite & Tailwind CSS.
+    <footer className="border-t border-border bg-background">
+      <div className="container-x flex flex-col items-center justify-between gap-5 py-8 sm:flex-row">
+        <p className="font-mono text-xs tracking-tight text-muted-foreground">
+          © {year} {profile.name} — built with React, Vite &amp; Tailwind.
         </p>
 
-        <div className="flex items-center gap-4">
-          <a
-            href={profile.socials.github}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="GitHub"
-            className="text-ink-faint transition-colors hover:text-accent"
-          >
-            <Github size={20} />
-          </a>
-          <a
-            href={profile.socials.linkedin}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn"
-            className="text-ink-faint transition-colors hover:text-accent"
-          >
-            <Linkedin size={20} />
-          </a>
-          <a
-            href={`mailto:${profile.email}`}
-            aria-label="Email"
-            className="text-ink-faint transition-colors hover:text-accent"
-          >
-            <Mail size={20} />
-          </a>
-          <a
-            href="#top"
-            aria-label="Back to top"
-            className="ml-2 grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-ink-muted transition-colors hover:border-accent hover:text-accent"
-          >
-            <ArrowUp size={18} />
-          </a>
+        <div className="flex items-center gap-1">
+          {socials.map(({ href, icon: Icon, label }) => (
+            <Tooltip key={label}>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" asChild>
+                  <a
+                    href={href}
+                    target={href.startsWith('http') ? '_blank' : undefined}
+                    rel={href.startsWith('http') ? 'noreferrer' : undefined}
+                    aria-label={label}
+                  >
+                    <Icon />
+                  </a>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{label}</TooltipContent>
+            </Tooltip>
+          ))}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="outline" size="icon" className="ml-2" asChild>
+                <a href="#top" aria-label="Back to top">
+                  <ArrowUp />
+                </a>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Back to top</TooltipContent>
+          </Tooltip>
         </div>
       </div>
     </footer>
