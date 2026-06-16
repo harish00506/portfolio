@@ -1,34 +1,40 @@
 import Section, { Reveal } from './Section.jsx'
 import { profile } from '../data/portfolio.js'
 
+const meta = [
+  { k: 'Focus', v: 'AI · Backend · Full-Stack' },
+  { k: 'Stack', v: 'Java · Python · JavaScript' },
+  { k: 'Based in', v: profile.location },
+  { k: 'Status', v: 'Final-year B.E. (ISE)' },
+]
+
 export default function About() {
   return (
-    <Section id="about" kicker="About" title="A bit about me" alt>
-      <div className="grid gap-10 md:grid-cols-3">
-        <Reveal className="md:col-span-2 space-y-5">
+    <Section id="about" index="01" kicker="About" title="A bit about me" alt>
+      <div className="grid gap-12 md:grid-cols-[1.7fr_1fr] md:gap-16">
+        <Reveal className="space-y-6">
           {profile.about.map((para, i) => (
-            <p key={i} className="text-lg leading-relaxed text-ink-muted">
+            <p
+              key={i}
+              className={
+                i === 0
+                  ? 'display text-2xl font-medium leading-snug text-foreground sm:text-[1.7rem]'
+                  : 'max-w-prose text-lg leading-relaxed text-muted-foreground'
+              }
+            >
               {para}
             </p>
           ))}
         </Reveal>
 
         <Reveal delay={0.1}>
-          <dl className="grid grid-cols-2 gap-4 md:grid-cols-1">
-            {[
-              { k: 'Focus', v: 'AI · Backend · Full-Stack' },
-              { k: 'Stack', v: 'Java · Python · JavaScript' },
-              { k: 'Based in', v: profile.location },
-              { k: 'Status', v: 'Final-year B.E. (ISE)' },
-            ].map((item) => (
-              <div
-                key={item.k}
-                className="rounded-xl border border-slate-200 bg-white p-4 shadow-card"
-              >
-                <dt className="text-xs font-semibold uppercase tracking-widest text-accent">
+          <dl className="divide-y divide-border border-y border-border">
+            {meta.map((item) => (
+              <div key={item.k} className="flex items-baseline justify-between gap-4 py-4">
+                <dt className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground/70">
                   {item.k}
                 </dt>
-                <dd className="mt-1 font-medium text-ink">{item.v}</dd>
+                <dd className="text-right font-medium text-foreground">{item.v}</dd>
               </div>
             ))}
           </dl>

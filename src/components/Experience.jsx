@@ -1,35 +1,34 @@
-import { Briefcase } from 'lucide-react'
 import Section, { Reveal } from './Section.jsx'
 import { experience } from '../data/portfolio.js'
 
 export default function Experience() {
   return (
-    <Section id="experience" kicker="Experience" title="Where I've been working" alt>
-      <div className="relative border-l border-slate-200 pl-8">
+    <Section id="experience" index="03" kicker="Experience" title="Where I've worked" alt>
+      <div className="relative border-l border-border pl-7 sm:pl-10">
         {experience.map((job, i) => (
           <Reveal key={`${job.company}-${i}`} delay={i * 0.05}>
-            <div className="relative pb-2">
-              {/* Timeline dot */}
-              <span className="absolute -left-[42px] grid h-7 w-7 place-items-center rounded-full border border-slate-200 bg-white text-accent shadow-card">
-                <Briefcase size={14} />
-              </span>
+            <div className="relative pb-10 last:pb-0">
+              {/* Timeline marker */}
+              <span className="absolute top-1.5 -left-[33px] h-3 w-3 -translate-x-1/2 rounded-full border-2 border-primary bg-background sm:-left-[43px]" />
 
-              <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-card">
-                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-                  <h3 className="text-lg font-bold text-ink">
-                    {job.role} <span className="text-accent">· {job.company}</span>
-                  </h3>
-                  <span className="text-sm font-medium text-ink-faint">{job.period}</span>
-                </div>
-                <ul className="mt-4 space-y-2">
-                  {job.bullets.map((b, bi) => (
-                    <li key={bi} className="flex gap-3 text-ink-muted">
-                      <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-accent/60" />
-                      <span className="leading-relaxed">{b}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                <h3 className="display text-2xl font-medium text-foreground">
+                  {job.role}
+                  <span className="text-primary"> · {job.company}</span>
+                </h3>
+                <span className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground/70">
+                  {job.period}
+                </span>
               </div>
+
+              <ul className="mt-5 space-y-2.5">
+                {job.bullets.map((b, bi) => (
+                  <li key={bi} className="flex gap-3 text-muted-foreground">
+                    <span className="mt-2.5 h-1 w-1 flex-none rounded-full bg-primary" />
+                    <span className="leading-relaxed">{b}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </Reveal>
         ))}

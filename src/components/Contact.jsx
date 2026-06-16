@@ -11,39 +11,38 @@ const channels = (p) => [
 
 export default function Contact() {
   return (
-    <Section id="contact" kicker="Contact" title="Let's build something">
+    <Section id="contact" kicker="Get in touch">
       <Reveal>
-        <div className="overflow-hidden rounded-2xl border border-accent/20 bg-accent-soft p-6 sm:p-10 lg:p-12">
-          <p className="max-w-2xl text-base leading-relaxed text-ink-muted sm:text-lg">
-            I'm open to AI engineering, backend and full-stack opportunities. Whether you have a role
-            in mind or just want to talk shop, my inbox is always open.
-          </p>
+        <h2 className="section-title max-w-[14ch] text-balance">
+          Let's build something <span className="italic text-brand-accent">good</span>.
+        </h2>
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          I'm open to AI engineering, backend and full-stack opportunities. Whether you have a role
+          in mind or just want to talk shop, my inbox is always open.
+        </p>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {channels(profile).map(({ icon: Icon, label, value, href }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith('http') ? '_blank' : undefined}
-                rel={href.startsWith('http') ? 'noreferrer' : undefined}
-                className="group flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-4 transition-all hover:border-accent hover:shadow-cardHover"
-              >
-                <span className="grid h-11 w-11 flex-none place-items-center rounded-lg bg-accent-soft text-accent">
-                  <Icon size={20} />
+        <div className="mt-12 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
+          {channels(profile).map(({ icon: Icon, label, value, href }) => (
+            <a
+              key={label}
+              href={href}
+              target={href.startsWith('http') ? '_blank' : undefined}
+              rel={href.startsWith('http') ? 'noreferrer' : undefined}
+              className="group flex items-center gap-4 bg-card p-5 transition-colors hover:bg-secondary"
+            >
+              <Icon size={20} className="flex-none text-primary" />
+              <span className="min-w-0">
+                <span className="block font-mono text-[0.68rem] uppercase tracking-[0.16em] text-muted-foreground/70">
+                  {label}
                 </span>
-                <span className="min-w-0">
-                  <span className="block text-xs font-semibold uppercase tracking-widest text-ink-faint">
-                    {label}
-                  </span>
-                  <span className="block truncate font-medium text-ink">{value}</span>
-                </span>
-                <ArrowUpRight
-                  size={18}
-                  className="ml-auto flex-none text-ink-faint transition-colors group-hover:text-accent"
-                />
-              </a>
-            ))}
-          </div>
+                <span className="block truncate font-medium text-foreground">{value}</span>
+              </span>
+              <ArrowUpRight
+                size={18}
+                className="ml-auto flex-none text-muted-foreground/60 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary"
+              />
+            </a>
+          ))}
         </div>
       </Reveal>
     </Section>

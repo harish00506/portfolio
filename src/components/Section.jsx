@@ -1,23 +1,31 @@
 import { motion } from 'framer-motion'
+import { Separator } from '@/components/ui/separator'
 
 /**
- * Shared section wrapper: provides an anchor id, consistent padding,
- * an optional kicker + title header, and a subtle fade-up reveal on scroll.
+ * Shared section wrapper: anchor id, consistent padding, an editorial numbered
+ * header (hairline rule + mono index + serif title), and a fade-up reveal.
  */
-export default function Section({ id, kicker, title, children, className = '', alt = false }) {
+export default function Section({ id, index, kicker, title, children, className = '', alt = false }) {
   return (
-    <section id={id} className={`section ${alt ? 'bg-slate-50' : 'bg-white'} ${className}`}>
+    <section id={id} className={`section ${alt ? 'bg-secondary/50' : 'bg-background'} ${className}`}>
       <div className="container-x">
         {(kicker || title) && (
           <motion.header
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="mb-8 sm:mb-12"
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-10 sm:mb-14"
           >
-            {kicker && <p className="section-kicker">{kicker}</p>}
-            {title && <h2 className="section-title">{title}</h2>}
+            <Separator className="mb-5" />
+            {kicker && (
+              <p className="kicker">
+                {index && <span className="text-muted-foreground/70">{index}</span>}
+                {index && <span className="text-muted-foreground/40">/</span>}
+                {kicker}
+              </p>
+            )}
+            {title && <h2 className="section-title mt-4 max-w-[18ch] text-balance">{title}</h2>}
           </motion.header>
         )}
         {children}
@@ -33,7 +41,7 @@ export function Reveal({ children, delay = 0, className = '' }) {
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.5, ease: 'easeOut', delay }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay }}
       className={className}
     >
       {children}
