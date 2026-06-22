@@ -5,7 +5,7 @@ const meta = [
   { k: 'Focus', v: 'AI · Backend · Full-Stack' },
   { k: 'Stack', v: 'Java · Python · JavaScript' },
   { k: 'Based in', v: profile.location },
-  { k: 'Status', v: 'Final-year B.E. (ISE)' },
+  { k: 'Status', v: 'Software Developer @ CortexCraft.ai' },
 ]
 
 export default function About() {
