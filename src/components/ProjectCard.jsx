@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Github, ArrowUpRight, Star, Lock } from 'lucide-react'
+import { Github, ArrowUpRight, Star } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
@@ -13,7 +13,6 @@ import { cn } from '@/lib/utils'
  */
 const ProjectCard = forwardRef(function ProjectCard({ project, index }, ref) {
   const { slug, name, blurb, highlights, tags, links = {}, featured, note } = project
-  const hasLinks = links.github || links.live
 
   return (
     <motion.article
@@ -58,11 +57,6 @@ const ProjectCard = forwardRef(function ProjectCard({ project, index }, ref) {
             >
               <Github size={17} />
             </a>
-          )}
-          {!hasLinks && (
-            <span title="Private / internship work — code not public" className="text-muted-foreground/60">
-              <Lock size={15} />
-            </span>
           )}
         </div>
       </div>

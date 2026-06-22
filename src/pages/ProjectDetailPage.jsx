@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Github, ExternalLink, Lock } from 'lucide-react'
+import { ArrowLeft, Github, ExternalLink } from 'lucide-react'
 import { getProjectBySlug } from '../data/portfolio.js'
 import CodeSample from '../components/CodeSample.jsx'
 import Screenshot from '../components/Screenshot.jsx'
@@ -40,7 +40,6 @@ export default function ProjectDetailPage() {
   if (!project) return <NotFoundPage />
 
   const { name, blurb, tags, links = {}, note, star } = project
-  const hasLinks = links.github || links.live
   const action = star?.action
 
   return (
@@ -96,12 +95,6 @@ export default function ProjectDetailPage() {
                   Source code
                 </a>
               </Button>
-            )}
-            {!hasLinks && (
-              <span className="inline-flex items-center gap-2 font-mono text-xs text-muted-foreground/70">
-                <Lock size={14} />
-                Private / internship work — code not public
-              </span>
             )}
           </div>
         </motion.header>
