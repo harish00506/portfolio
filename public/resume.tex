@@ -1,0 +1,151 @@
+\documentclass[11pt,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1.8cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+% ----------------------------------------------------------------------
+% Section styling: sans-serif bold heading with a thin rule beneath
+% ----------------------------------------------------------------------
+\titleformat{\section}
+  {\large\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{10pt}{6pt}
+
+% Compact bullet lists
+\setlist[itemize]{leftmargin=1.4em,itemsep=2pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\pagestyle{plain}
+
+% ----------------------------------------------------------------------
+% Helper: entry heading row with right-aligned date
+% \entry{Title}{Date}
+% ----------------------------------------------------------------------
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\Huge\bfseries Harish G}\\[2pt]
+{\large\bfseries Full Stack \& AI Engineer --- Multi-Stack (Java, Python, JS)}\\[3pt]
+Bengaluru, India \quad---\quad +91 7892855850 \quad---\quad
+\href{mailto:harish00506@gmail.com}{harish00506@gmail.com}\\[1pt]
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad---\quad \href{https://github.com/harish00506/}{GitHub}
+
+% ----------------------------------------------------------------------
+% Profile
+% ----------------------------------------------------------------------
+\section{Profile}
+Final-year Information Science Engineering student with over a year of hands-on experience across
+freelance projects and an AI engineering internship, with expertise spanning the Java, Python, and
+JavaScript ecosystems. Experienced in building scalable backend systems using Spring Boot,
+Express.js, and FastAPI, and integrating AI technologies such as LLMs, STT, TTS, and agent-based
+workflows into real-world applications. Passionate about developing intelligent, automation-driven
+systems and seeking roles in AI engineering, backend, or full-stack development.
+
+% ----------------------------------------------------------------------
+% Core Strengths
+% ----------------------------------------------------------------------
+\section{Core Strengths}
+\textbf{Languages:} Java, Python, JavaScript, TypeScript, Kotlin, SQL\\
+\textbf{Backend:} Spring Boot, Express.js, Node.js, FastAPI\\
+\textbf{Frontend:} React, Vite, NextUI, Jetpack Compose\\
+\textbf{Databases:} PostgreSQL, MongoDB, Firebase, Neo4j\\
+\textbf{AI/ML:} LLM Integration, RAG, Context Management, Agents, Workflow Automation, STT/TTS Systems\\
+\textbf{Tools:} Git, GitLab (Version Control \& Release Management), Docker, Postman, Android Studio, Figma\\
+\textbf{Concepts:} OOP, REST API Design, JWT Authentication, MVC Architecture, Multithreading,
+Query Optimization, Modular System Design, Resource Management, Basic UI/UX Design Principles,
+System Design Fundamentals
+
+% ----------------------------------------------------------------------
+% Experience
+% ----------------------------------------------------------------------
+\section{Experience}
+
+\entry{Software Developer --- CortexCraft.ai}{May 2026 -- Present}
+\begin{itemize}
+  \item Developing AI-driven solutions integrating LLMs, STT, and TTS into real-world applications.
+  \item Building agent-based systems and workflows for automation and intelligent task execution.
+  \item Applying context management, RAG pipelines, and modular AI architectures for scalable solutions.
+  \item Contributing to projects involving mathematical models and AI-assisted decision systems.
+  \item Integrating AI into daily development workflows to improve efficiency and product intelligence.
+\end{itemize}
+
+\vspace{4pt}
+\entry{Software Developer Intern --- CortexCraft.ai}{Jan 2026 -- May 2026}
+\begin{itemize}
+  \item Built and integrated AI features (LLM, STT, TTS) into core company applications.
+  \item Developed agent-based automation workflows and RAG pipelines; converted to a full-time role.
+\end{itemize}
+
+\vspace{4pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+\begin{itemize}
+  \item Built responsive landing pages and small business websites for local clients using React and Vite.
+  \item Delivered small full-stack apps and automation scripts (Python / Node.js) tailored to client workflows.
+  \item Handled ad-hoc bug fixes, feature additions, and deployment support on a per-project freelance basis.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Projects
+% ----------------------------------------------------------------------
+\section{Projects}
+
+\textbf{Zentrax --- AI-Powered Voice \& Gesture Desktop Assistant} \textit{Python, Whisper, MediaPipe, WebSocket, Ollama, HTML/CSS/JS}
+\begin{itemize}
+  \item Built a Windows AI assistant inspired by FRIDAY enabling voice commands and gesture-based control.
+  \item Integrated Whisper (STT), LLM-based intent recognition (Ollama), and a modular execution engine.
+  \item Designed fallback recognition pipelines ensuring robust and reliable automation.
+  \item Developed a real-time monitoring dashboard with WebSockets for system metrics and command tracking.
+  \item Enabled local LLM deployment with Docker for privacy-focused AI execution.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{Task Tracker --- Full-Stack Productivity App} \textit{Java (Spring Boot), Vite, TypeScript, PostgreSQL}
+\begin{itemize}
+  \item Built REST APIs using Spring Boot with clean architecture and DTO-based design.
+  \item Reduced API latency by 30\% through query optimization and efficient data handling.
+  \item Implemented task prioritization, tracking, and persistent storage.
+\end{itemize}
+
+\vspace{4pt}
+\textbf{GroceryGo --- Android Grocery App} \textit{Kotlin, Jetpack Compose, Firebase}
+\begin{itemize}
+  \item Achieved 0\% crash rate across 5+ Android OS versions.
+  \item Implemented offline caching and auto-sync for 100+ stored items.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Education
+% ----------------------------------------------------------------------
+\section{Education}
+\textbf{B.E. --- Information Science and Engineering}\par
+Vivekananda Institute of Technology, Bangalore
+
+% ----------------------------------------------------------------------
+% Achievements
+% ----------------------------------------------------------------------
+\section{Achievements}
+\begin{itemize}
+  \item Built and deployed AI-powered and full-stack applications with real-user testing.
+  \item Strong experience in backend optimization, debugging, and scalable system design.
+  \item Applied structured development lifecycle with Git-based collaboration.
+\end{itemize}
+
+\end{document}

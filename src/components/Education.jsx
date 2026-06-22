@@ -1,7 +1,6 @@
 import { Award } from 'lucide-react'
 import Section, { Reveal } from './Section.jsx'
 import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { education } from '../data/portfolio.js'
 
 export default function Education() {
@@ -17,12 +16,6 @@ export default function Education() {
               {education.degree}
             </h3>
             <p className="mt-2 text-muted-foreground">{education.school}</p>
-            <div className="mt-auto flex flex-wrap items-center gap-2.5 pt-6">
-              <Badge variant="tech">{education.period}</Badge>
-              <Badge className="border-transparent bg-primary/10 font-mono text-primary">
-                {education.score}
-              </Badge>
-            </div>
           </Card>
         </Reveal>
 

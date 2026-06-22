@@ -13,12 +13,12 @@ export const profile = {
   title: 'Full Stack & AI Engineer',
   tagline: 'Multi-stack engineer (Java · Python · JavaScript) building scalable backends and AI-driven applications.',
   location: 'Bengaluru, India',
-  email: 'harishgreddy.work@gmail.com',
+  email: 'harish00506@gmail.com',
   phone: '+91 7892855850',
   resumeUrl: '/resume.pdf',
   socials: {
-    github: 'https://github.com/', // update with your GitHub profile URL
-    linkedin: 'https://www.linkedin.com/', // update with your LinkedIn profile URL
+    github: 'https://github.com/harish00506/',
+    linkedin: 'https://www.linkedin.com/in/harishgreddy/',
   },
   about: [
     'Final-year Information Science Engineering student with hands-on expertise across the Java, Python and JavaScript ecosystems. I build scalable backend systems with Spring Boot, Express.js and FastAPI, and integrate AI technologies — LLMs, STT, TTS and agent-based workflows — into real-world products.',
@@ -67,15 +67,34 @@ export const skills = [
 
 export const experience = [
   {
-    role: 'AI Developer Intern',
+    role: 'Software Developer',
     company: 'CortexCraft.ai',
-    period: 'Jan 2026 – Present',
+    period: 'May 2026 – Present',
     bullets: [
       'Develop AI-driven solutions that integrate LLMs, speech-to-text and text-to-speech into real-world applications.',
       'Build agent-based systems and automation workflows for intelligent task execution.',
       'Apply context management, RAG pipelines and modular AI architectures for scalable solutions.',
       'Contribute to projects involving mathematical models and AI-assisted decision systems.',
       'Integrate AI into daily development workflows to improve efficiency and product intelligence.',
+    ],
+  },
+  {
+    role: 'Software Developer Intern',
+    company: 'CortexCraft.ai',
+    period: 'Jan 2026 – May 2026',
+    bullets: [
+      'Built and integrated AI features (LLM, STT, TTS) into core company applications.',
+      'Developed agent-based automation workflows and RAG pipelines; converted to a full-time role.',
+    ],
+  },
+  {
+    role: 'Freelance Web & App Developer',
+    company: 'Self-Employed',
+    period: '2023 – 2026',
+    bullets: [
+      'Built responsive landing pages and small business websites for local clients using React and Vite.',
+      'Delivered small full-stack apps and automation scripts (Python / Node.js) tailored to client workflows.',
+      'Handled ad-hoc bug fixes, feature additions and deployment support on a per-project freelance basis.',
     ],
   },
 ]
@@ -473,8 +492,6 @@ export function getProjectBySlug(slug) {
 export const education = {
   degree: 'B.E. — Information Science & Engineering',
   school: 'Vivekananda Institute of Technology, Bangalore',
-  period: '2022 – 2026',
-  score: 'CGPA: 8.81 / 10',
   achievements: [
     'Built and deployed AI-powered and full-stack applications with real-user testing.',
     'Strong experience in backend optimization, debugging and scalable system design.',
