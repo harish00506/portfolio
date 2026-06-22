@@ -100,16 +100,17 @@ export default function Hero() {
             className="hidden lg:block"
           >
             <div className="relative aspect-[4/5] w-full max-w-xs rounded-lg border border-border bg-card shadow-card">
+              <img
+                src={profile.photo}
+                alt="Harish G"
+                className="absolute inset-0 h-full w-full rounded-lg object-cover"
+              />
+
               {/* Corner ticks */}
               <span className="absolute -left-px -top-px h-3 w-3 border-l-2 border-t-2 border-primary" />
               <span className="absolute -right-px -top-px h-3 w-3 border-r-2 border-t-2 border-primary" />
               <span className="absolute -bottom-px -left-px h-3 w-3 border-b-2 border-l-2 border-primary" />
               <span className="absolute -bottom-px -right-px h-3 w-3 border-b-2 border-r-2 border-primary" />
-
-              {/* Replace inner block with: <img src="/profile.jpg" alt="Harish G" className="absolute inset-0 h-full w-full rounded-lg object-cover" /> */}
-              <div className="grid h-full place-items-center">
-                <span className="display text-8xl font-semibold text-foreground">HG</span>
-              </div>
 
               <div className="absolute inset-x-0 bottom-0 rounded-b-lg border-t border-border bg-background/80 px-4 py-3 backdrop-blur-sm">
                 <p className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground/70">

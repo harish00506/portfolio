@@ -16,13 +16,14 @@ export const profile = {
   email: 'harish00506@gmail.com',
   phone: '+91 7892855850',
   resumeUrl: '/resume.pdf',
+  photo: '/profile.jpg',
   socials: {
     github: 'https://github.com/harish00506/',
     linkedin: 'https://www.linkedin.com/in/harishgreddy/',
   },
   about: [
-    'Final-year Information Science Engineering student with hands-on expertise across the Java, Python and JavaScript ecosystems. I build scalable backend systems with Spring Boot, Express.js and FastAPI, and integrate AI technologies — LLMs, STT, TTS and agent-based workflows — into real-world products.',
-    'I am passionate about intelligent, automation-driven systems and clean, modular architecture. I am currently looking for roles in AI engineering, backend, or full-stack development where I can ship products that combine solid engineering with practical AI.',
+    'Software Developer at CortexCraft.ai since January 2026, with hands-on experience across the Java, Python and JavaScript ecosystems and several years of freelance web and app development. I build scalable backend systems with Spring Boot, Express.js and FastAPI, and integrate AI technologies — LLMs, STT, TTS and agent-based workflows — into real-world products.',
+    'I focus on intelligent, automation-driven systems and clean, modular architecture, and I am looking for roles in AI engineering, backend, or full-stack development where I can ship products that combine solid engineering with practical AI.',
   ],
 }
 
@@ -69,22 +70,13 @@ export const experience = [
   {
     role: 'Software Developer',
     company: 'CortexCraft.ai',
-    period: 'May 2026 – Present',
+    period: 'Jan 2026 – Present',
     bullets: [
       'Develop AI-driven solutions that integrate LLMs, speech-to-text and text-to-speech into real-world applications.',
       'Build agent-based systems and automation workflows for intelligent task execution.',
       'Apply context management, RAG pipelines and modular AI architectures for scalable solutions.',
       'Contribute to projects involving mathematical models and AI-assisted decision systems.',
       'Integrate AI into daily development workflows to improve efficiency and product intelligence.',
-    ],
-  },
-  {
-    role: 'Software Developer Intern',
-    company: 'CortexCraft.ai',
-    period: 'Jan 2026 – May 2026',
-    bullets: [
-      'Built and integrated AI features (LLM, STT, TTS) into core company applications.',
-      'Developed agent-based automation workflows and RAG pipelines; converted to a full-time role.',
     ],
   },
   {
