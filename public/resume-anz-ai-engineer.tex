@@ -1,0 +1,159 @@
+\documentclass[11pt,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1.6cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - AI Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+% ----------------------------------------------------------------------
+% Section styling: sans-serif bold heading with a thin rule beneath
+% ----------------------------------------------------------------------
+\titleformat{\section}
+  {\large\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{9pt}{5pt}
+
+% Compact bullet lists
+\setlist[itemize]{leftmargin=1.4em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\pagestyle{plain}
+
+% ----------------------------------------------------------------------
+% Helper: entry heading row with right-aligned date
+% ----------------------------------------------------------------------
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\Huge\bfseries Harish G}\\[2pt]
+{\large\bfseries AI Engineer \textbar{} LLM, Agentic AI \& Full-Stack}\\[3pt]
+Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harish00506@gmail.com}{harish00506@gmail.com}\\[1pt]
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad \href{https://github.com/harish00506/}{GitHub}
+
+% ----------------------------------------------------------------------
+% Profile
+% ----------------------------------------------------------------------
+\section{Profile}
+AI Engineer with hands-on experience building production-grade LLM and agentic AI systems across voice
+and messaging channels. Skilled in prompt engineering, LLM evaluation, RAG and agent orchestration with
+tool calling and safe escalation, delivered through full-stack services (React, Node.js, Python / FastAPI).
+Built banking and healthcare assistants with role-based access control, audit logging and
+compliance-aware design, directly relevant to regulated environments. Strong foundation in data
+structures, system design and a production-engineering mindset: testing, CI/CD, observability and
+reliability.
+
+% ----------------------------------------------------------------------
+% Core Skills
+% ----------------------------------------------------------------------
+\section{Core Skills}
+\textbf{AI / LLM:} Prompt Engineering (system \& tool prompts, guardrails, templates, versioning), LLM
+Evaluation (quality, accuracy, safety/bias, latency \& cost, human-in-the-loop), Agentic AI
+(orchestration, tool calling, decision traces, safe escalation), RAG, Context Management, MCP (Model
+Context Protocol) concepts\\
+\textbf{Voice \& Messaging:} Real-time STT $\rightarrow$ LLM $\rightarrow$ TTS pipelines, telephony
+(Plivo, Twilio), WhatsApp, voice activity detection, multilingual handling\\
+\textbf{Languages:} Python, JavaScript, TypeScript, Java, SQL, Kotlin\\
+\textbf{Frontend:} React, Vite, Tailwind CSS\\
+\textbf{Backend:} Node.js, Express, FastAPI, Spring Boot; REST API design, event-driven \& WebSocket patterns\\
+\textbf{Data:} PostgreSQL, MongoDB, Neo4j, Supabase / pgvector, Firebase\\
+\textbf{Cloud \& DevOps:} Docker, CI/CD, Git / GitLab, observability \& monitoring, cloud-native deployment\\
+\textbf{Security \& Controls:} JWT authentication, role-based access control (RBAC), audit logging, data
+isolation, least-privilege design\\
+\textbf{Foundations:} Data Structures \& Algorithms, System Design, Distributed Systems concepts,
+modular / microservice design
+
+% ----------------------------------------------------------------------
+% Experience
+% ----------------------------------------------------------------------
+\section{Experience}
+
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Build production-grade AI features integrating LLMs, STT and TTS into real-world applications across voice and messaging channels.
+  \item Design prompt frameworks (system \& tool prompts, guardrails, templates) and apply RAG and context management for consistent, reliable agent behaviour.
+  \item Implement agentic patterns: orchestration with tool calling, deterministic fallbacks and safe escalation paths.
+  \item Iterate on AI quality, accuracy, latency and cost with an evaluation-driven approach, embedding engineering hygiene: testing, modular design and observability.
+\end{itemize}
+
+\vspace{3pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+\begin{itemize}
+  \item Delivered full-stack web and app projects end-to-end for clients using React, Node.js and Python.
+  \item Shipped responsive UIs, REST APIs and automation scripts with CI/CD and reliable deployments.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Selected Projects
+% ----------------------------------------------------------------------
+\section{Selected Projects}
+
+\textbf{FinGraph AI: Banking RAG Assistant (Regulated-Environment Design)} \textit{Node.js, Express, React, Neo4j, Supabase pgvector, JWT}
+\begin{itemize}
+  \item Built a banking assistant over a Neo4j relationship graph with pgvector retrieval, plus query classification and workflow orchestration.
+  \item Enforced security end-to-end: JWT auth (bcrypt), role-based access control (admin / manager / customer) applied before retrieval, and append-only audit logging of every query.
+  \item Demonstrates compliance-aware patterns for regulated banking: least-privilege access, auditability and safe failure modes.
+\end{itemize}
+
+\vspace{3pt}
+\textbf{Refyne Voice Agent: Real-Time Contact-Centre Voice AI} \textit{Python, FastAPI, Pipecat, Plivo, Sarvam, WebSocket, VAD}
+\begin{itemize}
+  \item Built a real-time phone-call voice agent streaming STT $\rightarrow$ LLM $\rightarrow$ TTS over telephony, orchestrated with Pipecat.
+  \item Low-latency turn-taking via voice activity detection, automatic language detection, and inbound + outbound call handling.
+  \item Mirrors contact-centre concierge / triage and real-time assist patterns over voice channels.
+\end{itemize}
+
+\vspace{3pt}
+\textbf{KisanVoice AI: Multilingual Voice \& Messaging Platform} \textit{Node.js, Express, React, MongoDB, Twilio / WhatsApp, Sarvam STT/TTS, Socket.io, Docker}
+\begin{itemize}
+  \item WhatsApp-based voice survey platform with STT/TTS in 5 Indian languages and conditional conversation logic.
+  \item Real-time admin dashboard over Socket.io with an audio QC workflow; containerised with Docker.
+\end{itemize}
+
+\vspace{3pt}
+\textbf{MediGraph AI: Hybrid RAG Clinical Assistant} \textit{Node.js, React, Neo4j, Supabase pgvector, HF Embeddings}
+\begin{itemize}
+  \item Hybrid retrieval fusing a Neo4j knowledge graph with pgvector semantic search for grounded answers.
+  \item Role-based access isolating patient and clinician data; interactive force-directed graph visualisation.
+\end{itemize}
+
+\vspace{3pt}
+\textbf{Zentrax: Agentic Desktop Assistant} \textit{Python, Whisper, Ollama, MediaPipe, WebSocket, Docker}
+\begin{itemize}
+  \item LLM-based intent recognition (Ollama) with a modular tool / execution engine and fallback pipelines for reliability.
+  \item Local LLM deployment via Docker for privacy-focused, on-device automation.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Highlights
+% ----------------------------------------------------------------------
+\section{Highlights}
+\begin{itemize}
+  \item Built and deployed production-style AI and full-stack applications with real-user testing.
+  \item Comfortable owning features end-to-end: design, implementation, observability and iteration.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Education
+% ----------------------------------------------------------------------
+\section{Education}
+\textbf{B.E., Information Science and Engineering}\par
+Vivekananda Institute of Technology, Bangalore
+
+\end{document}
