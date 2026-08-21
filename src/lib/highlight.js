@@ -4,7 +4,7 @@
 // Design guarantee: every character of the input belongs to exactly one token
 // (gaps between regex matches are emitted as `plain`), so the concatenation of
 // all token text is byte-for-byte the original code. That makes it impossible
-// for highlighting to drop or corrupt the snippet — worst case, a token simply
+// for highlighting to drop or corrupt the snippet. Worst case, a token simply
 // isn't coloured. Rendered as React spans (never innerHTML), so it is XSS- and
 // SSR-safe.
 
@@ -18,6 +18,8 @@ const KEYWORDS = new Set([
   // Python
   'def', 'lambda', 'None', 'True', 'False', 'and', 'or', 'not', 'with', 'as',
   'pass', 'raise', 'elif', 'self', 'async', 'await', 'global', 'nonlocal',
+  // Kotlin
+  'fun', 'val', 'when', 'object', 'data', 'is', 'internal', 'suspend', 'override',
 ])
 
 // Order matters: comments and strings are matched before identifiers so that

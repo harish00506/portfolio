@@ -12,7 +12,7 @@ const badgeVariants = cva(
         secondary: 'border-transparent bg-secondary text-secondary-foreground',
         destructive: 'border-transparent bg-destructive text-destructive-foreground',
         outline: 'text-foreground',
-        // Editorial mono tag — used for tech-stack chips.
+        // Editorial mono tag, used for tech-stack chips.
         tech: 'border-border bg-card font-mono text-[0.7rem] tracking-tight text-muted-foreground hover:border-primary/40 hover:text-foreground',
       },
     },

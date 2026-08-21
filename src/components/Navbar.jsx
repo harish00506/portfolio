@@ -53,7 +53,7 @@ export default function Navbar() {
       }`}
     >
       <nav className="container-x flex h-16 items-center justify-between">
-        <Link to="/" className="group flex items-center gap-2.5" aria-label="Harish G — home">
+        <Link to="/" className="group flex items-center gap-2.5" aria-label="Harish G, home">
           <span className="grid h-8 w-8 place-items-center rounded-md bg-foreground font-display text-sm font-semibold text-background transition-colors group-hover:bg-primary">
             HG
           </span>

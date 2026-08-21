@@ -29,10 +29,10 @@ const ProjectCard = forwardRef(function ProjectCard({ project, index }, ref) {
     >
       {featured && <span className="absolute inset-x-0 top-0 h-[3px] bg-primary" />}
 
-      {/* Stretched link — makes the entire card clickable to the detail page. */}
+      {/* Stretched link: makes the entire card clickable to the detail page. */}
       <Link
         to={`/works/${slug}`}
-        aria-label={`${name} — view case study`}
+        aria-label={`${name}, view case study`}
         className="absolute inset-0 z-0 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       />
 
