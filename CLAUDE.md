@@ -63,6 +63,9 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
   URLs, JSON-LD, every `<loc>` in the sitemap and the `Sitemap:` line in robots.txt are all derived
   from it. Never paste the domain a second time. No trailing slash. The one exception is the static
   fallback copy in `index.html`, which the prerender overwrites per route.
+- `public/google*.html` is the Google Search Console ownership token. It looks like a stray
+  hash-named file; it is not. Deleting it un-verifies the property. Same for any future
+  `BingSiteAuth.xml`.
 - A malformed project object fails the build here rather than at runtime. That is the intended gate;
   do not add try/catch to make the prerender survive bad data.
 - **Verify SSG on a static host, never `vite preview`.** Its SPA fallback serves `index.html` for any
