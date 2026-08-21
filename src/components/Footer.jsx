@@ -15,7 +15,7 @@ export default function Footer() {
     <footer className="border-t border-border bg-background">
       <div className="container-x flex flex-col items-center justify-between gap-5 py-8 sm:flex-row">
         <p className="font-mono text-xs tracking-tight text-muted-foreground">
-          © {year} {profile.name} — built with React, Vite &amp; Tailwind.
+          © {year} {profile.name}. Built with React, Vite &amp; Tailwind.
         </p>
 
         <div className="flex items-center gap-1">

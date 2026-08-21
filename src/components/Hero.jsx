@@ -14,7 +14,7 @@ const rise = (delay = 0) => ({
 export default function Hero() {
   return (
     <section id="top" className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24">
-      {/* Ambient brand glow — subtle, behind the masthead. */}
+      {/* Ambient brand glow: subtle, behind the masthead. */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -right-40 -top-40 h-[34rem] w-[34rem] rounded-full bg-primary/[0.06] blur-3xl" />
         <div className="absolute -bottom-48 -left-24 h-[26rem] w-[26rem] rounded-full bg-brand-accent/[0.05] blur-3xl" />

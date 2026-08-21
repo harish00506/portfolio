@@ -8,7 +8,7 @@ import Footer from './Footer.jsx'
 export default function Layout() {
   const { pathname, hash } = useLocation()
 
-  // On route change, jump to top — unless navigating to an in-page anchor (#contact).
+  // On route change, jump to top, unless navigating to an in-page anchor (#contact).
   useEffect(() => {
     if (hash) {
       const target = document.querySelector(hash)

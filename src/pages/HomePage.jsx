@@ -21,7 +21,7 @@ export default function HomePage() {
     <>
       <Hero />
 
-      {/* Selected work — the featured projects, projects-first ordering */}
+      {/* Selected work: the featured projects, projects-first ordering */}
       <Section id="projects" index="01" kicker="Selected work" title="Things I've built" alt>
         <div className="grid gap-5 sm:grid-cols-2">
           {featuredProjects.map((project, i) => (
@@ -42,7 +42,7 @@ export default function HomePage() {
         </Reveal>
       </Section>
 
-      {/* Snapshot — skills + about teaser, secondary content */}
+      {/* Snapshot: skills and about teaser, secondary content */}
       <Section id="snapshot" index="02" kicker="Snapshot" title="A quick look">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr] md:gap-16">
           <Reveal>

@@ -14,7 +14,7 @@ const app = (
 )
 
 // When the page was pre-rendered (production build), the root already has
-// server-rendered markup — hydrate it. Otherwise (dev) do a fresh render.
+// server-rendered markup, so hydrate it. Otherwise (dev) do a fresh render.
 if (rootEl.hasChildNodes()) {
   hydrateRoot(rootEl, app)
 } else {
