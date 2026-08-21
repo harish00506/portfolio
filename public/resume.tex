@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 
 % ----------------------------------------------------------------------
 % Packages
@@ -6,7 +6,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
-\usepackage[a4paper,margin=1.8cm]{geometry}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.3cm,right=1.3cm]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{xcolor}
@@ -22,13 +22,14 @@
 % Section styling: sans-serif bold heading with a thin rule beneath
 % ----------------------------------------------------------------------
 \titleformat{\section}
-  {\large\sffamily\bfseries}{}{0em}{}[\titlerule]
-\titlespacing*{\section}{0pt}{10pt}{6pt}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{7pt}{4pt}
 
 % Compact bullet lists
-\setlist[itemize]{leftmargin=1.4em,itemsep=2pt,topsep=2pt,parsep=0pt}
+\setlist[itemize]{leftmargin=1.2em,itemsep=0pt,topsep=1pt,parsep=0pt}
 
 \setlength{\parindent}{0pt}
+\linespread{0.96}\selectfont
 \pagestyle{plain}
 
 % ----------------------------------------------------------------------
@@ -42,57 +43,58 @@
 % ----------------------------------------------------------------------
 % Header
 % ----------------------------------------------------------------------
-{\Huge\bfseries Harish G}\\[2pt]
-{\large\bfseries Full Stack \& AI Engineer --- Multi-Stack (Java, Python, JS)}\\[3pt]
-Bengaluru, India \quad---\quad +91 7892855850 \quad---\quad
-\href{mailto:harish00506@gmail.com}{harish00506@gmail.com}\\[1pt]
-\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad---\quad \href{https://github.com/harish00506/}{GitHub}
+{\LARGE\bfseries Harish G}\\[1pt]
+{\normalsize\bfseries AI Engineer \& Full-Stack Developer \textbar{} Python, JavaScript, Java, Kotlin}\\[2pt]
+Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com}\\[1pt]
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad \href{https://github.com/harish00506/}{GitHub}
 
 % ----------------------------------------------------------------------
 % Profile
 % ----------------------------------------------------------------------
 \section{Profile}
-Software Developer at CortexCraft.ai since January 2026, with hands-on experience across the Java,
-Python, and JavaScript ecosystems and several years of freelance web and app development.
-Experienced in building scalable backend systems using Spring Boot, Express.js, and FastAPI, and
-integrating AI technologies such as LLMs, STT, TTS, and agent-based workflows into real-world
-applications. Building intelligent, automation-driven systems and seeking roles in AI engineering,
-backend, or full-stack development.
+Software Developer at CortexCraft.ai building production AI systems: real-time voice agents over
+telephony, RAG pipelines, and multi-tenant backends in FastAPI, Node.js, and Spring Boot. I ship against
+a written rulebook, with decisions recorded as ADRs, one issue per branch, and tests as the merge gate.
+On AI I hold a hard line, where deterministic code computes the numbers and the model only explains them.
 
 % ----------------------------------------------------------------------
 % Core Strengths
 % ----------------------------------------------------------------------
 \section{Core Strengths}
-\textbf{Languages:} Java, Python, JavaScript, TypeScript, Kotlin, SQL\\
-\textbf{Backend:} Spring Boot, Express.js, Node.js, FastAPI\\
-\textbf{Frontend:} React, Vite, NextUI, Jetpack Compose\\
-\textbf{Databases:} PostgreSQL, MongoDB, Firebase, Neo4j\\
-\textbf{AI/ML:} LLM Integration, RAG, Context Management, Agents, Workflow Automation, STT/TTS Systems\\
-\textbf{Tools:} Git, GitLab (Version Control \& Release Management), Docker, Postman, Android Studio, Figma\\
-\textbf{Concepts:} OOP, REST API Design, JWT Authentication, MVC Architecture, Multithreading,
-Query Optimization, Modular System Design, Resource Management, Basic UI/UX Design Principles,
-System Design Fundamentals
+\textbf{Languages:} Python, JavaScript, TypeScript, Java, Kotlin, SQL\\
+\textbf{AI/ML:} LLM Integration, RAG, Agents \& Tool Calling, Guardrails \& Evaluation, Context Management,
+Gemini Live, STT/TTS Pipelines, LightGBM/Prophet\\
+\textbf{Backend:} FastAPI, Node.js/Express, Spring Boot, Celery, Alembic, WebSockets, REST API Design\\
+\textbf{Frontend/Mobile:} React, Vite, Tailwind CSS, Jetpack Compose (Kotlin, Hilt, Room)\\
+\textbf{Data:} PostgreSQL, MongoDB, Neo4j, Supabase/pgvector, Firebase, Room/SQLCipher\\
+\textbf{Platform:} Twilio, Plivo, WhatsApp Business API, Docker \& Compose, CI/CD, Git/GitLab\\
+\textbf{Concepts:} System Design, Modular Architecture, JWT Auth \& RBAC, Query Optimization, Audit
+Logging, ADR-Driven Development
 
 % ----------------------------------------------------------------------
 % Experience
 % ----------------------------------------------------------------------
 \section{Experience}
 
-\entry{Software Developer --- CortexCraft.ai}{Jan 2026 -- Present}
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
 \begin{itemize}
-  \item Developing AI-driven solutions integrating LLMs, STT, and TTS into real-world applications.
-  \item Building agent-based systems and workflows for automation and intelligent task execution.
-  \item Applying context management, RAG pipelines, and modular AI architectures for scalable solutions.
-  \item Contributing to projects involving mathematical models and AI-assisted decision systems.
-  \item Integrating AI into daily development workflows to improve efficiency and product intelligence.
+  \item Built and maintain the voice-agent platform (\textasciitilde270 commits): Gemini Live phone
+        agents over Twilio and Plivo, with per-agent RAG grounding, prompt generation, transcripts, and an
+        external REST API that other products call instead of forking the stack.
+  \item Shipped two products on that platform: a multi-tenant lead-calling SaaS, and a collections
+        hub with a visual workflow builder, dry-run prompt preview and run logs (FastAPI, Celery,
+        Alembic/PostgreSQL, React).
+  \item Own production reliability of the call pipeline: fixed outbound routing, added reconnect handling
+        for dropped Gemini sockets, and traced a Docker TLS failure to NAT hairpinning. Also design the
+        prompt frameworks, guardrails and tool-calling orchestration that constrain model output.
 \end{itemize}
 
-\vspace{4pt}
+\vspace{2pt}
 \entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
 \begin{itemize}
-  \item Built responsive landing pages and small business websites for local clients using React and Vite.
-  \item Delivered small full-stack apps and automation scripts (Python / Node.js) tailored to client workflows.
-  \item Handled ad-hoc bug fixes, feature additions, and deployment support on a per-project freelance basis.
+  \item Delivered full-stack web and app projects end-to-end for local clients: React/Vite front ends,
+        Python/Node.js services and automation scripts, plus ongoing fixes and deployment support.
 \end{itemize}
 
 % ----------------------------------------------------------------------
@@ -100,45 +102,47 @@ System Design Fundamentals
 % ----------------------------------------------------------------------
 \section{Projects}
 
-\textbf{Zentrax --- AI-Powered Voice \& Gesture Desktop Assistant} \textit{Python, Whisper, MediaPipe, WebSocket, Ollama, HTML/CSS/JS}
+\textbf{AI Personal CFO: Offline-First Android Finance App} \textit{Kotlin, Jetpack Compose, Hilt, Room/SQLCipher, Coroutines, WorkManager}
 \begin{itemize}
-  \item Built a Windows AI assistant inspired by FRIDAY enabling voice commands and gesture-based control.
-  \item Integrated Whisper (STT), LLM-based intent recognition (Ollama), and a modular execution engine.
-  \item Designed fallback recognition pipelines ensuring robust and reliable automation.
-  \item Developed a real-time monitoring dashboard with WebSockets for system metrics and command tracking.
-  \item Enabled local LLM deployment with Docker for privacy-focused AI execution.
+  \item Built 12 deterministic engines (Safe-to-Spend, budgets, forecasting, credit-card cycle, loan
+        amortisation, net worth) as pure Kotlin across a 34-module one-way dependency graph.
+  \item Money is a \texttt{Long}-paise value class with checked arithmetic and largest-remainder
+        allocation, and rates are integer basis points, so no float ever touches a rupee.
+  \item Enforced a hard AI boundary: the LLM never computes a figure, and every number it speaks is
+        checked against engine provenance by a guardrail. Encrypted at rest, fully usable offline.
+  \item 27 ADRs, 160 test files, a migration test for every one of 17 schema versions.
 \end{itemize}
 
-\vspace{4pt}
-\textbf{Task Tracker --- Full-Stack Productivity App} \textit{Java (Spring Boot), Vite, TypeScript, PostgreSQL}
+\vspace{2pt}
+\textbf{KisanVoice AI: Multilingual WhatsApp Voice Survey Platform} \textit{Python, FastAPI, React, MongoDB, WhatsApp Flows, Google STT/TTS, Plivo, Jenkins, Docker}
 \begin{itemize}
-  \item Built REST APIs using Spring Boot with clean architecture and DTO-based design.
-  \item Reduced API latency by 30\% through query optimization and efficient data handling.
-  \item Implemented task prioritization, tracking, and persistent storage.
+  \item Voice and text surveys in 24 configured locales (10+ Indian) from a config-driven language
+        registry, so adding one is a config row rather than a deploy; WhatsApp Flows for long option sets.
+  \item Migrated the platform off its Node backend onto FastAPI and off Sarvam onto Google STT/TTS
+        without interrupting live surveys; Jenkins CI, Docker Compose. 217 of 238 commits authored.
 \end{itemize}
 
-\vspace{4pt}
-\textbf{GroceryGo --- Android Grocery App} \textit{Kotlin, Jetpack Compose, Firebase}
+\vspace{2pt}
+\textbf{FinGraph AI \& MediGraph AI: Hybrid Graph and Vector RAG Assistants} \textit{Node.js, React, Neo4j, pgvector, JWT}
 \begin{itemize}
-  \item Achieved 0\% crash rate across 5+ Android OS versions.
-  \item Implemented offline caching and auto-sync for 100+ stored items.
+  \item Fused a Neo4j relationship graph with pgvector semantic search so answers are grounded in
+        structure, not just similarity; interactive force-directed graph visualisation.
+  \item Security end-to-end: JWT auth (bcrypt), role-based access applied \emph{before} retrieval
+        (admin / manager / customer; doctor / patient isolation), append-only audit log per query.
 \end{itemize}
 
-% ----------------------------------------------------------------------
-% Education
-% ----------------------------------------------------------------------
-\section{Education}
-\textbf{B.E. --- Information Science and Engineering}\par
-Vivekananda Institute of Technology, Bangalore
-
-% ----------------------------------------------------------------------
-% Achievements
-% ----------------------------------------------------------------------
-\section{Achievements}
+\vspace{2pt}
+\textbf{Sales \& Inventory Forecasting: ML Decision Support} \textit{Python, FastAPI, LightGBM, Prophet, PostgreSQL, React, Streamlit, Docker}
 \begin{itemize}
-  \item Built and deployed AI-powered and full-stack applications with real-user testing.
-  \item Strong experience in backend optimization, debugging, and scalable system design.
-  \item Applied structured development lifecycle with Git-based collaboration.
+  \item Item-level demand forecasting (LightGBM, Prophet) behind a FastAPI service, turned into policy:
+        safety stock, reorder points, EOQ and ABC classification, with interactive dashboards.
 \end{itemize}
+% ----------------------------------------------------------------------
+% Education & Ways of Working (merged to hold the resume to one page)
+% ----------------------------------------------------------------------
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore\\
+One issue per branch; ADRs recorded \emph{before} the code lands; commits tagged with the requirement ID
+they satisfy; tests as the merge gate.
 
 \end{document}
