@@ -4,7 +4,8 @@
 //   2. Rewrites the <head> (title, description, canonical, OG/Twitter) per page.
 //   3. Injects route-specific JSON-LD structured data.
 //   4. Writes dist/<route>/index.html (real files → deep links + crawlers work).
-// It also regenerates sitemap.xml from the route list and emits dist/404.html.
+// It also regenerates sitemap.xml and robots.txt from the route list and site.url,
+// and emits dist/404.html.
 import { readFile, writeFile, rm, mkdir } from 'node:fs/promises'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import path from 'node:path'
@@ -49,7 +50,7 @@ const personLd = {
   ...(sameAs.length && { sameAs }),
 }
 
-const websiteLd = { '@type': 'WebSite', name: `${profile.name} — Portfolio`, url: site.url }
+const websiteLd = { '@type': 'WebSite', name: `${profile.name} | Portfolio`, url: site.url }
 
 const projectLd = (p) => ({
   '@type': 'SoftwareSourceCode',
@@ -75,22 +76,22 @@ const itemListLd = {
 function metaFor(route) {
   if (route === '/') {
     return {
-      title: `${profile.name} — ${profile.title}`,
+      title: `${profile.name} | ${profile.title}`,
       description: profile.tagline,
       ld: { '@context': 'https://schema.org', '@graph': [personLd, websiteLd, itemListLd] },
     }
   }
   if (route === '/works') {
     return {
-      title: `Work — ${profile.name}`,
+      title: `Work | ${profile.name}`,
       description: `Selected and full project work by ${profile.name}: AI, full-stack, ML and mobile applications.`,
       ld: { '@context': 'https://schema.org', ...itemListLd },
     }
   }
   if (route === '/about') {
     return {
-      title: `About — ${profile.name}`,
-      description: `About ${profile.name} — skills, experience and education. ${profile.title}.`,
+      title: `About | ${profile.name}`,
+      description: `About ${profile.name}: skills, experience and education. ${profile.title}.`,
       ld: { '@context': 'https://schema.org', ...personLd },
     }
   }
@@ -98,7 +99,7 @@ function metaFor(route) {
   const slug = route.replace('/works/', '')
   const p = projects.find((x) => x.slug === slug)
   return {
-    title: `${p.name} — ${profile.name}`,
+    title: `${p.name} | ${profile.name}`,
     description: p.blurb,
     ld: { '@context': 'https://schema.org', ...projectLd(p) },
   }
@@ -156,10 +157,10 @@ for (const route of routes) {
   console.log(`  ✓ ${route}`)
 }
 
-// 404 page — render the catch-all route to a path that matches no route.
+// 404 page: render the catch-all route to a path that matches no route.
 const notFoundHtml = buildHtml('/', render('/__not_found__')).replace(
   /<title>[\s\S]*?<\/title>/,
-  `<title>Not found — ${escapeText(profile.name)}</title>`,
+  `<title>Not found | ${escapeText(profile.name)}</title>`,
 )
 await writeFile(path.join(distDir, '404.html'), notFoundHtml, 'utf8')
 
@@ -176,6 +177,12 @@ ${routes
 </urlset>
 `
 await writeFile(path.join(distDir, 'sitemap.xml'), sitemap, 'utf8')
+
+// Regenerate robots.txt so its Sitemap: line follows site.url instead of being a
+// second hardcoded copy of the domain that silently goes stale when the URL changes.
+const robotsSrc = await readFile(path.join(root, 'public', 'robots.txt'), 'utf8')
+const robots = robotsSrc.replace(/^Sitemap:.*$/m, `Sitemap: ${site.url}/sitemap.xml`)
+await writeFile(path.join(distDir, 'robots.txt'), robots, 'utf8')
 
 // Clean up the temporary SSR bundle.
 await rm(path.join(root, 'dist-ssr'), { recursive: true, force: true })
