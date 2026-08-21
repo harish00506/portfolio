@@ -1,10 +1,11 @@
 // Single source of truth for all portfolio content.
-// Edit text, projects, skills and links here — components read from this file.
+// Edit text, projects, skills and links here. Components read from this file.
 
 // Site-level config used for SEO metadata, canonical URL and structured data.
-// NOTE: `url` is a placeholder — find-and-replace with the real deployed URL.
+// `url` is the single source of truth for the domain: the sitemap, robots.txt,
+// canonical tags and JSON-LD are all generated from it. No trailing slash.
 export const site = {
-  url: 'https://harishg.dev',
+  url: 'https://harishgreddy.vercel.app',
   ogImage: '/og-image.png', // 1200×630 image (add to /public for rich link previews)
 }
 
@@ -13,7 +14,7 @@ export const profile = {
   title: 'Full Stack & AI Engineer',
   tagline: 'Multi-stack engineer (Java · Python · JavaScript) building scalable backends and AI-driven applications.',
   location: 'Bengaluru, India',
-  email: 'harish00506@gmail.com',
+  email: 'harishgreddy.work@gmail.com',
   phone: '+91 7892855850',
   resumeUrl: '/resume.pdf',
   photo: '/profile.jpg',
@@ -22,7 +23,8 @@ export const profile = {
     linkedin: 'https://www.linkedin.com/in/harishgreddy/',
   },
   about: [
-    'Software Developer at CortexCraft.ai since January 2026, with hands-on experience across the Java, Python and JavaScript ecosystems and several years of freelance web and app development. I build scalable backend systems with Spring Boot, Express.js and FastAPI, and integrate AI technologies — LLMs, STT, TTS and agent-based workflows — into real-world products.',
+    'Software Developer at CortexCraft.ai since January 2026, with hands-on experience across the Java, Python and JavaScript ecosystems and several years of freelance web and app development. I build scalable backend systems with Spring Boot, Express.js and FastAPI, and integrate AI technologies such as LLMs, STT, TTS and agent-based workflows into real-world products.',
+    'I work the way the repositories show: one issue per branch, architecture decisions written down as ADRs before the code lands, commit messages that cite the requirement they satisfy, and migration and engine tests as the merge gate rather than an afterthought. On the AI side I hold a hard line: deterministic code computes the numbers, and the model only explains them.',
     'I focus on intelligent, automation-driven systems and clean, modular architecture, and I am looking for roles in AI engineering, backend, or full-stack development where I can ship products that combine solid engineering with practical AI.',
   ],
 }
@@ -34,7 +36,7 @@ export const skills = [
   },
   {
     group: 'Backend',
-    items: ['Spring Boot', 'Express.js', 'Node.js', 'FastAPI'],
+    items: ['Spring Boot', 'Express.js', 'Node.js', 'FastAPI', 'Celery', 'Alembic'],
   },
   {
     group: 'Frontend',
@@ -42,11 +44,21 @@ export const skills = [
   },
   {
     group: 'Databases',
-    items: ['PostgreSQL', 'MongoDB', 'Firebase', 'Neo4j', 'Supabase / pgvector'],
+    items: ['PostgreSQL', 'MongoDB', 'Firebase', 'Neo4j', 'Supabase / pgvector', 'Room / SQLCipher'],
   },
   {
     group: 'AI / ML',
-    items: ['LLM Integration', 'RAG', 'Context Management', 'Agents', 'Workflow Automation', 'STT / TTS Systems'],
+    items: [
+      'LLM Integration',
+      'RAG',
+      'Context Management',
+      'Agents & Tool Calling',
+      'Guardrails / Evaluation',
+      'Workflow Automation',
+      'STT / TTS Systems',
+      'Gemini Live',
+      'LightGBM / Prophet',
+    ],
   },
   {
     group: 'Tools',
@@ -55,13 +67,12 @@ export const skills = [
   {
     group: 'Concepts',
     items: [
-      'OOP',
       'REST API Design',
-      'JWT Auth',
-      'MVC Architecture',
-      'Multithreading',
-      'Query Optimization',
       'System Design',
+      'Modular Architecture',
+      'JWT Auth & RBAC',
+      'Query Optimization',
+      'ADR-Driven Development',
     ],
   },
 ]
@@ -72,11 +83,12 @@ export const experience = [
     company: 'CortexCraft.ai',
     period: 'Jan 2026 – Present',
     bullets: [
-      'Develop AI-driven solutions that integrate LLMs, speech-to-text and text-to-speech into real-world applications.',
-      'Build agent-based systems and automation workflows for intelligent task execution.',
-      'Apply context management, RAG pipelines and modular AI architectures for scalable solutions.',
-      'Contribute to projects involving mathematical models and AI-assisted decision systems.',
-      'Integrate AI into daily development workflows to improve efficiency and product intelligence.',
+      'Built and maintain the voice-agent platform (~270 commits): Gemini Live phone agents over Twilio and Plivo, with per-agent RAG grounding, prompt generation, transcripts and an external REST API that other products call.',
+      'Shipped LeadCall AI on that platform: multi-tenant outbound calling with Celery dialing workers, Alembic-migrated PostgreSQL and a React dashboard, plus a second vertical (AI invoice collections) built on the same engine without a rewrite.',
+      'Own production reliability of the call pipeline: fixed outbound routing, added reconnect handling for dropped Gemini sockets, and traced a Docker TLS failure to NAT hairpinning. Each incident is documented alongside its fix.',
+      'Design prompt frameworks, guardrails and agent orchestration with tool calling and safe escalation, so model output is constrained rather than trusted.',
+      'Lead author (217 of 238 commits) on the multilingual farmer survey platform. Migrated it off a Node backend onto FastAPI, swapped Sarvam for Google STT/TTS behind a config-driven registry covering 24 locales, and put it on Jenkins CI without interrupting live surveys.',
+      'Work AI into the delivery process itself, including an agent that turns Jira tickets into reviewed pull requests.',
     ],
   },
   {
@@ -96,64 +108,214 @@ export const projectCategories = ['All', 'AI', 'Full-Stack', 'ML', 'Mobile']
 
 // Each project carries a STAR case study (Situation · Task · Action · Result).
 // Flagship projects additionally include `action.samples` (code) and
-// `action.screenshots`. NOTE: code snippets are illustrative drafts — replace
+// `action.screenshots`. NOTE: some code snippets are illustrative drafts. Replace
 // with real excerpts; screenshots point at /public/projects/<slug>/ (add images).
 export const projects = [
+  {
+    slug: 'ai-personal-cfo',
+    name: 'AI Personal CFO',
+    featured: true,
+    categories: ['Mobile', 'AI'],
+    blurb:
+      'Offline-first Android personal-finance app where twelve deterministic Kotlin engines compute every rupee and the LLM is only allowed to explain the numbers, never to produce them. Money is Long paise end to end, behind SQLCipher and the Android Keystore.',
+    highlights: [
+      'Money as Long paise plus integer basis points, so no float ever touches a rupee',
+      'The LLM never computes a figure; a numeric guardrail blocks unverified output',
+      'Every core feature works in airplane mode; SQLCipher + Android Keystore at rest',
+    ],
+    tags: ['Kotlin', 'Jetpack Compose', 'Hilt', 'Room / SQLCipher', 'Coroutines / Flow', 'WorkManager', 'Glance', 'Gradle'],
+    links: {},
+    star: {
+      situation:
+        'Finance apps get money wrong in two predictable ways: they hold amounts as floating-point numbers, so a paise quietly appears and disappears; and they let a language model do the arithmetic, so the figure on screen has no traceable origin. Both failures stay invisible until a user reconciles against their bank statement and stops trusting the app.',
+      task:
+        'Build a personal CFO that is correct by construction: exact money arithmetic, every recommendation traceable to the rule that produced it, and no dependency on a network or a cloud model for anything the user does day to day.',
+      action: {
+        narrative:
+          'I split the app into 34 Gradle modules with a strictly one-way dependency graph (feature to domain to data and core), and kept the twelve engines (Safe-to-Spend, budgets, forecasting, recurring detection, credit-card cycle, loan amortisation, net worth, SMS parsing, receipt OCR and more) as pure Kotlin with no Android imports, so they stay unit-testable and portable. Money is a Long-paise value class with checked arithmetic and largest-remainder allocation; rates are integer basis points; time comes from an injected Clock. The LLM layer is hard-limited: it reads through a tool registry rather than the database, and every figure it speaks is checked against engine provenance by a guardrail that repairs or blocks a mismatch. Architecture decisions are written down as ADRs before the code lands, and every schema bump ships a migration test.',
+        samples: [
+          {
+            filename: 'core/model/Money.kt',
+            language: 'kotlin',
+            code: `// Split an amount by weights so the parts sum EXACTLY to the whole.
+// Naive division loses the odd paise; this is largest-remainder (Hamilton).
+fun allocate(weights: List<Int>): List<Money> {
+    require(weights.isNotEmpty()) { "Weights must not be empty" }
+    val totalWeight = weights.fold(0L) { acc, w -> Math.addExact(acc, w.toLong()) }
+    require(totalWeight > 0L) { "Weights must not all be zero" }
+
+    val scaled = weights.map { Math.multiplyExact(minor, it.toLong()) }
+    val shares = scaled.map { it / totalWeight }.toMutableList()
+    val lost = scaled.mapIndexed { i, v -> i to Math.abs(v % totalWeight) }
+
+    // Hand the undistributed paise to the biggest losers first.
+    var remainder = minor - shares.sum()
+    val step = if (remainder < 0L) -1L else 1L
+    for ((i, _) in lost.sortedWith(compareByDescending { it.second })) {
+        if (remainder == 0L) break
+        shares[i] += step
+        remainder -= step
+    }
+    return shares.map(::Money)   // sum(shares) == minor, always
+}`,
+          },
+        ],
+      },
+      result: {
+        narrative:
+          'A working offline finance app at v0.6.2, with twelve deterministic engines, 27 recorded architecture decisions, 160 test files, and a database on schema 17 with a migration test for every step. No figure on screen comes from a language model.',
+        metrics: [
+          { value: '12', label: 'deterministic engines' },
+          { value: '27', label: 'ADRs recorded' },
+          { value: '0', label: 'floats in money math' },
+        ],
+      },
+    },
+  },
+  {
+    slug: 'cortexcraft-voice-agent',
+    name: 'CortexCraft Voice Agent',
+    featured: true,
+    categories: ['AI'],
+    blurb:
+      'Production platform for building and running Gemini Live phone agents. It gives you a dashboard to configure them, Twilio and Plivo call handling, RAG document grounding, saved transcripts, and an external REST API so other products can drive calls.',
+    highlights: [
+      'Gemini Live agents over real telephony (Twilio + Plivo) and a browser test channel',
+      'Per-agent RAG document upload, search and prompt generation',
+      'External REST API, so other products (CRMs, dialers) run calls through it',
+    ],
+    tags: ['Python', 'FastAPI', 'Gemini Live', 'Twilio', 'Plivo', 'WebSocket', 'RAG', 'React', 'Docker'],
+    links: {},
+    star: {
+      situation:
+        'Every client wanted the same thing with a different script: an AI that answers or places phone calls, knows their documents, and hands a transcript back to whatever system they already run. Rebuilding that stack per client would have meant maintaining the same telephony and streaming bugs in several places at once.',
+      task:
+        'Build one platform where an agent is configuration rather than code: created from a dashboard or an API, grounded in uploaded documents, reachable over more than one telephony provider, and drivable by external systems.',
+      action: {
+        narrative:
+          'I built a FastAPI + React platform where each agent is a JSON config plus a folder of RAG documents. A prompt generator turns that config into the full system prompt and the inbound/outbound greetings. Calls stream over a WebSocket to Gemini Live, with separate Twilio and Plivo handlers behind one interface and a browser channel for testing without burning call minutes; transcripts are written back into each agent’s conversation store. An external REST API exposes agent creation and call placement, so other products consume the platform instead of forking it. Most of the real work was production reliability: fixing outbound-call routing, adding reconnect handling for Gemini 1006 socket drops, tightening goodbye detection so calls end cleanly, and tracing a Docker TLS failure to NAT hairpinning on a self-hosted domain. Each incident is documented next to its fix.',
+        samples: [
+          {
+            filename: 'backend/src/external_api/routes.py',
+            language: 'python',
+            code: `# One agent = one JSON config + a folder of RAG docs.
+# Other products create agents and place calls through this API.
+@router.post("/agents/{agent_id}/call")
+async def place_call(agent_id: str, req: CallRequest, key: str = Depends(api_key)):
+    agent = load_agent(agent_id)                  # backend/src/ai-agents/{id}
+    if agent is None:
+        raise HTTPException(404, "unknown agent")
+
+    prompt = build_prompt(agent, context=req.context)   # + retrieved RAG chunks
+    provider = TELEPHONY[agent.provider]                # "twilio" | "plivo"
+
+    call = await provider.dial(req.to, agent_id=agent_id, prompt=prompt)
+    return {"call_id": call.id, "status": call.status}`,
+          },
+        ],
+      },
+      result: {
+        narrative:
+          'One platform now backs several shipped products instead of several codebases. The collections agent, the multi-tenant lead dialer and client-specific assistants all run on it, so a fix to the call pipeline reaches every one of them at once.',
+        metrics: [
+          { value: '~270', label: 'commits authored' },
+          { value: '1 API', label: 'drives every product' },
+          { value: 'Live', label: 'in client deployments' },
+        ],
+      },
+    },
+  },
+  {
+    slug: 'leadcall-ai',
+    name: 'LeadCall AI & Collections Hub',
+    featured: true,
+    categories: ['AI', 'Full-Stack'],
+    blurb:
+      'Two outbound-calling products on top of the voice-agent platform: a multi-tenant lead-calling SaaS, and a collections hub that grew into a visual workflow builder. Compose a call flow as a graph, dry-run it before spending a call, then run it against imported lead groups.',
+    highlights: [
+      'Graph workflow builder with dry-run execution and per-run logs before a call is spent',
+      'Lead groups, XLSX/CSV import, transcript sync and call-log export',
+      'Celery dialing + callback workers, pitch-document RAG, Alembic-migrated PostgreSQL',
+    ],
+    tags: ['Python', 'FastAPI', 'Celery', 'Alembic', 'PostgreSQL', 'React', 'MUI', 'RAG', 'Docker Compose'],
+    links: {},
+    star: {
+      situation:
+        'Small teams sit on lead lists they never call. The blocker is not the conversation. It is the operations around it: dialing at the right pace, retrying without double-calling, knowing which calls actually finished, and keeping one client’s data away from another’s.',
+      task:
+        'Build a service where uploading a lead list and a pitch document is enough to run a calling campaign, and where the person configuring the call can see and test the exact prompt before it dials anyone.',
+      action: {
+        narrative:
+          'Both products are FastAPI + PostgreSQL with Alembic migrations and a React dashboard, dialing through the CortexCraft voice-agent platform. LeadCall AI adds tenant-scoped auth, campaigns and Celery workers for dialing and webhook callbacks, with pitch documents cleared and re-indexed for RAG so the script matches what the client sells. The collections hub started as a Square-invoice CSV reader that called overdue accounts under a threshold, and grew into the more interesting half: a workflow graph the operator composes, a greeting resolver that adapts to time of day and lead context, prompt assembly that merges agent, company and lead context, and a dry-run mode that renders the final assembled prompt against a sample name and number, so you read exactly what the agent will say before spending a call. Every run is logged with its prompt and outcome. Call state took real care: webhooks are not guaranteed, so completion handles terminal statuses explicitly and the app reconciles in-progress calls against telephony probes instead of trusting the last event it happened to receive.',
+      },
+      result: {
+        narrative:
+          'A lead list and a pitch document become a running campaign with per-call transcripts and a call log that reconciles. Because the workflow is composed and dry-run rather than coded, a new client script is a configuration change, not a deploy.',
+        metrics: [
+          { value: '2 products', label: 'on one calling engine' },
+          { value: 'Dry-run', label: 'before a call is spent' },
+          { value: 'Reconciled', label: 'call-state tracking' },
+        ],
+      },
+    },
+  },
   {
     slug: 'kisanvoice-ai',
     name: 'KisanVoice AI',
     featured: true,
     categories: ['AI', 'Full-Stack'],
     blurb:
-      'WhatsApp-based farmer survey platform with voice responses in 5 Indian languages, a real-time admin dashboard and an audio QC workflow. Conditional survey logic, multilingual auto-translation and Excel exports.',
+      'WhatsApp survey platform that lets farmers answer by voice in their own language. A config-driven language registry covers 24 locales (10+ Indian) over Google STT/TTS, with WhatsApp Flows for long option sets, phone-call surveys through the voice-agent platform, and a real-time admin dashboard.',
     highlights: [
-      'Voice + text responses with STT/TTS in Telugu, Hindi, Kannada, Marathi & Tamil',
-      'Real-time admin dashboard with Socket.io and analytics',
-      'Dockerized full-stack app with 200+ commits',
+      '24 locales from a config-driven registry, 10+ of them Indian, with no redeploy to add one',
+      'Migrated the platform off a Node backend and off Sarvam onto FastAPI + Google STT/TTS',
+      '217 of the repo\u2019s 238 commits; Jenkins CI, Docker Compose deploys',
     ],
-    tags: ['Node.js', 'Express', 'React', 'MongoDB', 'Twilio / WhatsApp', 'Groq', 'Sarvam STT/TTS', 'Socket.io', 'Docker'],
+    tags: ['Python', 'FastAPI', 'React', 'MongoDB', 'WhatsApp Flows', 'Google STT/TTS', 'Plivo', 'Socket.io', 'Jenkins', 'Docker'],
     links: {}, // add { github: '...' } / { live: '...' } when ready
     star: {
       situation:
         'Field surveys of rural farmers are slow, expensive and exclude people who can not read or fill in forms. Enumerators travel village to village, and language barriers across regions make consistent data collection hard.',
       task:
-        'Build a platform that lets farmers answer surveys in their own language by voice over a channel they already use — WhatsApp — while giving administrators a real-time view of incoming responses and a way to verify audio quality.',
+        'Build a platform that lets farmers answer surveys in their own language by voice over a channel they already use, WhatsApp, while giving administrators a real-time view of incoming responses and a way to verify audio quality.',
       action: {
         narrative:
-          'I built a full-stack system on top of the WhatsApp Business API (via Twilio). Inbound voice notes are transcribed with Sarvam STT, auto-translated, and run through conditional survey logic that decides the next question; replies are synthesised back to the farmer with TTS. A React admin dashboard streams new responses live over Socket.io, supports an audio QC review workflow, and exports clean datasets to Excel. The whole stack is containerised with Docker for reproducible deploys.',
+          'I built the system on the WhatsApp Business API: inbound voice notes are transcribed, auto-translated, and run through conditional survey logic that picks the next question, with the reply synthesised back in the farmer\u2019s language. Long option sets go out as WhatsApp Flows with pagination rather than unusable text menus, and option matching survives imperfect speech through fuzzy and semantic fallback matching. A React dashboard streams responses live over Socket.io with an audio QC workflow and Excel export. Two migrations did the most for the platform: I replaced the Node backend with FastAPI so Python is the single backend, and moved STT/TTS from Sarvam to Google Cloud behind a config-driven language registry \u2014 adding a locale is now a config row, not a deploy. Phone surveys route through the CortexCraft voice-agent platform, and Jenkins drives the build.',
         samples: [
           {
-            filename: 'backend/services/voicePipeline.js',
-            language: 'javascript',
-            code: `// Inbound voice note → transcribe → translate → next question
-export async function handleVoiceResponse(msg, session) {
-  const audio = await downloadMedia(msg.mediaUrl)
-  const { text, lang } = await sarvam.transcribe(audio)        // STT
-  const english = lang === 'en' ? text : await sarvam.translate(text, 'en')
+            filename: 'app/services/language_registry_service.py',
+            language: 'python',
+            code: `# Adding a language is a config row, not a deploy: the registry resolves
+# an alias ("telugu", "te", "te-IN") to one profile carrying its STT/TTS codes.
+def resolve(alias: str) -> LanguageProfile:
+    _refresh_if_stale()                       # JSON config + DB overrides, TTL cached
+    key = alias.strip().lower()
+    iso = _ALIAS_TO_ISO.get(key) or _LANG_TOKEN_MAP.get(key) or _DEFAULT_ISO
+    return _PROFILES[iso]
 
-  await saveAnswer(session, { raw: text, lang, normalized: english })
-  io.to('admins').emit('response:new', { session: session.id, lang })
+async def ask(session, question) -> None:
+    lang = resolve(session.language)          # 24 locales configured today
+    text = question.localized.get(lang.iso) or await translate(question.text, lang.iso)
 
-  const next = nextQuestion(session)                            // conditional logic
-  if (!next) return endSurvey(session)
+    if len(question.options) > 10:            # a 20-item text menu is unusable
+        return await send_whatsapp_flow(session.phone, text, question.options)
 
-  const prompt = await sarvam.tts(next.text, lang)              // TTS in farmer's language
-  return sendWhatsAppAudio(session.phone, prompt)
-}`,
+    audio = await google_tts.synthesize(text, lang.tts)
+    await send_whatsapp_audio(session.phone, audio)`
           },
         ],
         screenshots: [
-          { src: '/projects/kisanvoice-ai/dashboard.png', caption: 'Real-time admin dashboard — live responses & analytics' },
+          { src: '/projects/kisanvoice-ai/dashboard.png', caption: 'Real-time admin dashboard with live responses and analytics' },
           { src: '/projects/kisanvoice-ai/whatsapp.png', caption: 'WhatsApp voice survey flow in a regional language' },
         ],
       },
       result: {
         narrative:
-          'A working multilingual survey platform that removes the literacy barrier: farmers answer by voice in their own language and administrators see and verify responses as they arrive.',
+          'A deployed multilingual survey platform that removes the literacy barrier. Farmers answer by voice in their own language and administrators verify responses as they arrive. 217 of the repository\u2019s 238 commits are mine, across a backend migration and an STT/TTS provider swap done without losing the running surveys.',
         metrics: [
-          { value: '5', label: 'Indian languages' },
-          { value: '200+', label: 'commits shipped' },
-          { value: 'Real-time', label: 'admin dashboard' },
+          { value: '24', label: 'locales configured' },
+          { value: '217', label: 'commits authored' },
+          { value: 'Node → FastAPI', label: 'backend migrated' },
         ],
       },
     },
@@ -223,7 +385,9 @@ export async function hybridRetrieve(query, role) {
   {
     slug: 'refyne-voice-agent',
     name: 'Refyne Voice Agent',
-    featured: true,
+    // Not featured: the CortexCraft Voice Agent entry covers the same ground with
+    // production deployments behind it. This stays on /works as the earlier build.
+    featured: false,
     categories: ['AI'],
     blurb:
       'Real-time phone-call voice AI agent connecting telephony to an STT → LLM → TTS pipeline, with multilingual auto-detection and inbound/outbound call handling.',
@@ -238,7 +402,7 @@ export async function hybridRetrieve(query, role) {
       situation:
         'Businesses want to handle phone calls with an AI agent that feels natural, but real-time telephony is unforgiving: every extra hundred milliseconds of latency makes the conversation feel robotic, and callers switch languages mid-sentence.',
       task:
-        'Connect a phone network to a low-latency speech pipeline so an LLM can hold a live, two-way conversation over a real call — detecting the caller’s language automatically and handling both inbound and outbound calls.',
+        'Connect a phone network to a low-latency speech pipeline so an LLM can hold a live, two-way conversation over a real call, detecting the caller’s language automatically and handling both inbound and outbound calls.',
       action: {
         narrative:
           'I built a streaming voice agent in Python/FastAPI using Pipecat to orchestrate the STT → LLM → TTS pipeline, with Plivo bridging the telephony leg over a WebSocket audio stream. Voice activity detection (VAD) segments speech so the agent knows when the caller has finished, language auto-detection routes audio to the right model, and the pipeline streams partial results to keep latency low enough for natural turn-taking. The same service handles inbound and outbound calls.',
@@ -295,7 +459,7 @@ async def call(ws: WebSocket):
       situation:
         'Retailers lose money at both ends of inventory: overstocking ties up cash, while stockouts lose sales. Manual reorder rules can not keep up with seasonal, item-level demand.',
       task:
-        'Forecast demand per item and turn those forecasts into concrete inventory decisions — how much safety stock to hold, when to reorder, and which items matter most.',
+        'Forecast demand per item and turn those forecasts into concrete inventory decisions: how much safety stock to hold, when to reorder, and which items matter most.',
       action: {
         narrative:
           'I built a forecasting service with LightGBM and Prophet for item-level time-series prediction, then layered classic inventory science on top: safety stock, reorder points, EOQ and ABC classification. A FastAPI backend serves the models and a React + Streamlit dashboard lets users explore forecasts and optimization output interactively. The stack is Dockerized for deployment.',
@@ -327,7 +491,7 @@ async def call(ws: WebSocket):
     links: {},
     star: {
       situation:
-        'Banking assistants must answer questions over sensitive, highly-connected data while strictly enforcing who is allowed to see what — a customer, a manager and an admin should get very different answers, and every access must be auditable.',
+        'Banking assistants must answer questions over sensitive, highly-connected data while strictly enforcing who is allowed to see what. A customer, a manager and an admin should get very different answers, and every access must be auditable.',
       task:
         'Build a RAG assistant over banking data with hard security guarantees: authenticated access, role-based authorization at the data layer, and a complete audit trail of every query.',
       action: {
@@ -355,7 +519,7 @@ router.post('/query', authorize('admin', 'manager', 'customer'), handleQuery)`,
           },
         ],
         screenshots: [
-          { src: '/projects/fingraph-ai/roles.png', caption: 'Role-scoped answers — admin / manager / customer' },
+          { src: '/projects/fingraph-ai/roles.png', caption: 'Role-scoped answers for admin, manager and customer' },
         ],
       },
       result: {
@@ -365,6 +529,40 @@ router.post('/query', authorize('admin', 'manager', 'customer'), handleQuery)`,
           { value: '3 roles', label: 'RBAC enforced' },
           { value: 'JWT + bcrypt', label: 'authentication' },
           { value: '100%', label: 'audited queries' },
+        ],
+      },
+    },
+  },
+  {
+    slug: 'jiraflow-agent',
+    name: 'JiraFlow Agent',
+    featured: false,
+    categories: ['AI'],
+    blurb:
+      'Agent that picks up a Jira ticket, makes the change in the repository and opens a pull request against it. One branch per ticket, with human review still the merge gate.',
+    highlights: [
+      'Jira ticket → branch → code change → pull request',
+      'One ai/scrum-<id> branch per ticket, traceable back to the issue',
+      'The agent proposes and a human merges, so it never pushes to main',
+    ],
+    tags: ['Python', 'React', 'Vite', 'Jira API', 'GitHub API', 'LLM Agents'],
+    links: {},
+    star: {
+      situation:
+        'A large share of any backlog is small, unambiguous tickets: a copy fix, a colour change, a missing prop. Each one still costs a context switch: read the ticket, branch, edit, push, open a PR.',
+      task:
+        'Automate the mechanical path from ticket to pull request for changes small enough to describe completely, without letting an agent write to the main branch.',
+      action: {
+        narrative:
+          'I built an agent that reads a Jira/SCRUM ticket, locates the files it describes, applies the change, and opens a pull request from a dedicated `ai/scrum-<id>` branch whose commit message cites the ticket. The repository history is the proof, because every change arrived as a reviewed PR from its own ticket branch. The design point is the boundary: the agent proposes and a human merges, so a wrong edit costs a rejected PR rather than a broken main branch.',
+      },
+      result: {
+        narrative:
+          'Small tickets close as reviewable pull requests without a context switch, and every automated change is traceable to the issue that asked for it.',
+        metrics: [
+          { value: 'Ticket → PR', label: 'fully automated' },
+          { value: '1 branch', label: 'per ticket' },
+          { value: 'Human', label: 'stays the merge gate' },
         ],
       },
     },
@@ -482,11 +680,11 @@ export function getProjectBySlug(slug) {
 }
 
 export const education = {
-  degree: 'B.E. — Information Science & Engineering',
+  degree: 'B.E. in Information Science & Engineering',
   school: 'Vivekananda Institute of Technology, Bangalore',
   achievements: [
     'Built and deployed AI-powered and full-stack applications with real-user testing.',
     'Strong experience in backend optimization, debugging and scalable system design.',
-    'Applied a structured development lifecycle with Git-based collaboration.',
+    'Practise a disciplined delivery workflow: one issue per branch, decisions recorded as ADRs, requirement-tagged conventional commits, and migration + engine tests as the merge gate.',
   ],
 }
