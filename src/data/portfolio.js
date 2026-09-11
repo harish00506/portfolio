@@ -126,6 +126,35 @@ export const projects = [
     ],
     tags: ['Python', 'FastAPI', 'Gemini Live', 'Twilio', 'Plivo', 'WebSocket', 'RAG', 'React', 'Docker'],
     links: {},
+    details: {
+      role: 'Software Developer, CortexCraft.ai',
+      team: '5 contributors',
+      timeline: 'May 2026 to present',
+      commits: '589 of 626 (SaaS platform) + 67 of 75 (core engine)',
+      responsibilities: [
+        'Campaign runner and outbound call dispatch',
+        'Gemini Live session handling in the core engine',
+        'Post-call transcript extraction and customer webhooks',
+        'Call-pipeline reliability: routing, socket reconnects, TLS',
+      ],
+    },
+    diagram: {
+      title: 'An outbound call, end to end',
+      steps: [
+        { label: 'Dashboard', detail: 'frontend/app (Next.js)' },
+        { label: 'Campaign API', detail: 'campaigns/routes.py' },
+        { label: 'Worker tick', detail: 'campaigns/runner_service.py' },
+        { label: 'Gemini Live call', detail: 'core engine: gemini_live/client.py' },
+        { label: 'Phone network', detail: 'Twilio or Plivo' },
+        { label: 'Post-call extraction', detail: 'calls/extraction_service.py' },
+        { label: 'Customer webhook', detail: 'webhooks/emit.py' },
+      ],
+      stores: ['PostgreSQL', 'Redis'],
+    },
+    reflection: [
+      'Move agent document search from Postgres full-text to embeddings, so agents match meaning rather than exact words.',
+      'Write an incident report for every production fix, not only the NAT hairpinning one.',
+    ],
     star: {
       situation:
         'Every client wanted the same thing with a different script: an AI that answers or places phone calls, knows their documents, and hands a transcript back to whatever system they already run. Rebuilding that stack per client would have meant maintaining the same telephony and streaming bugs in several places at once.',
@@ -222,6 +251,35 @@ while True:
     ],
     tags: ['Python', 'FastAPI', 'React', 'MongoDB', 'WhatsApp Flows', 'Google STT/TTS', 'Plivo', 'Socket.io', 'Jenkins', 'Docker'],
     links: {}, // add { github: '...' } / { live: '...' } when ready
+    details: {
+      role: 'Lead author, CortexCraft.ai',
+      team: '3 contributors',
+      timeline: 'March to August 2026',
+      commits: '172 of 192',
+      responsibilities: [
+        'FastAPI backend that replaced the Node.js one',
+        'Google speech-to-text and text-to-speech services',
+        'Config-driven language registry (24 locales)',
+      ],
+    },
+    diagram: {
+      title: 'A voice answer on WhatsApp, end to end',
+      steps: [
+        { label: 'WhatsApp webhook', detail: 'routes/whatsapp_routes.py' },
+        { label: 'Session controller', detail: 'controllers/whatsapp/whatsapp_controller.py' },
+        { label: 'Speech to text', detail: 'services/google_stt_service.py' },
+        { label: 'Answer matching', detail: 'services/gemini_llm_service.py' },
+        { label: 'Next question', detail: 'services/survey_engine.py' },
+        { label: 'Text to speech', detail: 'services/tts_service.py' },
+        { label: 'Reply on WhatsApp', detail: 'services/whatsapp_api_service.py' },
+      ],
+      stores: ['MongoDB'],
+    },
+    reflection: [
+      'Delete the leftover Sarvam guard module, which nothing imports any more.',
+      'Consolidate the duplicated WhatsApp route and controller modules into one of each.',
+      'Stream WhatsApp survey answers to the dashboard live; today only phone-call events are pushed.',
+    ],
     star: {
       situation:
         'Field surveys of rural farmers are slow, expensive and exclude people who can not read or fill in forms. Enumerators travel village to village, and language barriers across regions make consistent data collection hard.',
@@ -284,6 +342,11 @@ for raw in config.get("languages") or []:
     ],
     tags: ['Python', 'FastAPI', 'LightGBM', 'Prophet', 'PostgreSQL', 'React', 'Streamlit', 'Docker'],
     links: {},
+    details: {
+      team: 'Solo',
+      timeline: 'February to April 2026',
+      commits: '8 of 8 + 2 of 2 (two repositories)',
+    },
     star: {
       situation:
         'Retailers lose money at both ends of inventory: overstocking ties up cash, while stockouts lose sales. Manual reorder rules can not keep up with seasonal, item-level demand.',
@@ -318,6 +381,27 @@ for raw in config.get("languages") or []:
     ],
     tags: ['Node.js', 'Express', 'React', 'Neo4j', 'Supabase pgvector', 'Hugging Face', 'Groq', 'JWT'],
     links: {},
+    details: {
+      team: 'Solo',
+      timeline: 'January 2026',
+    },
+    diagram: {
+      title: 'A question, end to end',
+      steps: [
+        { label: 'Chat UI', detail: 'frontend/src/api/chat.api.js' },
+        { label: 'Chat route', detail: 'api/routes/chat.routes.js' },
+        { label: 'Customer profile', detail: 'services/chat.service.js' },
+        { label: 'Embed question', detail: 'services/embedding.service.js' },
+        { label: 'Vector search', detail: 'db/supabase/driver.js' },
+        { label: 'Graph enrichment', detail: 'services/vector.service.js' },
+        { label: 'Groq answer', detail: 'services/llm.service.js' },
+      ],
+      stores: ['Neo4j', 'Supabase pgvector'],
+    },
+    reflection: [
+      'Put JWT middleware on /api/chat and take the role from the verified token, not the request body.',
+      'Mount the audit writer, so every question is actually logged.',
+    ],
     star: {
       situation:
         'Banking questions are about relationships: which customer holds which loan, what they asked before, how their records connect. Plain vector search finds similar text but loses those links, so answers come back plausible and unanchored.',
@@ -378,6 +462,10 @@ async function semanticSearch(query, contentType = null, limit = 5) {
     ],
     tags: ['Python', 'React', 'Vite', 'Jira API', 'GitHub API', 'LLM Agents'],
     links: {},
+    details: {
+      team: 'Solo',
+      timeline: 'January to February 2026',
+    },
     star: {
       situation:
         'A large share of any backlog is small, unambiguous tickets: a copy fix, a colour change, a missing prop. Each one still costs a context switch: read the ticket, branch, edit, push, open a PR.',
@@ -412,6 +500,10 @@ async function semanticSearch(query, contentType = null, limit = 5) {
     ],
     tags: ['Python', 'Whisper', 'MediaPipe', 'WebSocket', 'Ollama', 'Docker'],
     links: {},
+    details: {
+      timeline: 'October 2025 to March 2026',
+      commits: '12 of 16',
+    },
     star: {
       situation:
         'Cloud voice assistants send everything you say to a server. For a personal desktop assistant that controls your machine, that is both a privacy and a latency problem.',
@@ -446,6 +538,10 @@ async function semanticSearch(query, contentType = null, limit = 5) {
     ],
     tags: ['Java', 'Spring Boot', 'Vite', 'TypeScript', 'PostgreSQL'],
     links: {},
+    details: {
+      timeline: 'May to July 2025',
+      commits: '8 of 9',
+    },
     star: {
       situation:
         'Task apps are easy to start and hard to keep maintainable as the data and feature set grow.',
@@ -480,6 +576,11 @@ async function semanticSearch(query, contentType = null, limit = 5) {
     ],
     tags: ['Kotlin', 'Jetpack Compose', 'Firebase'],
     links: {},
+    details: {
+      team: 'Solo',
+      timeline: 'June to July 2025',
+      commits: '4 of 4',
+    },
     star: {
       situation:
         'Grocery lists live in chat threads and scraps of paper, and they fall apart as soon as two people shop for the same household.',
