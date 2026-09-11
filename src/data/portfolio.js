@@ -18,6 +18,8 @@ export const profile = {
   phone: '+91 7892855850',
   resumeUrl: '/resume.pdf',
   photo: '/profile.jpg',
+  contactNote:
+    'I am open to AI engineering, backend and full-stack roles. Whether you have a role in mind or just want to talk shop, my inbox is always open.',
   socials: {
     github: 'https://github.com/harish00506/',
     linkedin: 'https://www.linkedin.com/in/harishgreddy/',

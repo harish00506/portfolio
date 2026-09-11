@@ -1,9 +1,16 @@
+/**
+ * Why: Every route shares the same shell: navigation, the page itself, and a way to get in touch.
+ * What: The layout App.jsx renders around every page.
+ * Result: Navbar, the matched page, and the Say Hello footer, with the scroll position reset on navigation.
+ * Changelog: 2026-09-12 - Contact section and footer merged into SayHello. The #top anchor moved here from
+ *            the home hero, so "Back to top" works on every page.
+ */
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import Navbar from './Navbar.jsx'
-import Contact from './Contact.jsx'
-import Footer from './Footer.jsx'
+import SayHello from './SayHello.jsx'
+import { profile } from '../data/portfolio.js'
 
 export default function Layout() {
   const { pathname, hash } = useLocation()
@@ -22,13 +29,12 @@ export default function Layout() {
 
   return (
     <TooltipProvider delayDuration={150}>
-      <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-background">
+      <div id="top" className="relative flex min-h-screen flex-col overflow-x-hidden bg-background">
         <Navbar />
         <main className="relative flex-1">
           <Outlet />
         </main>
-        <Contact />
-        <Footer />
+        <SayHello profile={profile} />
       </div>
     </TooltipProvider>
   )
