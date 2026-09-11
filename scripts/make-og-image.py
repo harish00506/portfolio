@@ -7,6 +7,7 @@ What: Composites the share card from the site's own theme tokens and profile pho
 Result: A 1200x630 PNG matching the Editorial Light palette, written to public/.
 Changelog:
   2026-08-21 - Created.
+  2026-09-12 - Role lines retitled to Agentic AI & Automation Engineer to match profile.title.
 
 Fonts fall back the same way the site does: Fraunces -> Georgia, Hanken Grotesk ->
 Segoe UI, JetBrains Mono -> Consolas. The fallbacks are what actually render here,
@@ -88,9 +89,9 @@ y = 150
 d.text((X, y), 'Harish G', font=f_name, fill=INK)
 y += 118
 
-d.text((X, y), 'AI Engineer &', font=f_role, fill=INK)
+d.text((X, y), 'Agentic AI &', font=f_role, fill=INK)
 y += 46
-d.text((X, y), 'Full-Stack Developer', font=f_role, fill=INK)
+d.text((X, y), 'Automation Engineer', font=f_role, fill=INK)
 y += 66
 
 d.text((X, y), 'Voice agents, RAG pipelines and', font=f_body, fill=MUTED)

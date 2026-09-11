@@ -11,7 +11,7 @@ export const site = {
 
 export const profile = {
   name: 'Harish G',
-  title: 'Full Stack & AI Engineer',
+  title: 'Agentic AI & Automation Engineer',
   tagline: 'Multi-stack engineer (Java · Python · JavaScript) building scalable backends and AI-driven applications.',
   location: 'Bengaluru, India',
   email: 'harishgreddy.work@gmail.com',
