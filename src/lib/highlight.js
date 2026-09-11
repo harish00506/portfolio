@@ -50,7 +50,7 @@ export function tokenize(code) {
   return out
 }
 
-// Editorial Light palette: blue keywords, teal strings/numbers, muted comments.
+// Switchboard palette: carmine keywords, slate-blue strings/numbers, muted comments.
 export const TOKEN_CLASS = {
   comment: 'italic text-muted-foreground/60',
   string: 'text-brand-accent',

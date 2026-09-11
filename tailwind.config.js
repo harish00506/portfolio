@@ -1,3 +1,12 @@
+/**
+ * Why: Colours, fonts, radii and shadows must come from one place, so components never carry raw values
+ *      (CLAUDE.md §4) and a theme change is a token change rather than a hunt through JSX.
+ * What: Tailwind theme wired to the CSS variables declared in src/index.css.
+ * Result: Semantic colour utilities (bg-primary, text-muted-foreground, ...) that follow the active
+ *         light or dark Switchboard palette, plus the site's three font roles.
+ * Changelog: 2026-09-12 - Switchboard: Schibsted Grotesk / Atkinson Hyperlegible Next / Martian Mono,
+ *            and shadows derived from theme tokens instead of fixed rgba values.
+ */
 import tailwindcssAnimate from 'tailwindcss-animate'
 
 /** @type {import('tailwindcss').Config} */
@@ -7,7 +16,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // shadcn/ui semantic tokens — driven by CSS variables in index.css.
+        // shadcn/ui semantic tokens, driven by CSS variables in index.css.
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -42,7 +51,7 @@ export default {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
-        // Editorial brand accents — blue primary + teal accent for links/kickers.
+        // Switchboard brand accents: carmine primary + slate-blue accent for code strings and notes.
         brand: {
           DEFAULT: 'hsl(var(--brand))',
           foreground: 'hsl(var(--brand-foreground))',
@@ -50,9 +59,9 @@ export default {
         },
       },
       fontFamily: {
-        display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
-        sans: ['"Hanken Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        display: ['"Schibsted Grotesk"', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'sans-serif'],
+        sans: ['"Atkinson Hyperlegible Next"', '"Atkinson Hyperlegible"', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'sans-serif'],
+        mono: ['"Martian Mono"', 'ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace'],
       },
       maxWidth: {
         container: '1180px',
@@ -63,9 +72,9 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       boxShadow: {
-        // Soft, neutral elevation for light surfaces.
-        card: '0 1px 2px rgba(28,25,23,0.04), 0 12px 28px -18px rgba(28,25,23,0.18)',
-        cardHover: '0 1px 2px rgba(28,25,23,0.05), 0 24px 48px -24px rgba(37,99,235,0.22)',
+        // Soft elevation derived from the ink and brand tokens, so it adapts to both themes.
+        card: '0 1px 2px hsl(var(--foreground) / 0.04), 0 12px 28px -18px hsl(var(--foreground) / 0.18)',
+        cardHover: '0 1px 2px hsl(var(--foreground) / 0.05), 0 24px 48px -24px hsl(var(--primary) / 0.28)',
       },
       keyframes: {
         'fade-up': {

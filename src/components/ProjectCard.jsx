@@ -1,3 +1,11 @@
+/**
+ * Why: The works list and the home page need a scannable summary of each project that leads into its
+ *      case study.
+ * What: One project card.
+ * Result: A fully clickable card (stretched link) with the project's category, name, blurb, highlights
+ *         and stack; external links sit above the overlay so they stay separately clickable.
+ * Changelog: 2026-09-12 - Category kicker replaces the running index number (Switchboard restyle).
+ */
 import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
@@ -6,13 +14,15 @@ import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
 /**
- * Project card. The whole card links to the detail page via a stretched-link
- * overlay (so we avoid invalid nested <a>); external GitHub/live links sit
- * above the overlay with `relative z-10`. Wrapped in forwardRef so it can be a
- * direct child of <AnimatePresence>, which needs a ref to track exit.
+ * Project card. Wrapped in forwardRef so it can be a direct child of <AnimatePresence>, which needs a
+ * ref to track exit animations. The stretched-link overlay avoids invalid nested <a> elements.
+ *
+ * Input:  project - a project object from portfolio.js ({ slug, name, blurb, categories, highlights,
+ *         tags, links, featured, note }); ref - forwarded to the root <article>.
+ * Output: <motion.article>.
  */
-const ProjectCard = forwardRef(function ProjectCard({ project, index }, ref) {
-  const { slug, name, blurb, highlights, tags, links = {}, featured, note } = project
+const ProjectCard = forwardRef(function ProjectCard({ project }, ref) {
+  const { slug, name, blurb, categories = [], highlights, tags, links = {}, featured, note } = project
 
   return (
     <motion.article
@@ -37,8 +47,8 @@ const ProjectCard = forwardRef(function ProjectCard({ project, index }, ref) {
       />
 
       <div className="flex items-center justify-between">
-        <span className="font-mono text-xs text-muted-foreground/70">
-          {String(index + 1).padStart(2, '0')}
+        <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
+          {categories.join(' · ')}
         </span>
         <div className="relative z-10 flex items-center gap-3 text-muted-foreground">
           {featured && (
@@ -61,7 +71,7 @@ const ProjectCard = forwardRef(function ProjectCard({ project, index }, ref) {
         </div>
       </div>
 
-      <h3 className="display mt-4 text-2xl font-medium leading-tight text-foreground transition-colors group-hover:text-primary">
+      <h3 className="display mt-4 text-2xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
         {name}
       </h3>
 

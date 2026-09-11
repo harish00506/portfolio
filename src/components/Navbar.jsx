@@ -1,3 +1,11 @@
+/**
+ * Why: Visitors need the same way around the site on every page, and a theme switch that is always
+ *      within reach.
+ * What: Fixed top navigation: logo, page links, theme toggle, résumé link, and a sheet menu on phones.
+ * Result: A navbar that turns solid once the page scrolls, highlights the current page after hydration,
+ *         and puts the theme toggle beside the menu button on small screens.
+ * Changelog: 2026-09-12 - Added ThemeToggle on desktop and mobile for the Switchboard dark mode.
+ */
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, FileText } from 'lucide-react'
@@ -13,6 +21,7 @@ import {
 } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import { profile } from '../data/portfolio.js'
+import ThemeToggle from './ThemeToggle.jsx'
 
 const links = [
   { to: '/', label: 'Home', n: '01', end: true },
@@ -54,7 +63,7 @@ export default function Navbar() {
     >
       <nav className="container-x flex h-16 items-center justify-between">
         <Link to="/" className="group flex items-center gap-2.5" aria-label="Harish G, home">
-          <span className="grid h-8 w-8 place-items-center rounded-md bg-foreground font-display text-sm font-semibold text-background transition-colors group-hover:bg-primary">
+          <span className="grid h-8 w-8 place-items-center rounded-md bg-foreground font-display text-sm font-bold text-background transition-colors group-hover:bg-primary">
             HG
           </span>
           <span className="hidden font-mono text-sm font-medium tracking-tight text-foreground sm:inline">
@@ -104,7 +113,8 @@ export default function Navbar() {
           </li>
         </ul>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <Button variant="outline" size="sm" asChild>
             <a href={profile.resumeUrl} target="_blank" rel="noreferrer">
               <FileText />
@@ -113,68 +123,71 @@ export default function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile menu */}
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
-              <Menu className="!size-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-72">
-            <SheetHeader className="text-left">
-              <SheetTitle className="font-display text-xl">
-                harish<span className="text-primary">.</span>g
-              </SheetTitle>
-              <SheetDescription className="sr-only">Site navigation</SheetDescription>
-            </SheetHeader>
+        {/* Mobile: the theme toggle sits beside the menu button so it is one tap away. */}
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Open menu">
+                <Menu className="!size-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72">
+              <SheetHeader className="text-left">
+                <SheetTitle className="font-display text-xl">
+                  harish<span className="text-primary">.</span>g
+                </SheetTitle>
+                <SheetDescription className="sr-only">Site navigation</SheetDescription>
+              </SheetHeader>
 
-            <ul className="mt-8 flex flex-col px-1">
-              {links.map((l) => {
-                const active = isActive(l.to, l.end)
-                return (
-                  <li key={l.to} className="border-b border-border/70">
-                    <SheetClose asChild>
-                      <Link
-                        to={l.to}
-                        aria-current={active ? 'page' : undefined}
-                        className={cn(
-                          'flex items-baseline gap-3 py-3.5 text-base font-medium transition-colors',
-                          active ? 'text-primary' : 'text-muted-foreground hover:text-primary',
-                        )}
-                      >
-                        <span className="font-mono text-xs text-muted-foreground/70">{l.n}</span>
-                        {l.label}
-                      </Link>
-                    </SheetClose>
-                  </li>
-                )
-              })}
-              <li className="border-b border-border/70">
-                <SheetClose asChild>
-                  <Link
-                    to="/#contact"
-                    className="flex items-baseline gap-3 py-3.5 text-base font-medium text-muted-foreground transition-colors hover:text-primary"
-                  >
-                    <span className="font-mono text-xs text-muted-foreground/70">04</span>
-                    Contact
-                  </Link>
-                </SheetClose>
-              </li>
-            </ul>
+              <ul className="mt-8 flex flex-col px-1">
+                {links.map((l) => {
+                  const active = isActive(l.to, l.end)
+                  return (
+                    <li key={l.to} className="border-b border-border/70">
+                      <SheetClose asChild>
+                        <Link
+                          to={l.to}
+                          aria-current={active ? 'page' : undefined}
+                          className={cn(
+                            'flex items-baseline gap-3 py-3.5 text-base font-medium transition-colors',
+                            active ? 'text-primary' : 'text-muted-foreground hover:text-primary',
+                          )}
+                        >
+                          <span className="font-mono text-xs text-muted-foreground/70">{l.n}</span>
+                          {l.label}
+                        </Link>
+                      </SheetClose>
+                    </li>
+                  )
+                })}
+                <li className="border-b border-border/70">
+                  <SheetClose asChild>
+                    <Link
+                      to="/#contact"
+                      className="flex items-baseline gap-3 py-3.5 text-base font-medium text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      <span className="font-mono text-xs text-muted-foreground/70">04</span>
+                      Contact
+                    </Link>
+                  </SheetClose>
+                </li>
+              </ul>
 
-            <Button className="mt-6 w-full" asChild>
-              <a
-                href={profile.resumeUrl}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setOpen(false)}
-              >
-                <FileText />
-                Résumé
-              </a>
-            </Button>
-          </SheetContent>
-        </Sheet>
+              <Button className="mt-6 w-full" asChild>
+                <a
+                  href={profile.resumeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => setOpen(false)}
+                >
+                  <FileText />
+                  Résumé
+                </a>
+              </Button>
+            </SheetContent>
+          </Sheet>
+        </div>
       </nav>
     </header>
   )

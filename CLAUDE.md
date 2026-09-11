@@ -40,8 +40,13 @@ Routes live in `src/App.jsx` and nowhere else.
 
 ## 3. Stack (pinned: a swap needs a note in this file)
 
-React 18 · Vite 5 · **react-router-dom 6** · Tailwind CSS 3 + shadcn/ui (Editorial Light tokens) ·
+React 18 · Vite 5 · **react-router-dom 6** · Tailwind CSS 3 + shadcn/ui (Switchboard tokens) ·
 framer-motion · lucide-react. Ship no new dependency for what a few lines of the existing stack does.
+
+> **2026-09-12:** Editorial Light → **Switchboard**: Schibsted Grotesk / Atkinson Hyperlegible Next /
+> Martian Mono, carmine primary, and a live dark palette (`.dark` on `<html>`, set before paint by
+> `index.html` and toggled by `ThemeToggle.jsx`). `scripts/make-og-image.py` mirrors the light tokens as
+> RGB tuples, so a palette change means updating and re-running it.
 
 ## 4. Styling
 
