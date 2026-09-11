@@ -53,24 +53,23 @@ Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
 % Profile
 % ----------------------------------------------------------------------
 \section{Profile}
-Software Developer at CortexCraft.ai building production AI systems: real-time voice agents over
-telephony, RAG pipelines, and multi-tenant backends in FastAPI, Node.js, and Spring Boot. I ship against
-a written rulebook, with decisions recorded as ADRs, one issue per branch, and tests as the merge gate.
-On AI I hold a hard line, where deterministic code computes the numbers and the model only explains them.
+Software Developer at CortexCraft.ai building production AI systems: real-time Gemini Live voice agents
+over telephony, tool-calling orchestration, RAG pipelines, and multi-tenant backends in FastAPI, Node.js
+and Spring Boot. I keep models constrained: tools go through declared functions, and extracted call data
+is coerced to its declared type before anything downstream trusts it.
 
 % ----------------------------------------------------------------------
 % Core Strengths
 % ----------------------------------------------------------------------
 \section{Core Strengths}
 \textbf{Languages:} Python, JavaScript, TypeScript, Java, Kotlin, SQL\\
-\textbf{AI/ML:} LLM Integration, RAG, Agents \& Tool Calling, Guardrails \& Evaluation, Context Management,
+\textbf{AI/ML:} LLM Integration, RAG, Agents \& Tool Calling, Output Guardrails, Context Management,
 Gemini Live, STT/TTS Pipelines, LightGBM/Prophet\\
 \textbf{Backend:} FastAPI, Node.js/Express, Spring Boot, Celery, Alembic, WebSockets, REST API Design\\
-\textbf{Frontend/Mobile:} React, Vite, Tailwind CSS, Jetpack Compose (Kotlin, Hilt, Room)\\
-\textbf{Data:} PostgreSQL, MongoDB, Neo4j, Supabase/pgvector, Firebase, Room/SQLCipher\\
+\textbf{Frontend/Mobile:} React, Vite, Tailwind CSS, Jetpack Compose (Kotlin, Firebase)\\
+\textbf{Data:} PostgreSQL, MongoDB, Neo4j, Supabase/pgvector, Redis, Firebase\\
 \textbf{Platform:} Twilio, Plivo, WhatsApp Business API, Docker \& Compose, CI/CD, Git/GitLab\\
-\textbf{Concepts:} System Design, Modular Architecture, JWT Auth \& RBAC, Query Optimization, Audit
-Logging, ADR-Driven Development
+\textbf{Concepts:} System Design, Modular Architecture, JWT Auth \& RBAC, Query Optimization, Multi-Tenant SaaS
 
 % ----------------------------------------------------------------------
 % Experience
@@ -79,12 +78,11 @@ Logging, ADR-Driven Development
 
 \entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
 \begin{itemize}
-  \item Built and maintain the voice-agent platform (\textasciitilde270 commits): Gemini Live phone
+  \item Built and maintain the voice-agent platform (589 of 626 commits, plus 67 of 75 on the core engine): Gemini Live phone
         agents over Twilio and Plivo, with per-agent RAG grounding, prompt generation, transcripts, and an
         external REST API that other products call instead of forking the stack.
-  \item Shipped two products on that platform: a multi-tenant lead-calling SaaS, and a collections
-        hub with a visual workflow builder, dry-run prompt preview and run logs (FastAPI, Celery,
-        Alembic/PostgreSQL, React).
+  \item Shipped LeadCall AI on that platform: a multi-tenant outbound-calling SaaS with Celery dial and
+        callback workers, pitch-document RAG and Excel lead import (FastAPI, Alembic/PostgreSQL, React).
   \item Own production reliability of the call pipeline: fixed outbound routing, added reconnect handling
         for dropped Gemini sockets, and traced a Docker TLS failure to NAT hairpinning. Also design the
         prompt frameworks, guardrails and tool-calling orchestration that constrain model output.
@@ -102,33 +100,20 @@ Logging, ADR-Driven Development
 % ----------------------------------------------------------------------
 \section{Projects}
 
-\textbf{AI Personal CFO: Offline-First Android Finance App} \textit{Kotlin, Jetpack Compose, Hilt, Room/SQLCipher, Coroutines, WorkManager}
-\begin{itemize}
-  \item Built 12 deterministic engines (Safe-to-Spend, budgets, forecasting, credit-card cycle, loan
-        amortisation, net worth) as pure Kotlin across a 34-module one-way dependency graph.
-  \item Money is a \texttt{Long}-paise value class with checked arithmetic and largest-remainder
-        allocation, and rates are integer basis points, so no float ever touches a rupee.
-  \item Enforced a hard AI boundary: the LLM never computes a figure, and every number it speaks is
-        checked against engine provenance by a guardrail. Encrypted at rest, fully usable offline.
-  \item 27 ADRs, 160 test files, a migration test for every one of 17 schema versions.
-\end{itemize}
-
-\vspace{2pt}
 \textbf{KisanVoice AI: Multilingual WhatsApp Voice Survey Platform} \textit{Python, FastAPI, React, MongoDB, WhatsApp Flows, Google STT/TTS, Plivo, Jenkins, Docker}
 \begin{itemize}
-  \item Voice and text surveys in 24 configured locales (10+ Indian) from a config-driven language
+  \item Voice and text surveys in 24 configured locales (10 Indian) from a config-driven language
         registry, so adding one is a config row rather than a deploy; WhatsApp Flows for long option sets.
   \item Migrated the platform off its Node backend onto FastAPI and off Sarvam onto Google STT/TTS
-        without interrupting live surveys; Jenkins CI, Docker Compose. 217 of 238 commits authored.
+        without interrupting live surveys; Jenkins CI, Docker Compose. 172 of 192 commits authored.
 \end{itemize}
 
 \vspace{2pt}
-\textbf{FinGraph AI \& MediGraph AI: Hybrid Graph and Vector RAG Assistants} \textit{Node.js, React, Neo4j, pgvector, JWT}
+\textbf{FinGraph AI: Hybrid Graph and Vector RAG Banking Assistant} \textit{Node.js, React, Neo4j, pgvector, Groq, JWT}
 \begin{itemize}
-  \item Fused a Neo4j relationship graph with pgvector semantic search so answers are grounded in
-        structure, not just similarity; interactive force-directed graph visualisation.
-  \item Security end-to-end: JWT auth (bcrypt), role-based access applied \emph{before} retrieval
-        (admin / manager / customer; doctor / patient isolation), append-only audit log per query.
+  \item Fused pgvector semantic search (MiniLM embeddings) with Neo4j: every match is enriched with its
+        graph relationships, such as a loan's borrower, before Groq writes the answer.
+  \item JWT authentication with bcrypt-hashed passwords, and ADMIN-only admin and audit APIs.
 \end{itemize}
 
 \vspace{2pt}
@@ -142,7 +127,7 @@ Logging, ADR-Driven Development
 % ----------------------------------------------------------------------
 \section{Education \& Ways of Working}
 \textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore\\
-One issue per branch; ADRs recorded \emph{before} the code lands; commits tagged with the requirement ID
-they satisfy; tests as the merge gate.
+Feature branches and conventional commits; GitLab CI with 132 pytest files as the merge gate on the
+voice-agent platform.
 
 \end{document}

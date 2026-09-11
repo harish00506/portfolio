@@ -24,7 +24,7 @@ export const profile = {
   },
   about: [
     'Software Developer at CortexCraft.ai since January 2026, with hands-on experience across the Java, Python and JavaScript ecosystems and several years of freelance web and app development. I build scalable backend systems with Spring Boot, Express.js and FastAPI, and integrate AI technologies such as LLMs, STT, TTS and agent-based workflows into real-world products.',
-    'I work the way the repositories show: one issue per branch, architecture decisions written down as ADRs before the code lands, commit messages that cite the requirement they satisfy, and migration and engine tests as the merge gate rather than an afterthought. On the AI side I hold a hard line: deterministic code computes the numbers, and the model only explains them.',
+    'I work the way the repositories show: feature branches, a GitLab CI pipeline, and 132 pytest files on the voice-agent platform acting as the merge gate rather than an afterthought. On the AI side I keep the model constrained: tool calls go through declared functions, and extracted call data is coerced to its declared type before anything downstream trusts it.',
     'I focus on intelligent, automation-driven systems and clean, modular architecture, and I am looking for roles in AI engineering, backend, or full-stack development where I can ship products that combine solid engineering with practical AI.',
   ],
 }
@@ -44,7 +44,7 @@ export const skills = [
   },
   {
     group: 'Databases',
-    items: ['PostgreSQL', 'MongoDB', 'Firebase', 'Neo4j', 'Supabase / pgvector', 'Room / SQLCipher'],
+    items: ['PostgreSQL', 'MongoDB', 'Firebase', 'Neo4j', 'Supabase / pgvector', 'Redis'],
   },
   {
     group: 'AI / ML',
@@ -53,7 +53,7 @@ export const skills = [
       'RAG',
       'Context Management',
       'Agents & Tool Calling',
-      'Guardrails / Evaluation',
+      'Output Guardrails',
       'Workflow Automation',
       'STT / TTS Systems',
       'Gemini Live',
@@ -72,7 +72,6 @@ export const skills = [
       'Modular Architecture',
       'JWT Auth & RBAC',
       'Query Optimization',
-      'ADR-Driven Development',
     ],
   },
 ]
@@ -83,11 +82,11 @@ export const experience = [
     company: 'CortexCraft.ai',
     period: 'Jan 2026 – Present',
     bullets: [
-      'Built and maintain the voice-agent platform (~270 commits): Gemini Live phone agents over Twilio and Plivo, with per-agent RAG grounding, prompt generation, transcripts and an external REST API that other products call.',
-      'Shipped LeadCall AI on that platform: multi-tenant outbound calling with Celery dialing workers, Alembic-migrated PostgreSQL and a React dashboard, plus a second vertical (AI invoice collections) built on the same engine without a rewrite.',
-      'Own production reliability of the call pipeline: fixed outbound routing, added reconnect handling for dropped Gemini sockets, and traced a Docker TLS failure to NAT hairpinning. Each incident is documented alongside its fix.',
+      'Built and maintain the voice-agent platform (589 of 626 commits on the SaaS platform, 67 of 75 on the core engine): Gemini Live phone agents over Twilio and Plivo, with per-agent RAG grounding, prompt generation, transcripts and an external REST API that other products call.',
+      'Shipped LeadCall AI on that platform: multi-tenant outbound calling with Celery dial and callback workers, pitch documents re-indexed for RAG, Alembic-migrated PostgreSQL and a React dashboard.',
+      'Own production reliability of the call pipeline: fixed outbound routing, added reconnect handling for dropped Gemini sockets, and traced a Docker TLS failure to NAT hairpinning.',
       'Design prompt frameworks, guardrails and agent orchestration with tool calling and safe escalation, so model output is constrained rather than trusted.',
-      'Lead author (217 of 238 commits) on the multilingual farmer survey platform. Migrated it off a Node backend onto FastAPI, swapped Sarvam for Google STT/TTS behind a config-driven registry covering 24 locales, and put it on Jenkins CI without interrupting live surveys.',
+      'Lead author (172 of 192 commits) on the multilingual farmer survey platform. Migrated it off a Node backend onto FastAPI, swapped Sarvam for Google STT/TTS behind a config-driven registry covering 24 locales, and put it on Jenkins CI without interrupting live surveys.',
       'Work AI into the delivery process itself, including an agent that turns Jira tickets into reviewed pull requests.',
     ],
   },
@@ -108,70 +107,9 @@ export const projectCategories = ['All', 'AI', 'Full-Stack', 'ML', 'Mobile']
 
 // Each project carries a STAR case study (Situation · Task · Action · Result).
 // Flagship projects additionally include `action.samples` (code) and
-// `action.screenshots`. NOTE: some code snippets are illustrative drafts. Replace
-// with real excerpts; screenshots point at /public/projects/<slug>/ (add images).
+// `action.screenshots`. Code samples are real excerpts from each project's repo,
+// trimmed for length; screenshots point at /public/projects/<slug>/ (add images).
 export const projects = [
-  {
-    slug: 'ai-personal-cfo',
-    name: 'AI Personal CFO',
-    featured: true,
-    categories: ['Mobile', 'AI'],
-    blurb:
-      'Offline-first Android personal-finance app where twelve deterministic Kotlin engines compute every rupee and the LLM is only allowed to explain the numbers, never to produce them. Money is Long paise end to end, behind SQLCipher and the Android Keystore.',
-    highlights: [
-      'Money as Long paise plus integer basis points, so no float ever touches a rupee',
-      'The LLM never computes a figure; a numeric guardrail blocks unverified output',
-      'Every core feature works in airplane mode; SQLCipher + Android Keystore at rest',
-    ],
-    tags: ['Kotlin', 'Jetpack Compose', 'Hilt', 'Room / SQLCipher', 'Coroutines / Flow', 'WorkManager', 'Glance', 'Gradle'],
-    links: {},
-    star: {
-      situation:
-        'Finance apps get money wrong in two predictable ways: they hold amounts as floating-point numbers, so a paise quietly appears and disappears; and they let a language model do the arithmetic, so the figure on screen has no traceable origin. Both failures stay invisible until a user reconciles against their bank statement and stops trusting the app.',
-      task:
-        'Build a personal CFO that is correct by construction: exact money arithmetic, every recommendation traceable to the rule that produced it, and no dependency on a network or a cloud model for anything the user does day to day.',
-      action: {
-        narrative:
-          'I split the app into 34 Gradle modules with a strictly one-way dependency graph (feature to domain to data and core), and kept the twelve engines (Safe-to-Spend, budgets, forecasting, recurring detection, credit-card cycle, loan amortisation, net worth, SMS parsing, receipt OCR and more) as pure Kotlin with no Android imports, so they stay unit-testable and portable. Money is a Long-paise value class with checked arithmetic and largest-remainder allocation; rates are integer basis points; time comes from an injected Clock. The LLM layer is hard-limited: it reads through a tool registry rather than the database, and every figure it speaks is checked against engine provenance by a guardrail that repairs or blocks a mismatch. Architecture decisions are written down as ADRs before the code lands, and every schema bump ships a migration test.',
-        samples: [
-          {
-            filename: 'core/model/Money.kt',
-            language: 'kotlin',
-            code: `// Split an amount by weights so the parts sum EXACTLY to the whole.
-// Naive division loses the odd paise; this is largest-remainder (Hamilton).
-fun allocate(weights: List<Int>): List<Money> {
-    require(weights.isNotEmpty()) { "Weights must not be empty" }
-    val totalWeight = weights.fold(0L) { acc, w -> Math.addExact(acc, w.toLong()) }
-    require(totalWeight > 0L) { "Weights must not all be zero" }
-
-    val scaled = weights.map { Math.multiplyExact(minor, it.toLong()) }
-    val shares = scaled.map { it / totalWeight }.toMutableList()
-    val lost = scaled.mapIndexed { i, v -> i to Math.abs(v % totalWeight) }
-
-    // Hand the undistributed paise to the biggest losers first.
-    var remainder = minor - shares.sum()
-    val step = if (remainder < 0L) -1L else 1L
-    for ((i, _) in lost.sortedWith(compareByDescending { it.second })) {
-        if (remainder == 0L) break
-        shares[i] += step
-        remainder -= step
-    }
-    return shares.map(::Money)   // sum(shares) == minor, always
-}`,
-          },
-        ],
-      },
-      result: {
-        narrative:
-          'A working offline finance app at v0.6.2, with twelve deterministic engines, 27 recorded architecture decisions, 160 test files, and a database on schema 17 with a migration test for every step. No figure on screen comes from a language model.',
-        metrics: [
-          { value: '12', label: 'deterministic engines' },
-          { value: '27', label: 'ADRs recorded' },
-          { value: '0', label: 'floats in money math' },
-        ],
-      },
-    },
-  },
   {
     slug: 'cortexcraft-voice-agent',
     name: 'CortexCraft Voice Agent',
@@ -193,32 +131,41 @@ fun allocate(weights: List<Int>): List<Money> {
         'Build one platform where an agent is configuration rather than code: created from a dashboard or an API, grounded in uploaded documents, reachable over more than one telephony provider, and drivable by external systems.',
       action: {
         narrative:
-          'I built a FastAPI + React platform where each agent is a JSON config plus a folder of RAG documents. A prompt generator turns that config into the full system prompt and the inbound/outbound greetings. Calls stream over a WebSocket to Gemini Live, with separate Twilio and Plivo handlers behind one interface and a browser channel for testing without burning call minutes; transcripts are written back into each agent’s conversation store. An external REST API exposes agent creation and call placement, so other products consume the platform instead of forking it. Most of the real work was production reliability: fixing outbound-call routing, adding reconnect handling for Gemini 1006 socket drops, tightening goodbye detection so calls end cleanly, and tracing a Docker TLS failure to NAT hairpinning on a self-hosted domain. Each incident is documented next to its fix.',
+          'I built a FastAPI + React platform where each agent is a JSON config plus a folder of RAG documents. A prompt generator turns that config into the full system prompt and the inbound/outbound greetings. Calls stream over a WebSocket to Gemini Live, with separate Twilio and Plivo handlers behind one interface and a browser channel for testing without burning call minutes; transcripts are written back into each agent’s conversation store. An external REST API exposes agent creation and call placement, so other products consume the platform instead of forking it. Most of the real work was production reliability: fixing outbound-call routing, adding reconnect handling for Gemini 1006 socket drops, tightening goodbye detection so calls end cleanly, and tracing a Docker TLS failure to NAT hairpinning on a self-hosted domain.',
         samples: [
           {
-            filename: 'backend/src/external_api/routes.py',
+            filename: 'voice-agent-core-engine/backend/src/gemini_live/client.py',
             language: 'python',
-            code: `# One agent = one JSON config + a folder of RAG docs.
-# Other products create agents and place calls through this API.
-@router.post("/agents/{agent_id}/call")
-async def place_call(agent_id: str, req: CallRequest, key: str = Depends(api_key)):
-    agent = load_agent(agent_id)                  # backend/src/ai-agents/{id}
-    if agent is None:
-        raise HTTPException(404, "unknown agent")
-
-    prompt = build_prompt(agent, context=req.context)   # + retrieved RAG chunks
-    provider = TELEPHONY[agent.provider]                # "twilio" | "plivo"
-
-    call = await provider.dial(req.to, agent_id=agent_id, prompt=prompt)
-    return {"call_id": call.id, "status": call.status}`,
+            code: `# One Gemini Live session per phone call: audio in, audio out, text alongside.
+while True:
+    config = self._live_config(include_language_code=include_language_code)
+    connected = False
+    try:
+        async with self.client.aio.live.connect(model=self.model, config=config) as session:
+            connected = True
+            await _maybe_call(session_open_callback)
+            event_queue: asyncio.Queue = asyncio.Queue()
+            tasks = [
+                asyncio.create_task(self._send_audio_loop(session, audio_input_queue, event_queue)),
+                asyncio.create_task(self._send_text_loop(session, text_input_queue, event_queue)),
+                asyncio.create_task(self._receive_loop(session, event_queue, audio_output_callback, audio_interrupt_callback)),
+            ]
+            # ... stream events until the call ends, then cancel the tasks
+    except Exception as exc:
+        if not connected and include_language_code and _language_code_rejected(exc):
+            # The 3.1 Live preview may refuse SpeechConfig.language_code:
+            # retry once without it so the PSTN call still connects.
+            include_language_code = False
+            continue
+        raise`,
           },
         ],
       },
       result: {
         narrative:
-          'One platform now backs several shipped products instead of several codebases. The collections agent, the multi-tenant lead dialer and client-specific assistants all run on it, so a fix to the call pipeline reaches every one of them at once.',
+          'One platform now backs several shipped products instead of several codebases. The multi-tenant lead dialer, KisanVoice’s phone surveys and client-specific agents all run on it, so a fix to the call pipeline reaches every one of them at once.',
         metrics: [
-          { value: '~270', label: 'commits authored' },
+          { value: '589', label: 'commits authored' },
           { value: '1 API', label: 'drives every product' },
           { value: 'Live', label: 'in client deployments' },
         ],
@@ -227,34 +174,34 @@ async def place_call(agent_id: str, req: CallRequest, key: str = Depends(api_key
   },
   {
     slug: 'leadcall-ai',
-    name: 'LeadCall AI & Collections Hub',
+    name: 'LeadCall AI',
     featured: true,
     categories: ['AI', 'Full-Stack'],
     blurb:
-      'Two outbound-calling products on top of the voice-agent platform: a multi-tenant lead-calling SaaS, and a collections hub that grew into a visual workflow builder. Compose a call flow as a graph, dry-run it before spending a call, then run it against imported lead groups.',
+      'Multi-tenant outbound-calling SaaS built on the voice-agent platform. Upload a lead list and a pitch document, and Celery workers dial through the platform API, sync transcripts back and keep each tenant’s leads and credentials apart.',
     highlights: [
-      'Graph workflow builder with dry-run execution and per-run logs before a call is spent',
-      'Lead groups, XLSX/CSV import, transcript sync and call-log export',
-      'Celery dialing + callback workers, pitch-document RAG, Alembic-migrated PostgreSQL',
+      'Celery dial and callback workers that call through the voice-agent platform API',
+      'Pitch documents re-indexed for RAG so the script matches what the client sells',
+      'Excel lead import, transcript sync and call-log export on Alembic-migrated PostgreSQL',
     ],
-    tags: ['Python', 'FastAPI', 'Celery', 'Alembic', 'PostgreSQL', 'React', 'MUI', 'RAG', 'Docker Compose'],
+    tags: ['Python', 'FastAPI', 'Celery', 'Alembic', 'PostgreSQL', 'React', 'RAG', 'Docker Compose'],
     links: {},
     star: {
       situation:
-        'Small teams sit on lead lists they never call. The blocker is not the conversation. It is the operations around it: dialing at the right pace, retrying without double-calling, knowing which calls actually finished, and keeping one client’s data away from another’s.',
+        'Small teams sit on lead lists they never call. The blocker is not the conversation. It is the operations around it: dialing at the right pace, knowing which calls actually finished, and keeping one client’s data away from another’s.',
       task:
-        'Build a service where uploading a lead list and a pitch document is enough to run a calling campaign, and where the person configuring the call can see and test the exact prompt before it dials anyone.',
+        'Build a service where uploading a lead list and a pitch document is enough to run a calling campaign, with each tenant’s leads, credentials and call history kept separate.',
       action: {
         narrative:
-          'Both products are FastAPI + PostgreSQL with Alembic migrations and a React dashboard, dialing through the CortexCraft voice-agent platform. LeadCall AI adds tenant-scoped auth, campaigns and Celery workers for dialing and webhook callbacks, with pitch documents cleared and re-indexed for RAG so the script matches what the client sells. The collections hub started as a Square-invoice CSV reader that called overdue accounts under a threshold, and grew into the more interesting half: a workflow graph the operator composes, a greeting resolver that adapts to time of day and lead context, prompt assembly that merges agent, company and lead context, and a dry-run mode that renders the final assembled prompt against a sample name and number, so you read exactly what the agent will say before spending a call. Every run is logged with its prompt and outcome. Call state took real care: webhooks are not guaranteed, so completion handles terminal statuses explicitly and the app reconciles in-progress calls against telephony probes instead of trusting the last event it happened to receive.',
+          'LeadCall AI is FastAPI + PostgreSQL with Alembic migrations and a React dashboard. It does not run its own telephony: it dials through the CortexCraft voice-agent platform’s external API, and each tenant stores its own platform URL and an encrypted API key. Celery workers handle dialing and webhook callbacks, leads arrive by Excel import, and pitch documents are cleared and re-indexed for RAG so the agent’s script matches what the client sells. Transcripts sync back per call, and the call log exports for the client.',
       },
       result: {
         narrative:
-          'A lead list and a pitch document become a running campaign with per-call transcripts and a call log that reconciles. Because the workflow is composed and dry-run rather than coded, a new client script is a configuration change, not a deploy.',
+          'A lead list and a pitch document become a running campaign with per-call transcripts and an exportable call log, without the client operating any telephony of their own.',
         metrics: [
-          { value: '2 products', label: 'on one calling engine' },
-          { value: 'Dry-run', label: 'before a call is spent' },
-          { value: 'Reconciled', label: 'call-state tracking' },
+          { value: 'Multi-tenant', label: 'encrypted per-tenant keys' },
+          { value: 'Celery', label: 'dial + callback workers' },
+          { value: 'Excel', label: 'lead import + log export' },
         ],
       },
     },
@@ -265,11 +212,11 @@ async def place_call(agent_id: str, req: CallRequest, key: str = Depends(api_key
     featured: true,
     categories: ['AI', 'Full-Stack'],
     blurb:
-      'WhatsApp survey platform that lets farmers answer by voice in their own language. A config-driven language registry covers 24 locales (10+ Indian) over Google STT/TTS, with WhatsApp Flows for long option sets, phone-call surveys through the voice-agent platform, and a real-time admin dashboard.',
+      'WhatsApp survey platform that lets farmers answer by voice in their own language. A config-driven language registry covers 24 locales (10 Indian) over Google STT/TTS, with WhatsApp Flows for long option sets, phone-call surveys through the voice-agent platform, and a real-time admin dashboard.',
     highlights: [
-      '24 locales from a config-driven registry, 10+ of them Indian, with no redeploy to add one',
+      '24 locales from a config-driven registry, 10 of them Indian, with no redeploy to add one',
       'Migrated the platform off a Node backend and off Sarvam onto FastAPI + Google STT/TTS',
-      '217 of the repo\u2019s 238 commits; Jenkins CI, Docker Compose deploys',
+      '172 of the repo\u2019s 192 commits; Jenkins CI, Docker Compose deploys',
     ],
     tags: ['Python', 'FastAPI', 'React', 'MongoDB', 'WhatsApp Flows', 'Google STT/TTS', 'Plivo', 'Socket.io', 'Jenkins', 'Docker'],
     links: {}, // add { github: '...' } / { live: '...' } when ready
@@ -280,28 +227,29 @@ async def place_call(agent_id: str, req: CallRequest, key: str = Depends(api_key
         'Build a platform that lets farmers answer surveys in their own language by voice over a channel they already use, WhatsApp, while giving administrators a real-time view of incoming responses and a way to verify audio quality.',
       action: {
         narrative:
-          'I built the system on the WhatsApp Business API: inbound voice notes are transcribed, auto-translated, and run through conditional survey logic that picks the next question, with the reply synthesised back in the farmer\u2019s language. Long option sets go out as WhatsApp Flows with pagination rather than unusable text menus, and option matching survives imperfect speech through fuzzy and semantic fallback matching. A React dashboard streams responses live over Socket.io with an audio QC workflow and Excel export. Two migrations did the most for the platform: I replaced the Node backend with FastAPI so Python is the single backend, and moved STT/TTS from Sarvam to Google Cloud behind a config-driven language registry \u2014 adding a locale is now a config row, not a deploy. Phone surveys route through the CortexCraft voice-agent platform, and Jenkins drives the build.',
+          'I built the system on the WhatsApp Business API: inbound voice notes are transcribed, auto-translated, and run through conditional survey logic that picks the next question, with the reply synthesised back in the farmer\u2019s language. Long option sets go out as WhatsApp Flows with pagination rather than unusable text menus, and option matching survives imperfect speech through fuzzy and semantic fallback matching. A React dashboard with an audio QC workflow and Excel export receives live call events over Socket.io. Two migrations did the most for the platform: I replaced the Node backend with FastAPI so Python is the single backend, and moved STT/TTS from Sarvam to Google Cloud behind a config-driven language registry \u2014 adding a locale is now a config row, not a deploy. Phone surveys route through the CortexCraft voice-agent platform, and Jenkins drives the build.',
         samples: [
           {
-            filename: 'app/services/language_registry_service.py',
+            filename: 'backend-python/app/services/language_registry_service.py',
             language: 'python',
-            code: `# Adding a language is a config row, not a deploy: the registry resolves
-# an alias ("telugu", "te", "te-IN") to one profile carrying its STT/TTS codes.
-def resolve(alias: str) -> LanguageProfile:
-    _refresh_if_stale()                       # JSON config + DB overrides, TTL cached
-    key = alias.strip().lower()
-    iso = _ALIAS_TO_ISO.get(key) or _LANG_TOKEN_MAP.get(key) or _DEFAULT_ISO
-    return _PROFILES[iso]
+            code: `# JSON defaults + MongoDB admin overrides, merged into one alias index.
+# Adding a language is a config row, not a deploy.
+for raw in config.get("languages") or []:
+    code = str(raw.get("code") or "").strip().lower()
+    if not code:
+        continue
+    merged = _apply_env_tts_overrides(raw)
+    if code in override_by_code:
+        merged = _deep_merge(merged, override_by_code[code])
+        merged["code"] = code
 
-async def ask(session, question) -> None:
-    lang = resolve(session.language)          # 24 locales configured today
-    text = question.localized.get(lang.iso) or await translate(question.text, lang.iso)
+    canonical = str(merged.get("canonicalName") or code).strip().lower()
+    profiles_by_iso[code] = merged
+    profiles_by_canonical[canonical] = merged
 
-    if len(question.options) > 10:            # a 20-item text menu is unusable
-        return await send_whatsapp_flow(session.phone, text, question.options)
-
-    audio = await google_tts.synthesize(text, lang.tts)
-    await send_whatsapp_audio(session.phone, audio)`
+    for alias in (code, canonical, str(merged.get("locale") or "").lower()):
+        if alias:
+            alias_to_iso[alias] = code`
           },
         ],
         screenshots: [
@@ -311,132 +259,11 @@ async def ask(session, question) -> None:
       },
       result: {
         narrative:
-          'A deployed multilingual survey platform that removes the literacy barrier. Farmers answer by voice in their own language and administrators verify responses as they arrive. 217 of the repository\u2019s 238 commits are mine, across a backend migration and an STT/TTS provider swap done without losing the running surveys.',
+          'A deployed multilingual survey platform that removes the literacy barrier. Farmers answer by voice in their own language and administrators verify responses as they arrive. 172 of the repository\u2019s 192 commits are mine, across a backend migration and an STT/TTS provider swap done without losing the running surveys.',
         metrics: [
           { value: '24', label: 'locales configured' },
-          { value: '217', label: 'commits authored' },
+          { value: '172', label: 'commits authored' },
           { value: 'Node → FastAPI', label: 'backend migrated' },
-        ],
-      },
-    },
-  },
-  {
-    slug: 'medigraph-ai',
-    name: 'MediGraph AI',
-    featured: true,
-    categories: ['AI', 'Full-Stack'],
-    blurb:
-      'Hybrid RAG clinical assistant combining a Neo4j medical knowledge graph with pgvector semantic search. Interactive force-directed graph visualization and role-based access for doctors and patients.',
-    highlights: [
-      'Graph + vector hybrid retrieval pipeline',
-      'Interactive force-graph visualization of medical entities',
-      'Role-based access with patient data isolation',
-    ],
-    tags: ['Node.js', 'Express', 'React', 'Neo4j', 'Supabase pgvector', 'Groq', 'HF Embeddings'],
-    links: {},
-    star: {
-      situation:
-        'Clinical questions need answers that are both semantically relevant and factually grounded in how medical entities relate. Pure vector search retrieves similar text but loses the structured relationships between conditions, symptoms, drugs and treatments.',
-      task:
-        'Design a retrieval pipeline that fuses a medical knowledge graph with semantic search so answers are grounded in real relationships, and gate the data so doctors and patients only see what they are allowed to.',
-      action: {
-        narrative:
-          'I built a hybrid RAG system: a Neo4j knowledge graph captures medical entities and their relationships, while pgvector (on Supabase) holds embeddings for semantic recall. A query first expands through the graph to gather connected entities, then retrieves supporting passages by vector similarity; the merged, de-duplicated context is passed to the LLM. The React frontend renders the retrieved subgraph as an interactive force-directed visualization, and role-based access control isolates patient data from clinician views.',
-        samples: [
-          {
-            filename: 'server/retrieval/hybridRetrieve.js',
-            language: 'javascript',
-            code: `// Hybrid retrieval: expand via graph, then rank by vector similarity
-export async function hybridRetrieve(query, role) {
-  const embedding = await embed(query)
-
-  const graphHits = await neo4j.run(\`
-    MATCH (e:Entity)-[r]-(n)
-    WHERE e.name CONTAINS $term
-    RETURN n LIMIT 25\`, { term: keyword(query) })
-
-  const vectorHits = await pg.query(
-    'SELECT chunk, 1 - (embedding <=> $1) AS score \\
-     FROM passages ORDER BY embedding <=> $1 LIMIT 8',
-    [embedding],
-  )
-
-  const context = merge(graphHits, vectorHits)
-  return enforceAccess(context, role)   // patient-data isolation
-}`,
-          },
-        ],
-        screenshots: [
-          { src: '/projects/medigraph-ai/graph.png', caption: 'Interactive force-directed graph of medical entities' },
-          { src: '/projects/medigraph-ai/chat.png', caption: 'Grounded clinical answer with cited context' },
-        ],
-      },
-      result: {
-        narrative:
-          'A clinical assistant whose answers are grounded in both meaning and structure, with a visual graph that makes the reasoning inspectable and strict separation between doctor and patient data.',
-        metrics: [
-          { value: 'Graph + Vector', label: 'hybrid retrieval' },
-          { value: '2 roles', label: 'doctor / patient isolation' },
-          { value: 'Interactive', label: 'entity visualization' },
-        ],
-      },
-    },
-  },
-  {
-    slug: 'refyne-voice-agent',
-    name: 'Refyne Voice Agent',
-    // Not featured: the CortexCraft Voice Agent entry covers the same ground with
-    // production deployments behind it. This stays on /works as the earlier build.
-    featured: false,
-    categories: ['AI'],
-    blurb:
-      'Real-time phone-call voice AI agent connecting telephony to an STT → LLM → TTS pipeline, with multilingual auto-detection and inbound/outbound call handling.',
-    highlights: [
-      'Live phone-call voice pipeline (STT → LLM → TTS)',
-      'Multilingual auto-detection with voice activity detection',
-      'Handles both inbound and outbound calls',
-    ],
-    tags: ['Python', 'FastAPI', 'Pipecat', 'Plivo', 'Sarvam', 'WebSocket', 'VAD'],
-    links: {},
-    star: {
-      situation:
-        'Businesses want to handle phone calls with an AI agent that feels natural, but real-time telephony is unforgiving: every extra hundred milliseconds of latency makes the conversation feel robotic, and callers switch languages mid-sentence.',
-      task:
-        'Connect a phone network to a low-latency speech pipeline so an LLM can hold a live, two-way conversation over a real call, detecting the caller’s language automatically and handling both inbound and outbound calls.',
-      action: {
-        narrative:
-          'I built a streaming voice agent in Python/FastAPI using Pipecat to orchestrate the STT → LLM → TTS pipeline, with Plivo bridging the telephony leg over a WebSocket audio stream. Voice activity detection (VAD) segments speech so the agent knows when the caller has finished, language auto-detection routes audio to the right model, and the pipeline streams partial results to keep latency low enough for natural turn-taking. The same service handles inbound and outbound calls.',
-        samples: [
-          {
-            filename: 'app/pipeline.py',
-            language: 'python',
-            code: `# Streaming telephony pipeline: Plivo audio <-> STT -> LLM -> TTS
-pipeline = Pipeline([
-    transport.input(),          # Plivo WebSocket audio in
-    vad,                        # voice activity detection -> end of turn
-    stt,                        # Sarvam STT (auto language detect)
-    llm,                        # streaming LLM response
-    tts,                        # Sarvam TTS in caller's language
-    transport.output(),         # audio back to the call
-])
-
-@app.websocket("/call")
-async def call(ws: WebSocket):
-    await ws.accept()
-    await PipelineRunner().run(PipelineTask(pipeline, audio_stream(ws)))`,
-          },
-        ],
-        screenshots: [
-          { src: '/projects/refyne-voice-agent/architecture.png', caption: 'Real-time call pipeline architecture' },
-        ],
-      },
-      result: {
-        narrative:
-          'A live phone agent that holds natural multilingual conversations over real calls, auto-detecting language and handling calls in both directions.',
-        metrics: [
-          { value: 'Real-time', label: 'STT → LLM → TTS' },
-          { value: 'Inbound + Outbound', label: 'call handling' },
-          { value: 'Auto-detect', label: 'caller language' },
         ],
       },
     },
@@ -481,54 +308,56 @@ async def call(ws: WebSocket):
     featured: true,
     categories: ['AI', 'Full-Stack'],
     blurb:
-      'Banking RAG assistant over a Neo4j relationship graph with JWT authentication, role-based access control (admin / manager / customer) and full audit logging.',
+      'Banking assistant over a Neo4j relationship graph. pgvector semantic search finds the relevant customers, loans and chats, Neo4j enriches every match with its relationships, and Groq writes the answer. JWT + bcrypt authentication guards the admin and audit APIs.',
     highlights: [
-      'RBAC with admin / manager / customer roles',
-      'JWT auth + bcrypt and complete audit trails',
-      'Query classification and workflow orchestration',
+      'Hybrid retrieval: pgvector similarity search enriched with Neo4j relationships',
+      'MiniLM embeddings from Hugging Face, answers generated with Groq',
+      'JWT + bcrypt authentication, with ADMIN-only admin and audit routes',
     ],
-    tags: ['Node.js', 'Express', 'React', 'Neo4j', 'Supabase pgvector', 'JWT', 'Tailwind'],
+    tags: ['Node.js', 'Express', 'React', 'Neo4j', 'Supabase pgvector', 'Hugging Face', 'Groq', 'JWT'],
     links: {},
     star: {
       situation:
-        'Banking assistants must answer questions over sensitive, highly-connected data while strictly enforcing who is allowed to see what. A customer, a manager and an admin should get very different answers, and every access must be auditable.',
+        'Banking questions are about relationships: which customer holds which loan, what they asked before, how their records connect. Plain vector search finds similar text but loses those links, so answers come back plausible and unanchored.',
       task:
-        'Build a RAG assistant over banking data with hard security guarantees: authenticated access, role-based authorization at the data layer, and a complete audit trail of every query.',
+        'Build an assistant that retrieves by meaning and then grounds each result in the graph of customers, loans and conversations.',
       action: {
         narrative:
-          'I modelled accounts, customers and transactions as a Neo4j relationship graph and combined it with pgvector retrieval. Incoming questions are first classified to route them to the right workflow, then answered from retrieved context. Security is enforced end to end: JWT auth with bcrypt-hashed credentials, role-based access control (admin / manager / customer) applied before retrieval, and an append-only audit log recording every request.',
+          'I modelled users, loans and chats as a Neo4j graph and mirrored their text into Supabase pgvector with MiniLM embeddings from Hugging Face. A question is embedded, matched by similarity above a threshold, and every match is enriched with a Cypher query for its relationships (a loan’s borrower, a user’s loans and chats) before Groq writes the answer. Authentication is JWT with bcrypt-hashed passwords stored in Neo4j, and the admin and audit APIs require the ADMIN role.',
         samples: [
           {
-            filename: 'server/middleware/rbac.js',
+            filename: 'backend/src/services/vector.service.js',
             language: 'javascript',
-            code: `// Role-based access + audit logging on every query
-export function authorize(...roles) {
-  return async (req, res, next) => {
-    const user = verifyJwt(req.headers.authorization)   // throws if invalid
-    if (!roles.includes(user.role))
-      return res.status(403).json({ error: 'forbidden' })
+            code: `// Embed the question, find similar items in pgvector, then enrich each hit from Neo4j.
+async function semanticSearch(query, contentType = null, limit = 5) {
+  const queryEmbedding = await generateEmbedding(query);
 
-    await audit.log({ userId: user.id, role: user.role,
-                      action: req.path, at: new Date() })
-    req.user = user
-    next()
+  const vectorResults = await searchSimilar({
+    queryEmbedding,
+    contentType,
+    limit,
+    threshold: 0.3,
+  });
+
+  if (vectorResults.length === 0) {
+    return [];
   }
-}
 
-router.post('/query', authorize('admin', 'manager', 'customer'), handleQuery)`,
+  return enrichWithGraphData(vectorResults);
+}`,
           },
         ],
         screenshots: [
-          { src: '/projects/fingraph-ai/roles.png', caption: 'Role-scoped answers for admin, manager and customer' },
+          { src: '/projects/fingraph-ai/answer.png', caption: 'Answer grounded in graph-enriched search results' },
         ],
       },
       result: {
         narrative:
-          'A banking assistant that answers over connected financial data while guaranteeing authenticated, role-scoped access and a full audit trail.',
+          'A banking assistant whose answers carry the relationships behind them, not just the closest matching text.',
         metrics: [
-          { value: '3 roles', label: 'RBAC enforced' },
+          { value: 'Graph + Vector', label: 'hybrid retrieval' },
+          { value: 'Neo4j', label: 'relationship enrichment' },
           { value: 'JWT + bcrypt', label: 'authentication' },
-          { value: '100%', label: 'audited queries' },
         ],
       },
     },
@@ -607,30 +436,30 @@ router.post('/query', authorize('admin', 'manager', 'customer'), handleQuery)`,
     featured: false,
     categories: ['Full-Stack'],
     blurb:
-      'Full-stack productivity app with clean Spring Boot REST APIs and a DTO-based architecture. Reduced API latency by ~30% through query optimization.',
+      'Full-stack productivity app: Spring Boot REST APIs with a DTO-based architecture over PostgreSQL, and a Vite + TypeScript front end.',
     highlights: [
       'Clean REST APIs with DTO-based design',
-      '~30% lower API latency via query optimization',
-      'Task prioritization, tracking and persistent storage',
+      'PostgreSQL persistence behind Spring Boot',
+      'Task prioritization and tracking in a Vite + TypeScript UI',
     ],
     tags: ['Java', 'Spring Boot', 'Vite', 'TypeScript', 'PostgreSQL'],
     links: {},
     star: {
       situation:
-        'Task apps are easy to start and hard to keep fast and maintainable as the data and feature set grow.',
+        'Task apps are easy to start and hard to keep maintainable as the data and feature set grow.',
       task:
-        'Build a productivity app with a clean, maintainable backend architecture and APIs that stay fast under realistic data.',
+        'Build a productivity app with a clean, maintainable backend and a clear contract between the API and the database.',
       action: {
         narrative:
-          'I designed a Spring Boot backend around a DTO-based architecture for clear separation between persistence and API contracts, backed by PostgreSQL, with a Vite + TypeScript frontend. I profiled the hot endpoints and optimised the underlying queries to cut latency.',
+          'I designed a Spring Boot backend around DTOs, so the API contract stays separate from the persistence model, backed by PostgreSQL, with a Vite + TypeScript front end for prioritizing and tracking tasks.',
       },
       result: {
         narrative:
-          'A maintainable full-stack productivity app with measurably faster APIs.',
+          'A maintainable full-stack productivity app with a clean split between persistence and API contracts.',
         metrics: [
-          { value: '~30%', label: 'lower API latency' },
+          { value: 'Spring Boot', label: 'REST API' },
           { value: 'DTO-based', label: 'clean architecture' },
-          { value: 'Persistent', label: 'task tracking' },
+          { value: 'PostgreSQL', label: 'persistent tracking' },
         ],
       },
     },
@@ -641,30 +470,30 @@ router.post('/query', authorize('admin', 'manager', 'customer'), handleQuery)`,
     featured: false,
     categories: ['Mobile'],
     blurb:
-      'Android grocery app built with Jetpack Compose. Achieved a 0% crash rate across 5+ Android OS versions with offline caching and auto-sync.',
+      'Android grocery-list app built with Kotlin and Jetpack Compose, with Firebase Authentication and Realtime Database behind an MVVM architecture.',
     highlights: [
-      '0% crash rate across 5+ Android OS versions',
-      'Offline caching + auto-sync for 100+ items',
-      'Firebase-backed real-time data',
+      'Jetpack Compose UI with ViewModel-held screen state (MVVM)',
+      'Firebase Authentication and Realtime Database',
+      'Final project of my Internshala Android development training',
     ],
     tags: ['Kotlin', 'Jetpack Compose', 'Firebase'],
     links: {},
     star: {
       situation:
-        'Mobile grocery shopping needs to work even on flaky connections and across a wide range of Android versions and devices.',
+        'Grocery lists live in chat threads and scraps of paper, and they fall apart as soon as two people shop for the same household.',
       task:
-        'Build a reliable, modern Android grocery app that stays usable offline and behaves consistently across OS versions.',
+        'Build a modern Android app for managing grocery lists, with sign-in and data kept in the cloud.',
       action: {
         narrative:
-          'I built the app with Kotlin and Jetpack Compose for a modern declarative UI, backed by Firebase for real-time data. Offline caching with auto-sync keeps the catalog and cart usable without a connection, and I tested across multiple Android OS versions to stamp out crashes.',
+          'I built the app in Kotlin with Jetpack Compose for a declarative UI and an MVVM structure, with ViewModels holding screen state. Firebase Authentication handles sign-in and the Realtime Database stores the lists.',
       },
       result: {
         narrative:
-          'A resilient grocery app that works offline and runs cleanly across a wide device range.',
+          'A working Compose + Firebase grocery app, and the project where I learned MVVM on Android.',
         metrics: [
-          { value: '0%', label: 'crash rate' },
-          { value: '5+', label: 'Android OS versions' },
-          { value: '100+', label: 'items cached offline' },
+          { value: 'Compose', label: 'declarative UI' },
+          { value: 'Firebase', label: 'auth + realtime DB' },
+          { value: 'MVVM', label: 'architecture' },
         ],
       },
     },
@@ -685,6 +514,6 @@ export const education = {
   achievements: [
     'Built and deployed AI-powered and full-stack applications with real-user testing.',
     'Strong experience in backend optimization, debugging and scalable system design.',
-    'Practise a disciplined delivery workflow: one issue per branch, decisions recorded as ADRs, requirement-tagged conventional commits, and migration + engine tests as the merge gate.',
+    'Practise a disciplined delivery workflow: feature branches, conventional commits, and automated tests in CI as the merge gate.',
   ],
 }
