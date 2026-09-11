@@ -111,24 +111,34 @@ function buildHtml(route, appHtml) {
   const url = abs(route)
   const jsonLd = `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`
 
+  // `\s+` between attributes: index.html wraps long meta tags across lines, and the old single-space
+  // patterns silently matched nothing, so every page shipped the home page's description.
   let html = template
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeText(title)}</title>`)
     .replace(
-      /(<meta name="description" content=")[\s\S]*?(" \/>)/,
+      /(<meta\s+name="description"\s+content=")[\s\S]*?("\s*\/>)/,
       `$1${escapeAttr(description)}$2`,
     )
-    .replace(/(<link rel="canonical" href=")[\s\S]*?(" \/>)/, `$1${url}$2`)
-    .replace(/(<meta property="og:title" content=")[\s\S]*?(" \/>)/, `$1${escapeAttr(title)}$2`)
+    .replace(/(<link\s+rel="canonical"\s+href=")[\s\S]*?("\s*\/>)/, `$1${url}$2`)
+    .replace(/(<meta\s+property="og:title"\s+content=")[\s\S]*?("\s*\/>)/, `$1${escapeAttr(title)}$2`)
     .replace(
-      /(<meta property="og:description" content=")[\s\S]*?(" \/>)/,
+      /(<meta\s+property="og:description"\s+content=")[\s\S]*?("\s*\/>)/,
       `$1${escapeAttr(description)}$2`,
     )
-    .replace(/(<meta property="og:url" content=")[\s\S]*?(" \/>)/, `$1${url}$2`)
-    .replace(/(<meta name="twitter:title" content=")[\s\S]*?(" \/>)/, `$1${escapeAttr(title)}$2`)
+    .replace(/(<meta\s+property="og:url"\s+content=")[\s\S]*?("\s*\/>)/, `$1${url}$2`)
+    .replace(/(<meta\s+name="twitter:title"\s+content=")[\s\S]*?("\s*\/>)/, `$1${escapeAttr(title)}$2`)
     .replace(
-      /(<meta name="twitter:description" content=")[\s\S]*?(" \/>)/,
+      /(<meta\s+name="twitter:description"\s+content=")[\s\S]*?("\s*\/>)/,
       `$1${escapeAttr(description)}$2`,
     )
+
+  // Fail the build rather than ship a page whose meta tags quietly kept the template's copy.
+  for (const tag of ['name="description"', 'property="og:description"', 'name="twitter:description"']) {
+    const written = new RegExp(`<meta\\s+${tag}\\s+content="${escapeAttr(description).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`)
+    if (!written.test(html)) {
+      throw new Error(`prerender: ${tag} was not rewritten for ${route}`)
+    }
+  }
 
   if (!html.includes('<div id="root"></div>')) {
     throw new Error('prerender: could not find empty <div id="root"></div> in template')
