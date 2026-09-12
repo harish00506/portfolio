@@ -5,7 +5,12 @@
 //   3. Injects route-specific JSON-LD structured data.
 //   4. Writes dist/<route>/index.html (real files → deep links + crawlers work).
 // It also regenerates sitemap.xml and robots.txt from the route list and site.url,
-// and emits dist/404.html.
+// and emits dist/404.html (noindex, no canonical, no structured data).
+//
+// Changelog:
+//   2026-09-12 - Meta patterns tolerate wrapped tags; the build fails if a description is not rewritten.
+//   2026-09-12 - Search titles/descriptions come from portfolio.js (metaTitle / metaDescription) with a
+//                length gate, BreadcrumbList on case studies, ProfilePage on /about, and a noindex 404.
 import { readFile, writeFile, rm, mkdir } from 'node:fs/promises'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import path from 'node:path'
@@ -16,16 +21,22 @@ const templatePath = path.join(distDir, 'index.html')
 const ssrEntry = path.join(root, 'dist-ssr', 'entry-server.js')
 
 const { render } = await import(pathToFileURL(ssrEntry).href)
-const { site, profile, skills, projects, experience, education } = await import(
+const { site, profile, skills, projects, projectCategories, experience, education } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'portfolio.js')).href
 )
 
 const template = await readFile(templatePath, 'utf8')
 
+// Google truncates titles past ~60 characters and descriptions past ~160. A longer value is a data bug,
+// so the build stops and names the route rather than shipping a cut-off search snippet.
+const TITLE_MAX = 60
+const DESCRIPTION_MAX = 160
+
 // --- helpers --------------------------------------------------------------
 const escapeAttr = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const escapeText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 const abs = (route) => `${site.url}${route === '/' ? '/' : route}`
 
 // --- shared JSON-LD builders ----------------------------------------------
@@ -38,7 +49,7 @@ const personLd = {
   '@type': 'Person',
   name: profile.name,
   jobTitle: profile.title,
-  description: profile.tagline,
+  description: profile.metaDescription,
   email: `mailto:${profile.email}`,
   telephone: profile.phone,
   url: site.url,
@@ -55,10 +66,20 @@ const websiteLd = { '@type': 'WebSite', name: `${profile.name} | Portfolio`, url
 const projectLd = (p) => ({
   '@type': 'SoftwareSourceCode',
   name: p.name,
-  description: p.blurb,
+  description: p.metaDescription ?? p.blurb,
   keywords: p.tags.join(', '),
   url: abs(`/works/${p.slug}`),
-  author: { '@type': 'Person', name: profile.name },
+  author: { '@type': 'Person', name: profile.name, url: site.url },
+})
+
+// Breadcrumbs let Google show "Home › Work › Project" in place of a bare URL.
+const breadcrumbLd = (p) => ({
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+    { '@type': 'ListItem', position: 2, name: 'Work', item: abs('/works') },
+    { '@type': 'ListItem', position: 3, name: p.name, item: abs(`/works/${p.slug}`) },
+  ],
 })
 
 const itemListLd = {
@@ -77,37 +98,45 @@ function metaFor(route) {
   if (route === '/') {
     return {
       title: `${profile.name} | ${profile.title}`,
-      description: profile.tagline,
+      description: profile.metaDescription,
       ld: { '@context': 'https://schema.org', '@graph': [personLd, websiteLd, itemListLd] },
     }
   }
   if (route === '/works') {
+    const areas = projectCategories.filter((c) => c !== 'All').join(', ')
     return {
-      title: `Work | ${profile.name}`,
-      description: `Selected and full project work by ${profile.name}: AI, full-stack, ML and mobile applications.`,
+      title: `Projects by ${profile.name} | ${profile.title}`,
+      description: `Case studies by ${profile.name} across ${areas}: each with its architecture, real code and results.`,
       ld: { '@context': 'https://schema.org', ...itemListLd },
     }
   }
   if (route === '/about') {
     return {
-      title: `About | ${profile.name}`,
-      description: `About ${profile.name}: skills, experience and education. ${profile.title}.`,
-      ld: { '@context': 'https://schema.org', ...personLd },
+      title: `About ${profile.name} | ${profile.title}`,
+      description: `${profile.name}, ${profile.title} in ${locality}: skills, experience at ${experience[0].company} and education.`,
+      ld: { '@context': 'https://schema.org', '@type': 'ProfilePage', url: abs('/about'), mainEntity: personLd },
     }
   }
   // /works/:slug
   const slug = route.replace('/works/', '')
   const p = projects.find((x) => x.slug === slug)
   return {
-    title: `${p.name} | ${profile.name}`,
-    description: p.blurb,
-    ld: { '@context': 'https://schema.org', ...projectLd(p) },
+    title: `${p.metaTitle ?? p.name} | ${profile.name}`,
+    description: p.metaDescription ?? p.blurb,
+    ld: { '@context': 'https://schema.org', '@graph': [projectLd(p), breadcrumbLd(p)] },
   }
 }
 
 // Rewrite the template <head> for a given route and inject body + JSON-LD.
 function buildHtml(route, appHtml) {
   const { title, description, ld } = metaFor(route)
+  if (title.length > TITLE_MAX) {
+    throw new Error(`prerender: title for ${route} is ${title.length} chars (max ${TITLE_MAX}): "${title}"`)
+  }
+  if (description.length > DESCRIPTION_MAX) {
+    throw new Error(`prerender: description for ${route} is ${description.length} chars (max ${DESCRIPTION_MAX})`)
+  }
+
   const url = abs(route)
   const jsonLd = `<script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`
 
@@ -134,7 +163,7 @@ function buildHtml(route, appHtml) {
 
   // Fail the build rather than ship a page whose meta tags quietly kept the template's copy.
   for (const tag of ['name="description"', 'property="og:description"', 'name="twitter:description"']) {
-    const written = new RegExp(`<meta\\s+${tag}\\s+content="${escapeAttr(description).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`)
+    const written = new RegExp(`<meta\\s+${tag}\\s+content="${escapeRegExp(escapeAttr(description))}"`)
     if (!written.test(html)) {
       throw new Error(`prerender: ${tag} was not rewritten for ${route}`)
     }
@@ -167,11 +196,13 @@ for (const route of routes) {
   console.log(`  ✓ ${route}`)
 }
 
-// 404 page: render the catch-all route to a path that matches no route.
-const notFoundHtml = buildHtml('/', render('/__not_found__')).replace(
-  /<title>[\s\S]*?<\/title>/,
-  `<title>Not found | ${escapeText(profile.name)}</title>`,
-)
+// 404 page: render the catch-all route, then strip everything that would let a crawler index it as a
+// copy of the home page (a canonical pointing at "/", index robots, and the home page's structured data).
+const notFoundHtml = buildHtml('/', render('/__not_found__'))
+  .replace(/<title>[\s\S]*?<\/title>/, `<title>Not found | ${escapeText(profile.name)}</title>`)
+  .replace(/<meta\s+name="robots"\s+content="[^"]*"\s*\/>/, '<meta name="robots" content="noindex, follow" />')
+  .replace(/\s*<link\s+rel="canonical"\s+href="[^"]*"\s*\/>/, '')
+  .replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/, '')
 await writeFile(path.join(distDir, '404.html'), notFoundHtml, 'utf8')
 
 // Regenerate sitemap.xml from the route list (overwrites the static copy).

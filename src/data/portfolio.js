@@ -14,6 +14,8 @@ export const profile = {
   title: 'Agentic AI & Automation Engineer',
   tagline: 'Multi-stack engineer (Java · Python · JavaScript) building scalable backends and AI-driven applications.',
   location: 'Bengaluru, India',
+  metaDescription:
+    'Harish G is an Agentic AI & Automation Engineer in Bengaluru building Gemini Live voice agents, tool-calling systems and RAG with Python, FastAPI and Java.',
   email: 'harishgreddy.work@gmail.com',
   phone: '+91 7892855850',
   resumeUrl: '/resume.pdf',
@@ -116,6 +118,9 @@ export const projects = [
     slug: 'cortexcraft-voice-agent',
     name: 'CortexCraft Voice Agent',
     featured: true,
+    metaTitle: 'CortexCraft Voice Agent: Gemini Live Phone Agents',
+    metaDescription:
+      'Gemini Live phone agents over Twilio and Plivo: campaign dispatch, post-call extraction and webhooks. 589 of 626 commits on the SaaS platform.',
     categories: ['AI'],
     blurb:
       'Production platform for building and running Gemini Live phone agents. It gives you a dashboard to configure them, Twilio and Plivo call handling, RAG document grounding, saved transcripts, and an external REST API so other products can drive calls.',
@@ -207,6 +212,9 @@ while True:
     slug: 'leadcall-ai',
     name: 'LeadCall AI',
     featured: true,
+    metaTitle: 'LeadCall AI: Multi-Tenant AI Calling SaaS',
+    metaDescription:
+      'Multi-tenant outbound-calling SaaS on a voice-agent platform, with Celery dial workers, pitch-document RAG and Excel lead import.',
     categories: ['AI', 'Full-Stack'],
     blurb:
       'Multi-tenant outbound-calling SaaS built on the voice-agent platform. Upload a lead list and a pitch document, and Celery workers dial through the platform API, sync transcripts back and keep each tenant’s leads and credentials apart.',
@@ -241,6 +249,9 @@ while True:
     slug: 'kisanvoice-ai',
     name: 'KisanVoice AI',
     featured: true,
+    metaTitle: 'KisanVoice AI: Multilingual Voice Surveys',
+    metaDescription:
+      'WhatsApp voice surveys for farmers in 24 locales, 10 of them Indian, on FastAPI with Google speech-to-text, text-to-speech and Gemini answer matching.',
     categories: ['AI', 'Full-Stack'],
     blurb:
       'WhatsApp survey platform that lets farmers answer by voice in their own language. A config-driven language registry covers 24 locales (10 Indian) over Google STT/TTS, with WhatsApp Flows for long option sets, phone-call surveys through the voice-agent platform, and a real-time admin dashboard.',
@@ -332,6 +343,9 @@ for raw in config.get("languages") or []:
     slug: 'stocksense-ai',
     name: 'StockSense AI',
     featured: false,
+    metaTitle: 'StockSense AI: ML Demand Forecasting',
+    metaDescription:
+      'Item-level demand forecasting with LightGBM and Prophet, turned into safety stock, reorder points, EOQ and ABC classes behind a FastAPI service.',
     categories: ['ML', 'Full-Stack'],
     blurb:
       'ML-powered demand-forecasting and stock-optimization platform: safety stock, reorder points, ABC classification and EOQ optimization with interactive dashboards.',
@@ -371,6 +385,9 @@ for raw in config.get("languages") or []:
     slug: 'fingraph-ai',
     name: 'FinGraph AI',
     featured: true,
+    metaTitle: 'FinGraph AI: Graph + Vector RAG Assistant',
+    metaDescription:
+      'Banking assistant that fuses pgvector semantic search with Neo4j relationships and answers with Groq, behind JWT and bcrypt authentication.',
     categories: ['AI', 'Full-Stack'],
     blurb:
       'Banking assistant over a Neo4j relationship graph. pgvector semantic search finds the relevant customers, loans and chats, Neo4j enriches every match with its relationships, and Groq writes the answer. JWT + bcrypt authentication guards the admin and audit APIs.',
@@ -452,6 +469,9 @@ async function semanticSearch(query, contentType = null, limit = 5) {
     slug: 'jiraflow-agent',
     name: 'JiraFlow Agent',
     featured: false,
+    metaTitle: 'JiraFlow Agent: Jira Ticket to Pull Request',
+    metaDescription:
+      'An agent that turns a Jira ticket into a branch, a code change and a pull request, with human review as the merge gate.',
     categories: ['AI'],
     blurb:
       'Agent that picks up a Jira ticket, makes the change in the repository and opens a pull request against it. One branch per ticket, with human review still the merge gate.',
@@ -490,6 +510,9 @@ async function semanticSearch(query, contentType = null, limit = 5) {
     slug: 'zentrax',
     name: 'Zentrax',
     featured: false,
+    metaTitle: 'Zentrax: Local AI Desktop Assistant',
+    metaDescription:
+      'Privacy-first Windows desktop assistant with Whisper speech recognition, MediaPipe gesture control and a local LLM through Ollama.',
     categories: ['AI'],
     blurb:
       'FRIDAY-inspired Windows desktop assistant enabling voice commands and gesture-based control, with local LLM execution for privacy-focused automation.',
@@ -528,6 +551,9 @@ async function semanticSearch(query, contentType = null, limit = 5) {
     slug: 'taskflow',
     name: 'TaskFlow',
     featured: false,
+    metaTitle: 'TaskFlow: Spring Boot Productivity App',
+    metaDescription:
+      'Full-stack productivity app with Spring Boot REST APIs, a DTO-based architecture, PostgreSQL and a Vite + TypeScript front end.',
     categories: ['Full-Stack'],
     blurb:
       'Full-stack productivity app: Spring Boot REST APIs with a DTO-based architecture over PostgreSQL, and a Vite + TypeScript front end.',
@@ -566,6 +592,9 @@ async function semanticSearch(query, contentType = null, limit = 5) {
     slug: 'grocerygo',
     name: 'GroceryGo',
     featured: false,
+    metaTitle: 'GroceryGo: Jetpack Compose Grocery App',
+    metaDescription:
+      'Android grocery-list app in Kotlin with Jetpack Compose, MVVM, and Firebase Authentication and Realtime Database.',
     categories: ['Mobile'],
     blurb:
       'Android grocery-list app built with Kotlin and Jetpack Compose, with Firebase Authentication and Realtime Database behind an MVVM architecture.',

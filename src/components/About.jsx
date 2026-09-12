@@ -8,9 +8,12 @@ const meta = [
   { k: 'Status', v: 'Software Developer @ CortexCraft.ai' },
 ]
 
-export default function About() {
+/**
+ * Input: headingLevel - passed to Section; the About page sets 1 because this is its main heading.
+ */
+export default function About({ headingLevel = 2 }) {
   return (
-    <Section id="about" index="01" kicker="About" title="A bit about me" alt>
+    <Section id="about" index="01" kicker="About" title="A bit about me" alt headingLevel={headingLevel}>
       <div className="grid gap-12 md:grid-cols-[1.7fr_1fr] md:gap-16">
         <Reveal className="space-y-6">
           {profile.about.map((para, i) => (

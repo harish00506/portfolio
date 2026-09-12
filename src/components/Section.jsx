@@ -2,10 +2,15 @@ import { motion } from 'framer-motion'
 import { Separator } from '@/components/ui/separator'
 
 /**
- * Shared section wrapper: anchor id, consistent padding, an editorial numbered
- * header (hairline rule + mono index + serif title), and a fade-up reveal.
+ * Shared section wrapper: anchor id, consistent padding, a numbered header (hairline rule + mono
+ * index + display title), and a fade-up reveal.
+ *
+ * Input:  headingLevel - 1 when this section's title is the page's main heading (a page needs exactly
+ *         one <h1> for search engines and screen readers), otherwise 2 (default). The look is the same.
+ * Changelog: 2026-09-12 - Added headingLevel so /works and /about render a real <h1>.
  */
-export default function Section({ id, index, kicker, title, children, className = '', alt = false }) {
+export default function Section({ id, index, kicker, title, children, className = '', alt = false, headingLevel = 2 }) {
+  const Heading = headingLevel === 1 ? 'h1' : 'h2'
   return (
     <section id={id} className={`section ${alt ? 'bg-secondary/50' : 'bg-background'} ${className}`}>
       <div className="container-x">
@@ -25,7 +30,9 @@ export default function Section({ id, index, kicker, title, children, className 
                 {kicker}
               </p>
             )}
-            {title && <h2 className="section-title mt-4 max-w-[18ch] text-balance">{title}</h2>}
+            {title && (
+              <Heading className="section-title mt-4 max-w-[18ch] text-balance">{title}</Heading>
+            )}
           </motion.header>
         )}
         {children}

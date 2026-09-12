@@ -4,10 +4,11 @@ import Experience from '../components/Experience.jsx'
 import Education from '../components/Education.jsx'
 
 // Secondary content lives here: about → skills → experience → education.
+// The About section's title is this page's single <h1>.
 export default function AboutPage() {
   return (
     <>
-      <About />
+      <About headingLevel={1} />
       <Skills />
       <Experience />
       <Education />

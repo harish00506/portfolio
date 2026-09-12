@@ -14,7 +14,7 @@ export default function WorksPage() {
   }, [filter])
 
   return (
-    <Section id="works" kicker="Work" title="Everything I've built" className="pt-28 sm:pt-32">
+    <Section id="works" kicker="Work" title="Everything I've built" className="pt-28 sm:pt-32" headingLevel={1}>
       {/* Filter tabs */}
       <Tabs value={filter} onValueChange={setFilter} className="mb-10">
         <div className="flex flex-wrap items-center justify-between gap-4">
