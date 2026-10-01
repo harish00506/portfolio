@@ -9,10 +9,12 @@ Changelog:
   2026-08-21 - Created.
   2026-09-12 - Role lines retitled to Agentic AI & Automation Engineer to match profile.title.
   2026-09-12 - Switchboard palette (carmine accent) and grotesque font stand-ins.
+  2026-10-01 - Domain follows site.url (harishg.com); fonts resolve on Linux as well as Windows.
 
-Fonts fall back to local Windows faces that match the site's roles: Schibsted Grotesk ->
-Segoe UI Black / Bold, Atkinson Hyperlegible Next -> Segoe UI, Martian Mono -> Consolas.
-The Google-hosted originals are not installed locally.
+Fonts fall back to whichever local faces match the site's roles, because the
+Google-hosted originals (Schibsted Grotesk, Atkinson Hyperlegible Next, Martian Mono)
+are not installed on either machine: Windows uses Segoe UI Black / Bold / Regular and
+Consolas, Linux uses the Liberation and DejaVu equivalents.
 """
 import os
 from PIL import Image, ImageDraw, ImageFont
@@ -26,29 +28,53 @@ MUTED = (91, 96, 112)        # --muted-foreground #5b6070
 BORDER = (227, 229, 234)     # --border      #e3e5ea
 ACCENT = (179, 34, 58)       # --primary     #b3223a (carmine)
 
-FONTS = 'C:/Windows/Fonts/'
+# One entry per text role, most faithful face first. The card is generated from
+# whichever machine is at hand, so each role lists its Windows face and its Linux
+# equivalent rather than assuming C:/Windows/Fonts exists.
+FONT_ROLES = {
+    # Schibsted Grotesk stand-in: the heaviest grotesque available.
+    'display-heavy': ['C:/Windows/Fonts/seguibl.ttf',
+                      '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf',
+                      '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'],
+    # Display role line, one weight down from the name.
+    'display-bold': ['C:/Windows/Fonts/segoeuib.ttf',
+                     '/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf',
+                     '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'],
+    # Atkinson Hyperlegible Next stand-in: a plain humanist sans.
+    'body': ['C:/Windows/Fonts/segoeui.ttf',
+             '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+             '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'],
+    # Martian Mono stand-in, for the domain line and tech chips.
+    'mono': ['C:/Windows/Fonts/consola.ttf',
+             '/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf',
+             '/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf'],
+}
 
 
-def font(name, size):
-    """Load a system font by filename, refusing to silently downgrade.
+def font(role, size):
+    """Load the first installed face for a text role, refusing to silently downgrade.
 
-    PIL's load_default() returns a small fixed-size bitmap face, so a missing file
-    would render a heading at ~11px instead of the size asked for. That failure is
-    invisible until you look at the PNG, so raise instead.
+    Why:  PIL's load_default() returns a small fixed-size bitmap face, so a missing
+          file would render a heading at ~11px instead of the size asked for. That
+          failure is invisible until you look at the PNG, so raise instead.
+    What: Resolves one of the FONT_ROLES candidate lists against the filesystem, so
+          the same script runs on the Windows box and under Linux.
+    Result: an ImageFont for the best available face, or a hard exit naming the role.
 
-    Input:  name - filename under C:/Windows/Fonts; size - point size in px.
+    Input:  role - a key of FONT_ROLES; size - point size in px.
     Output: an ImageFont instance at the requested size.
     """
-    path = os.path.join(FONTS, name)
-    if not os.path.exists(path):
-        raise SystemExit('missing font: %s' % path)
-    return ImageFont.truetype(path, size)
+    for path in FONT_ROLES[role]:
+        if os.path.exists(path):
+            return ImageFont.truetype(path, size)
+    raise SystemExit('no font installed for role %r; tried: %s'
+                     % (role, ', '.join(FONT_ROLES[role])))
 
 
-f_name = font('seguibl.ttf', 96)        # Schibsted Grotesk stand-in: heavy grotesque
-f_role = font('segoeuib.ttf', 40)       # display role line
-f_body = font('segoeui.ttf', 26)        # Atkinson Hyperlegible Next stand-in
-f_mono = font('consola.ttf', 24)        # Martian Mono stand-in
+f_name = font('display-heavy', 96)
+f_role = font('display-bold', 40)
+f_body = font('body', 26)
+f_mono = font('mono', 24)
 
 img = Image.new('RGB', (W, H), PAPER)
 d = ImageDraw.Draw(img)
@@ -100,7 +126,7 @@ y += 34
 d.text((X, y), 'RAG in production.', font=f_body, fill=MUTED)
 
 # Domain, in the mono face the site uses for tech chips.
-d.text((X, H - 86), 'harishgreddy.vercel.app', font=f_mono, fill=ACCENT)
+d.text((X, H - 86), 'harishg.com', font=f_mono, fill=ACCENT)
 
 img.save('public/og-image.png', 'PNG', optimize=True)
 print('wrote public/og-image.png  %dx%d  %d bytes'
