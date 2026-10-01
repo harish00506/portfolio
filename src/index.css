@@ -88,6 +88,51 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  /* Above-the-fold entrance, in CSS rather than framer-motion.
+     Why: the hero is server-rendered, so framer-motion's initial={{opacity:0}} was baked into the
+     prerendered HTML. The masthead stayed invisible until 155KB of JS had downloaded, hydrated and
+     started animating, which left LCP 1.5s behind FCP and showed nothing at all without JS.
+     A CSS animation starts at first paint instead, and the markup needs no client component. */
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes rise-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .rise {
+    animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .rise-scale {
+    animation: rise-scale 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Honour the OS setting: show the final state immediately rather than animating to it. */
+  @media (prefers-reduced-motion: reduce) {
+    .rise,
+    .rise-scale {
+      animation: none;
+    }
+  }
+}
+
 @layer base {
   /* ---- Switchboard tokens (shadcn/ui convention: HSL channels, so Tailwind can apply opacity) ---- */
   :root {

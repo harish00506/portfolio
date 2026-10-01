@@ -1,15 +1,12 @@
-import { motion } from 'framer-motion'
 import { ArrowDownRight, FileText, Github, Linkedin, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { profile, experience } from '../data/portfolio.js'
 
 const now = experience[0]
-const ease = [0.16, 1, 0.3, 1]
-const rise = (delay = 0) => ({
-  initial: { opacity: 0, y: 22 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.7, ease, delay },
-})
+
+// The entrance itself is the `.rise` class in index.css; only the stagger differs per element,
+// so this carries the delay alone and each element keeps `rise` in its own className.
+const riseDelay = (delay) => ({ style: { animationDelay: `${delay}s` } })
 
 export default function Hero() {
   return (
@@ -24,36 +21,36 @@ export default function Hero() {
         <div className="grid items-end gap-12 lg:grid-cols-[1.55fr_1fr]">
           {/* Left: masthead */}
           <div>
-            <motion.p {...rise(0)} className="kicker">
+            <p {...riseDelay(0)} className="kicker rise">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
               </span>
               Open to AI · Backend · Full-Stack roles
-            </motion.p>
+            </p>
 
-            <motion.h1
-              {...rise(0.08)}
-              className="display mt-6 text-[clamp(3rem,11vw,7.5rem)] font-semibold leading-[0.95] text-foreground"
+            <h1
+              {...riseDelay(0.08)}
+              className="display rise mt-6 text-[clamp(3rem,11vw,7.5rem)] font-semibold leading-[0.95] text-foreground"
             >
               Harish&nbsp;G
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              {...rise(0.16)}
-              className="display mt-3 text-[clamp(1.4rem,4.5vw,2.6rem)] font-medium leading-tight text-primary"
+            <p
+              {...riseDelay(0.16)}
+              className="display rise mt-3 text-[clamp(1.4rem,4.5vw,2.6rem)] font-medium leading-tight text-primary"
             >
               {profile.title}
-            </motion.p>
+            </p>
 
-            <motion.p
-              {...rise(0.24)}
-              className="mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
+            <p
+              {...riseDelay(0.24)}
+              className="rise mt-7 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
             >
               {profile.tagline}
-            </motion.p>
+            </p>
 
-            <motion.div {...rise(0.32)} className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div {...riseDelay(0.32)} className="rise mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Button size="lg" className="w-full sm:w-auto" asChild>
                 <a href="#projects">
                   View selected work
@@ -66,9 +63,9 @@ export default function Hero() {
                   Download résumé
                 </a>
               </Button>
-            </motion.div>
+            </div>
 
-            <motion.div {...rise(0.4)} className="mt-9 flex items-center gap-5">
+            <div {...riseDelay(0.4)} className="rise mt-9 flex items-center gap-5">
               <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
                 Find me
               </span>
@@ -89,15 +86,13 @@ export default function Hero() {
                   <Icon size={20} />
                 </a>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           {/* Right: framed monogram + current status */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease, delay: 0.2 }}
-            className="hidden lg:block"
+          <div
+            style={{ animationDelay: '0.2s' }}
+            className="rise-scale hidden lg:block"
           >
             <div className="relative aspect-[4/5] w-full max-w-xs rounded-lg border border-border bg-card shadow-card">
               <img
@@ -121,7 +116,7 @@ export default function Hero() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
