@@ -34,7 +34,7 @@ export default function About({ headingLevel = 2 }) {
           <dl className="divide-y divide-border border-y border-border">
             {meta.map((item) => (
               <div key={item.k} className="flex items-baseline justify-between gap-4 py-4">
-                <dt className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground/70">
+                <dt className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
                   {item.k}
                 </dt>
                 <dd className="text-right font-medium text-foreground">{item.v}</dd>

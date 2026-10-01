@@ -69,7 +69,7 @@ export default function Hero() {
             </motion.div>
 
             <motion.div {...rise(0.4)} className="mt-9 flex items-center gap-5">
-              <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground/70">
+              <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
                 Find me
               </span>
               <span className="h-px w-8 bg-border" />
@@ -113,7 +113,7 @@ export default function Hero() {
               <span className="absolute -bottom-px -right-px h-3 w-3 border-b-2 border-r-2 border-primary" />
 
               <div className="absolute inset-x-0 bottom-0 rounded-b-lg border-t border-border bg-background/80 px-4 py-3 backdrop-blur-sm">
-                <p className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground/70">
+                <p className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
                   Currently
                 </p>
                 <p className="mt-0.5 text-sm font-medium text-foreground">

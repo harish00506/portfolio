@@ -16,7 +16,7 @@ export default function Experience() {
                   {job.role}
                   <span className="text-primary"> · {job.company}</span>
                 </h3>
-                <span className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground/70">
+                <span className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
                   {job.period}
                 </span>
               </div>

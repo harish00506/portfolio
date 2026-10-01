@@ -59,7 +59,7 @@ export default function HomePage() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground/70">
+            <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
               Core toolkit
             </p>
             <div className="mt-4 flex flex-wrap gap-2">

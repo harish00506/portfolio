@@ -101,7 +101,7 @@ const ProjectCard = forwardRef(function ProjectCard({ project }, ref) {
           </Badge>
         ))}
         {tags.length > 5 && (
-          <span className="font-mono text-[0.7rem] text-muted-foreground/70">
+          <span className="font-mono text-[0.7rem] text-muted-foreground">
             +{tags.length - 5}
           </span>
         )}

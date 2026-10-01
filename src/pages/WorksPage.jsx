@@ -27,7 +27,7 @@ export default function WorksPage() {
               ))}
             </TabsList>
           </div>
-          <span className="font-mono text-xs text-muted-foreground/70">
+          <span className="font-mono text-xs text-muted-foreground">
             {String(visible.length).padStart(2, '0')} projects
           </span>
         </div>

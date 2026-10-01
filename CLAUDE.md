@@ -55,6 +55,14 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
 - Use the shadcn primitives in `src/components/ui/` before writing a new one.
 - Dark mode and keyboard focus are not optional. Every interactive element stays reachable and
   visible in both themes.
+- **Text contrast is AA (4.5:1) in both themes.** An opacity modifier on a text colour is where this
+  breaks: `text-muted-foreground/70` measured 3.12:1 on light and 4.13:1 on dark and failed both.
+  Use the bare token; if a thing is decorative, mark it `aria-hidden` rather than fading it.
+- **The three families are self-hosted from `public/fonts`,** not fetched from Google. Loading them
+  from fonts.googleapis.com cost a render-blocking request to a third origin plus a second connection
+  to fonts.gstatic.com before any text could paint: 960ms of the mobile LCP. `src/index.css` holds the
+  `@font-face` block and the URL to regenerate them from. The filenames are *not* content-hashed and
+  `vercel.json` caches them for a year as immutable, so a regenerated face needs a **new filename**.
 
 ## 5. Build & SSG
 
@@ -72,6 +80,11 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
   It is the one place the domain is baked in as pixels rather than read from `site.url`, so
   **changing `site.url` means re-running that script** or the share card advertises the old
   address. It reads `public/profile.jpg` and the light-theme tokens from `src/index.css`.
+- **`vercel.json` is the host contract, and JSON cannot hold a Why/What header, so it is documented
+  here.** `trailingSlash: false` makes Vercel redirect `/works/zentrax/` to `/works/zentrax`; without
+  it the host answered 200 at *both*, so every page existed at two URLs and split its own ranking
+  signals. The `headers` entries give the content-hashed `/assets` and the self-hosted `/fonts` a
+  one-year immutable cache, in place of the 4-hour default that applied to everything.
 - `public/google*.html` is the Google Search Console ownership token. It looks like a stray
   hash-named file; it is not. Deleting it un-verifies the property. Same for any future
   `BingSiteAuth.xml`.

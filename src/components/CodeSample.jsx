@@ -21,7 +21,7 @@ export default function CodeSample({ sample }) {
           <span className="ml-1 font-mono text-xs text-muted-foreground">{filename}</span>
         </span>
         {language && (
-          <span className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground/70">
+          <span className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
             {language}
           </span>
         )}

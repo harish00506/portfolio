@@ -52,7 +52,7 @@ export function tokenize(code) {
 
 // Switchboard palette: carmine keywords, slate-blue strings/numbers, muted comments.
 export const TOKEN_CLASS = {
-  comment: 'italic text-muted-foreground/60',
+  comment: 'italic text-muted-foreground',
   string: 'text-brand-accent',
   number: 'text-brand-accent',
   keyword: 'font-medium text-primary',

@@ -62,13 +62,17 @@ export default function Navbar() {
       }`}
     >
       <nav className="container-x flex h-16 items-center justify-between">
-        <Link to="/" className="group flex items-center gap-2.5" aria-label="Harish G, home">
+        {/* No aria-label here: one that did not repeat the visible "HG" / "harish.g" made the
+            accessible name disagree with the label a speech-input user would say (WCAG 2.5.3).
+            The mark names the link; the hidden word supplies the destination. */}
+        <Link to="/" className="group flex items-center gap-2.5">
           <span className="grid h-8 w-8 place-items-center rounded-md bg-foreground font-display text-sm font-bold text-background transition-colors group-hover:bg-primary">
             HG
           </span>
           <span className="hidden font-mono text-sm font-medium tracking-tight text-foreground sm:inline">
             harish<span className="text-primary">.</span>g
           </span>
+          <span className="sr-only">Home</span>
         </Link>
 
         {/* Desktop links */}
@@ -88,7 +92,7 @@ export default function Navbar() {
                   <span
                     className={cn(
                       'font-mono text-[0.65rem] transition-colors',
-                      active ? 'text-primary' : 'text-muted-foreground/70 group-hover:text-primary',
+                      active ? 'text-primary' : 'text-muted-foreground group-hover:text-primary',
                     )}
                   >
                     {l.n}
@@ -105,7 +109,7 @@ export default function Navbar() {
               to="/#contact"
               className="group flex items-baseline gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              <span className="font-mono text-[0.65rem] text-muted-foreground/70 group-hover:text-primary">
+              <span className="font-mono text-[0.65rem] text-muted-foreground group-hover:text-primary">
                 04
               </span>
               <span className="link-underline">Contact</span>
@@ -154,7 +158,7 @@ export default function Navbar() {
                             active ? 'text-primary' : 'text-muted-foreground hover:text-primary',
                           )}
                         >
-                          <span className="font-mono text-xs text-muted-foreground/70">{l.n}</span>
+                          <span className="font-mono text-xs text-muted-foreground">{l.n}</span>
                           {l.label}
                         </Link>
                       </SheetClose>
@@ -167,7 +171,7 @@ export default function Navbar() {
                       to="/#contact"
                       className="flex items-baseline gap-3 py-3.5 text-base font-medium text-muted-foreground transition-colors hover:text-primary"
                     >
-                      <span className="font-mono text-xs text-muted-foreground/70">04</span>
+                      <span className="font-mono text-xs text-muted-foreground">04</span>
                       Contact
                     </Link>
                   </SheetClose>

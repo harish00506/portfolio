@@ -54,12 +54,22 @@
     <meta name="twitter:image" content="https://www.harishg.com/og-image.png" />
     <meta name="twitter:image:alt" content="Harish G, Agentic AI and Automation Engineer" />
 
-    <!-- Fonts: Schibsted Grotesk (display) · Atkinson Hyperlegible Next (body) · Martian Mono (technical) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Fonts: Schibsted Grotesk (display) · Atkinson Hyperlegible Next (body) · Martian Mono (technical).
+         Self-hosted from /fonts (see src/index.css); these two carry the first paint, so they are
+         fetched in parallel with the stylesheet instead of waiting for it to be parsed. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Martian+Mono:wght@400;500&family=Schibsted+Grotesk:wght@500;600;700;800&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/schibsted-grotesk-normal-latin.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="/fonts/atkinson-hyperlegible-next-normal-latin.woff2"
+      crossorigin
     />
   </head>
   <body>

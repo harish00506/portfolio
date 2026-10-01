@@ -25,8 +25,8 @@ export default function Section({ id, index, kicker, title, children, className 
             <Separator className="mb-5" />
             {kicker && (
               <p className="kicker">
-                {index && <span className="text-muted-foreground/70">{index}</span>}
-                {index && <span className="text-muted-foreground/40">/</span>}
+                {index && <span className="text-muted-foreground">{index}</span>}
+                {index && <span aria-hidden="true" className="text-muted-foreground/40">/</span>}
                 {kicker}
               </p>
             )}
