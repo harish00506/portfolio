@@ -5,7 +5,7 @@
 // `url` is the single source of truth for the domain: the sitemap, robots.txt,
 // canonical tags and JSON-LD are all generated from it. No trailing slash.
 export const site = {
-  url: 'https://harishg.com',
+  url: 'https://www.harishg.com',
   ogImage: '/og-image.png', // 1200×630 image (add to /public for rich link previews)
 }
 

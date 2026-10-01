@@ -87,8 +87,8 @@ Never paste the domain a second time.
 The checks above, applied to this site once it is deployed:
 
 ```
-https://harishg.com/sitemap.xml     # 15 absolute URLs, UTF-8, at the root
-https://harishg.com/robots.txt      # declares the sitemap
+https://www.harishg.com/sitemap.xml     # 15 absolute URLs, UTF-8, at the root
+https://www.harishg.com/robots.txt      # declares the sitemap
 ```
 
 There is no `public/sitemap.xml`. A hand-written copy would be a second source of truth

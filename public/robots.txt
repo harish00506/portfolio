@@ -33,4 +33,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://harishg.com/sitemap.xml
+Sitemap: https://www.harishg.com/sitemap.xml
