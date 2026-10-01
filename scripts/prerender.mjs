@@ -9,9 +9,11 @@
 //
 // Changelog:
 //   2026-09-12 - Meta patterns tolerate wrapped tags; the build fails if a description is not rewritten.
+//   2026-10-01 - Sitemap <lastmod> follows the last commit per route instead of claiming today.
 //   2026-09-12 - Search titles/descriptions come from portfolio.js (metaTitle / metaDescription) with a
 //                length gate, BreadcrumbList on case studies, ProfilePage on /about, and a noindex 404.
 import { readFile, writeFile, rm, mkdir } from 'node:fs/promises'
+import { execFileSync } from 'node:child_process'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import path from 'node:path'
 
@@ -206,13 +208,42 @@ const notFoundHtml = buildHtml('/', render('/__not_found__'))
 await writeFile(path.join(distDir, '404.html'), notFoundHtml, 'utf8')
 
 // Regenerate sitemap.xml from the route list (overwrites the static copy).
+//
+// <lastmod> used to be today's date on every URL, which meant every deploy told crawlers that all
+// twelve pages had just changed. Google ignores a lastmod it cannot trust, so the claim bought
+// nothing and cost the signal. Each route now reports the last commit that touched the files it is
+// actually built from. On a shallow CI clone git may know only one commit, and in a tarball it may
+// not be there at all; either way this falls back to today rather than failing the build, because a
+// missing date is a worse sitemap than an imprecise one.
 const today = new Date().toISOString().slice(0, 10)
+
+const lastCommitDate = (paths) => {
+  try {
+    const out = execFileSync('git', ['log', '-1', '--format=%cI', '--', ...paths], {
+      cwd: root,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim()
+    return out ? out.slice(0, 10) : today
+  } catch {
+    return today
+  }
+}
+
+// Every route renders from portfolio.js, so each one's date is the later of that file and its page.
+const dataFile = 'src/data/portfolio.js'
+const lastmodFor = (route) => {
+  if (route === '/') return lastCommitDate([dataFile, 'src/pages/HomePage.jsx', 'src/components/Hero.jsx'])
+  if (route === '/works') return lastCommitDate([dataFile, 'src/pages/WorksPage.jsx'])
+  if (route === '/about') return lastCommitDate([dataFile, 'src/pages/AboutPage.jsx'])
+  return lastCommitDate([dataFile, 'src/pages/ProjectDetailPage.jsx'])
+}
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${routes
   .map(
     (r) =>
-      `  <url>\n    <loc>${abs(r)}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${r === '/' ? '1.0' : '0.8'}</priority>\n  </url>`,
+      `  <url>\n    <loc>${abs(r)}</loc>\n    <lastmod>${lastmodFor(r)}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${r === '/' ? '1.0' : '0.8'}</priority>\n  </url>`,
   )
   .join('\n')}
 </urlset>
