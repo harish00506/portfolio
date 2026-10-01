@@ -1,0 +1,840 @@
+{
+  "generated": "2026-09-27",
+  "profile": {
+    "name": "Harish G",
+    "title": "Agentic AI & Automation Engineer",
+    "tagline": "Multi-stack engineer (Java · Python · JavaScript) building scalable backends and AI-driven applications.",
+    "location": "Bengaluru, India",
+    "metaDescription": "Harish G is an Agentic AI & Automation Engineer in Bengaluru building Gemini Live voice agents, tool-calling systems and RAG with Python, FastAPI and Java.",
+    "email": "harishgreddy.work@gmail.com",
+    "phone": "+91 7892855850",
+    "resumeUrl": "/resume.pdf",
+    "photo": "/profile.jpg",
+    "contactNote": "I am open to AI engineering, backend and full-stack roles. Whether you have a role in mind or just want to talk shop, my inbox is always open.",
+    "socials": {
+      "github": "https://github.com/harish00506/",
+      "linkedin": "https://www.linkedin.com/in/harishgreddy/"
+    },
+    "about": [
+      "Software Developer at CortexCraft.ai since January 2026, with hands-on experience across the Java, Python and JavaScript ecosystems and several years of freelance web and app development. I build scalable backend systems with Spring Boot, Express.js and FastAPI, and integrate AI technologies such as LLMs, STT, TTS and agent-based workflows into real-world products.",
+      "I work the way the repositories show: feature branches, a GitLab CI pipeline, and 132 pytest files on the voice-agent platform acting as the merge gate rather than an afterthought. On the AI side I keep the model constrained: tool calls go through declared functions, and extracted call data is coerced to its declared type before anything downstream trusts it.",
+      "I focus on intelligent, automation-driven systems and clean, modular architecture, and I am looking for roles in AI engineering, backend, or full-stack development where I can ship products that combine solid engineering with practical AI."
+    ]
+  },
+  "skills": [
+    {
+      "group": "Languages",
+      "items": [
+        "Java",
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Kotlin",
+        "SQL"
+      ]
+    },
+    {
+      "group": "Backend",
+      "items": [
+        "Spring Boot",
+        "Express.js",
+        "Node.js",
+        "FastAPI",
+        "Celery",
+        "Alembic"
+      ]
+    },
+    {
+      "group": "Frontend",
+      "items": [
+        "React",
+        "Vite",
+        "Tailwind CSS",
+        "NextUI",
+        "Jetpack Compose"
+      ]
+    },
+    {
+      "group": "Databases",
+      "items": [
+        "PostgreSQL",
+        "MongoDB",
+        "Firebase",
+        "Neo4j",
+        "Supabase / pgvector",
+        "Redis"
+      ]
+    },
+    {
+      "group": "AI / ML",
+      "items": [
+        "LLM Integration",
+        "RAG",
+        "Context Management",
+        "Agents & Tool Calling",
+        "Output Guardrails",
+        "Workflow Automation",
+        "STT / TTS Systems",
+        "Gemini Live",
+        "LightGBM / Prophet"
+      ]
+    },
+    {
+      "group": "Tools",
+      "items": [
+        "Git",
+        "GitLab",
+        "Docker",
+        "Postman",
+        "Android Studio",
+        "Figma"
+      ]
+    },
+    {
+      "group": "Concepts",
+      "items": [
+        "REST API Design",
+        "System Design",
+        "Modular Architecture",
+        "JWT Auth & RBAC",
+        "Query Optimization"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "role": "Software Developer",
+      "company": "CortexCraft.ai",
+      "period": "Jan 2026 – Present",
+      "bullets": [
+        "Built and maintain the voice-agent platform (589 of 626 commits on the SaaS platform, 67 of 75 on the core engine): Gemini Live phone agents over Twilio and Plivo, with per-agent RAG grounding, prompt generation, transcripts and an external REST API that other products call.",
+        "Shipped LeadCall AI on that platform: multi-tenant outbound calling with Celery dial and callback workers, pitch documents re-indexed for RAG, Alembic-migrated PostgreSQL and a React dashboard.",
+        "Own production reliability of the call pipeline: fixed outbound routing, added reconnect handling for dropped Gemini sockets, and traced a Docker TLS failure to NAT hairpinning.",
+        "Design prompt frameworks, guardrails and agent orchestration with tool calling and safe escalation, so model output is constrained rather than trusted.",
+        "Lead author (172 of 192 commits) on the multilingual farmer survey platform. Migrated it off a Node backend onto FastAPI, swapped Sarvam for Google STT/TTS behind a config-driven registry covering 24 locales, and put it on Jenkins CI without interrupting live surveys.",
+        "Work AI into the delivery process itself, including an agent that turns Jira tickets into reviewed pull requests."
+      ]
+    },
+    {
+      "role": "Freelance Web & App Developer",
+      "company": "Self-Employed",
+      "period": "2023 – 2026",
+      "bullets": [
+        "Built responsive landing pages and small business websites for local clients using React and Vite.",
+        "Delivered small full-stack apps and automation scripts (Python / Node.js) tailored to client workflows.",
+        "Handled ad-hoc bug fixes, feature additions and deployment support on a per-project freelance basis."
+      ]
+    }
+  ],
+  "education": {
+    "degree": "B.E. in Information Science & Engineering",
+    "school": "Vivekananda Institute of Technology, Bangalore",
+    "achievements": [
+      "Built and deployed AI-powered and full-stack applications with real-user testing.",
+      "Strong experience in backend optimization, debugging and scalable system design.",
+      "Practise a disciplined delivery workflow: feature branches, conventional commits, and automated tests in CI as the merge gate."
+    ]
+  },
+  "site": {
+    "url": "https://www.harishg.com",
+    "ogImage": "/og-image.png"
+  },
+  "projects": [
+    {
+      "name": "CortexCraft Voice Agent",
+      "slug": "cortexcraft-voice-agent",
+      "source": "src/data/portfolio.js",
+      "aliases": [],
+      "tags": [
+        "Python",
+        "FastAPI",
+        "Gemini Live",
+        "Twilio",
+        "Plivo",
+        "WebSocket",
+        "RAG",
+        "React",
+        "Docker"
+      ],
+      "claims": [
+        "Gemini Live agents over real telephony (Twilio + Plivo) and a browser test channel",
+        "Per-agent RAG document upload, search and prompt generation",
+        "External REST API, so other products (CRMs, dialers) run calls through it",
+        "Production platform for building and running Gemini Live phone agents. It gives you a dashboard to configure them, Twilio and Plivo call handling, RAG document grounding, saved transcripts, and an external REST API so other products can drive calls.",
+        "I built a FastAPI + React platform where each agent is a JSON config plus a folder of RAG documents. A prompt generator turns that config into the full system prompt and the inbound/outbound greetings. Calls stream over a WebSocket to Gemini Live, with separate Twilio and Plivo handlers behind one interface and a browser channel for testing without burning call minutes; transcripts are written back into each agent’s conversation store. An external REST API exposes agent creation and call placement, so other products consume the platform instead of forking it. Most of the real work was production reliability: fixing outbound-call routing, adding reconnect handling for Gemini 1006 socket drops, tightening goodbye detection so calls end cleanly, and tracing a Docker TLS failure to NAT hairpinning on a self-hosted domain.",
+        "One platform now backs several shipped products instead of several codebases. The multi-tenant lead dialer, KisanVoice’s phone surveys and client-specific agents all run on it, so a fix to the call pipeline reaches every one of them at once.",
+        "589 commits authored",
+        "1 API drives every product",
+        "Live in client deployments",
+        "Campaign runner and outbound call dispatch",
+        "Gemini Live session handling in the core engine",
+        "Post-call transcript extraction and customer webhooks",
+        "Call-pipeline reliability: routing, socket reconnects, TLS"
+      ],
+      "commits": "589 of 626 (SaaS platform) + 67 of 75 (core engine)",
+      "timeline": "May 2026 to present",
+      "team": "5 contributors"
+    },
+    {
+      "name": "LeadCall AI",
+      "slug": "leadcall-ai",
+      "source": "src/data/portfolio.js",
+      "aliases": [
+        "LeadCall AI, multi-tenant outbound calling"
+      ],
+      "tags": [
+        "Python",
+        "FastAPI",
+        "Celery",
+        "Alembic",
+        "PostgreSQL",
+        "React",
+        "RAG",
+        "Docker Compose",
+        "Redis"
+      ],
+      "claims": [
+        "Celery dial and callback workers that call through the voice-agent platform API",
+        "Pitch documents re-indexed for RAG so the script matches what the client sells",
+        "Excel lead import, transcript sync and call-log export on Alembic-migrated PostgreSQL",
+        "Multi-tenant outbound-calling SaaS built on the voice-agent platform. Upload a lead list and a pitch document, and Celery workers dial through the platform API, sync transcripts back and keep each tenant’s leads and credentials apart.",
+        "LeadCall AI is FastAPI + PostgreSQL with Alembic migrations and a React dashboard. It does not run its own telephony: it dials through the CortexCraft voice-agent platform’s external API, and each tenant stores its own platform URL and an encrypted API key. Celery workers handle dialing and webhook callbacks, leads arrive by Excel import, and pitch documents are cleared and re-indexed for RAG so the agent’s script matches what the client sells. Transcripts sync back per call, and the call log exports for the client.",
+        "A lead list and a pitch document become a running campaign with per-call transcripts and an exportable call log, without the client operating any telephony of their own.",
+        "Multi-tenant encrypted per-tenant keys",
+        "Celery dial + callback workers",
+        "Excel lead import + log export",
+        "Asynchronous integration workload: Celery dial and callback workers behind Redis dial locks, per-tenant telephony credentials encrypted at rest, Excel lead import, and an append-only audit log of every operator action."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    },
+    {
+      "name": "KisanVoice AI",
+      "slug": "kisanvoice-ai",
+      "source": "src/data/portfolio.js",
+      "aliases": [
+        "KisanVoice AI: Multilingual Voice & Messaging Platform",
+        "KisanVoice AI, multilingual survey platform",
+        "KisanVoice AI: Multilingual WhatsApp Voice Survey Platform"
+      ],
+      "tags": [
+        "Python",
+        "FastAPI",
+        "React",
+        "MongoDB",
+        "WhatsApp Flows",
+        "Google STT/TTS",
+        "Plivo",
+        "Socket.io",
+        "Jenkins",
+        "Docker",
+        "Node.js",
+        "Express",
+        "Twilio / WhatsApp",
+        "Sarvam STT/TTS",
+        "WhatsApp Business API"
+      ],
+      "claims": [
+        "24 locales from a config-driven registry, 10 of them Indian, with no redeploy to add one",
+        "Migrated the platform off a Node backend and off Sarvam onto FastAPI + Google STT/TTS",
+        "172 of the repo’s 192 commits; Jenkins CI, Docker Compose deploys",
+        "WhatsApp survey platform that lets farmers answer by voice in their own language. A config-driven language registry covers 24 locales (10 Indian) over Google STT/TTS, with WhatsApp Flows for long option sets, phone-call surveys through the voice-agent platform, and a real-time admin dashboard.",
+        "I built the system on the WhatsApp Business API: inbound voice notes are transcribed, auto-translated, and run through conditional survey logic that picks the next question, with the reply synthesised back in the farmer’s language. Long option sets go out as WhatsApp Flows with pagination rather than unusable text menus, and option matching survives imperfect speech through fuzzy and semantic fallback matching. A React dashboard with an audio QC workflow and Excel export receives live call events over Socket.io. Two migrations did the most for the platform: I replaced the Node backend with FastAPI so Python is the single backend, and moved STT/TTS from Sarvam to Google Cloud behind a config-driven language registry — adding a locale is now a config row, not a deploy. Phone surveys route through the CortexCraft voice-agent platform, and Jenkins drives the build.",
+        "A deployed multilingual survey platform that removes the literacy barrier. Farmers answer by voice in their own language and administrators verify responses as they arrive. 172 of the repository’s 192 commits are mine, across a backend migration and an STT/TTS provider swap done without losing the running surveys.",
+        "24 locales configured",
+        "172 commits authored",
+        "Node → FastAPI backend migrated",
+        "FastAPI backend that replaced the Node.js one",
+        "Google speech-to-text and text-to-speech services",
+        "Config-driven language registry (24 locales)",
+        "172 of 192 commits. Voice and text surveys in 24 configured locales (10 Indian) from a config-driven language registry, so adding one is a config row rather than a deploy; option matching survives imperfect speech through fuzzy and semantic fallback.",
+        "Migrated the platform off its Node backend onto FastAPI and off Sarvam onto Google STT/TTS without interrupting live surveys.",
+        "WhatsApp-based voice survey platform with STT/TTS in 5 Indian languages and conditional conversation logic.",
+        "Real-time admin dashboard over Socket.io with an audio QC workflow; containerised with Docker.",
+        "172 of 192 commits. Operations built in rather than added later: every request carries an X-Request-ID that is forwarded or generated and echoed back, every log line is a single JSON object carrying that ID, and each response is logged with its status and duration in milliseconds. A Prometheus instrumentator exposes /metrics with status codes grouped and health endpoints excluded.",
+        "Ships with a deployment runbook covering prerequisites, environment setup, a verification step and a symptom-to-fix section for the failures the team actually hit, alongside a written release process with a hotfix flow and a rollback procedure. Jenkins builds it, Docker Compose runs it.",
+        "Integration and bulk transfer: WhatsApp Business API flows, bulk CSV invite jobs and Excel round-trip, over an append-only audit log with TTL retention and ownership guards.",
+        "172 of 192 commits. Survey automation over a channel people already use: programmatic WhatsApp Flow form generation, bulk CSV invite jobs and Excel round-trip, over an append-only audit log with TTL retention and ownership guards. Jenkins builds it, Docker Compose runs it.",
+        "172 of 192 commits. Operations built in rather than added later: every request carries an X-Request-ID that is forwarded or generated and echoed back, every log line is a single JSON object carrying that ID, and each response is logged with its status and duration in milliseconds. A Prometheus instrumentator exposes /metrics with status codes grouped and health endpoints excluded.",
+        "Ships with a deployment runbook covering prerequisites, environment setup, a verification step and a symptom-to-fix section for the failures the team actually hit, alongside a written release process with a hotfix flow and a rollback procedure.",
+        "Replaced the Node.js backend with FastAPI and swapped the speech provider behind a config-driven registry of 24 locales, both without interrupting live surveys. Jenkins builds it, Docker Compose runs it.",
+        "172 of 192 commits. WhatsApp survey platform: FastAPI backend, MongoDB storage, and a React admin dashboard with an audio QC workflow and Excel export that receives live call events over Socket.io.",
+        "Migrated the platform off its Node.js backend onto FastAPI and off Sarvam onto Google STT/TTS without interrupting live surveys; 24 locales come from a config-driven registry, so adding one is a config row rather than a deploy.",
+        "172 of 192 commits. Multilingual voice surveys across 24 locales, with programmatic WhatsApp Flow form generation, bulk CSV invite jobs and Excel round-trip, over an append-only audit log with TTL retention and ownership guards.",
+        "172 of 192 commits. Mobile-first survey platform reaching users through WhatsApp rather than an installed app: voice answers in 24 configured locales (10 Indian), with WhatsApp Flows standing in for long option sets that would be unusable as a text menu.",
+        "172 of 192 commits. Voice surveys in 24 configured locales (10 Indian) from a JSON-plus-database language registry merged into one alias index, so adding a language is a config row rather than a deploy.",
+        "Option matching survives imperfect speech through fuzzy and semantic fallback; long option sets go out as paginated WhatsApp Flows instead of unusable text menus.",
+        "Voice and text surveys in 24 configured locales (10 Indian) from a config-driven language registry, so adding one is a config row rather than a deploy; WhatsApp Flows for long option sets.",
+        "Migrated the platform off its Node backend onto FastAPI and off Sarvam onto Google STT/TTS without interrupting live surveys; Jenkins CI, Docker Compose. 172 of 192 commits authored."
+      ],
+      "commits": "172 of 192",
+      "timeline": "March to August 2026",
+      "team": "3 contributors"
+    },
+    {
+      "name": "StockSense AI",
+      "slug": "stocksense-ai",
+      "source": "src/data/portfolio.js",
+      "aliases": [],
+      "tags": [
+        "Python",
+        "FastAPI",
+        "LightGBM",
+        "Prophet",
+        "PostgreSQL",
+        "React",
+        "Streamlit",
+        "Docker"
+      ],
+      "claims": [
+        "Time-series forecasting with LightGBM & Prophet models",
+        "Safety stock, reorder points and EOQ / ABC optimization",
+        "FastAPI backend with React + Streamlit dashboards",
+        "ML-powered demand-forecasting and stock-optimization platform: safety stock, reorder points, ABC classification and EOQ optimization with interactive dashboards.",
+        "I built a forecasting service with LightGBM and Prophet for item-level time-series prediction, then layered classic inventory science on top: safety stock, reorder points, EOQ and ABC classification. A FastAPI backend serves the models and a React + Streamlit dashboard lets users explore forecasts and optimization output interactively. The stack is Dockerized for deployment.",
+        "A decision-support platform that converts raw sales history into actionable stocking policy, surfaced through interactive dashboards.",
+        "2 models LightGBM + Prophet",
+        "EOQ / ABC optimization",
+        "Interactive forecast dashboards",
+        "Item-level demand forecasting behind a FastAPI service, turned into stocking policy (safety stock, reorder points, EOQ and ABC classes) and explored through React and Streamlit dashboards.",
+        "Item-level demand forecasting with LightGBM and Prophet, turned into inventory policy: safety stock, reorder points, EOQ and ABC classification, explored through interactive dashboards."
+      ],
+      "commits": "8 of 8 + 2 of 2 (two repositories)",
+      "timeline": "February to April 2026",
+      "team": "Solo"
+    },
+    {
+      "name": "FinGraph AI",
+      "slug": "fingraph-ai",
+      "source": "src/data/portfolio.js",
+      "aliases": [
+        "FinGraph AI: Banking RAG Assistant (Regulated-Environment Design)",
+        "FinGraph AI: Hybrid Graph and Vector RAG Banking Assistant"
+      ],
+      "tags": [
+        "Node.js",
+        "Express",
+        "React",
+        "Neo4j",
+        "Supabase pgvector",
+        "Hugging Face",
+        "Groq",
+        "JWT",
+        "pgvector"
+      ],
+      "claims": [
+        "Hybrid retrieval: pgvector similarity search enriched with Neo4j relationships",
+        "MiniLM embeddings from Hugging Face, answers generated with Groq",
+        "JWT + bcrypt authentication, with ADMIN-only admin and audit routes",
+        "Banking assistant over a Neo4j relationship graph. pgvector semantic search finds the relevant customers, loans and chats, Neo4j enriches every match with its relationships, and Groq writes the answer. JWT + bcrypt authentication guards the admin and audit APIs.",
+        "I modelled users, loans and chats as a Neo4j graph and mirrored their text into Supabase pgvector with MiniLM embeddings from Hugging Face. A question is embedded, matched by similarity above a threshold, and every match is enriched with a Cypher query for its relationships (a loan’s borrower, a user’s loans and chats) before Groq writes the answer. Authentication is JWT with bcrypt-hashed passwords stored in Neo4j, and the admin and audit APIs require the ADMIN role.",
+        "A banking assistant whose answers carry the relationships behind them, not just the closest matching text.",
+        "Graph + Vector hybrid retrieval",
+        "Neo4j relationship enrichment",
+        "JWT + bcrypt authentication",
+        "Built a banking assistant over a Neo4j relationship graph with pgvector retrieval, plus query classification and workflow orchestration.",
+        "Enforced security end-to-end: JWT auth (bcrypt), role-based access control (admin / manager / customer) applied before retrieval, and append-only audit logging of every query.",
+        "Demonstrates compliance-aware patterns for regulated banking: least-privilege access, auditability and safe failure modes.",
+        "Two stores behind one query path: pgvector for similarity search and Neo4j for the relationships each hit is enriched with, under JWT authentication with bcrypt-hashed credentials and role-restricted admin routes.",
+        "Banking assistant fusing pgvector similarity search over MiniLM embeddings with Neo4j, so every match is enriched with its graph relationships before the answer is generated.",
+        "Express API behind a React chat client, with JWT authentication over bcrypt-hashed credentials and ADMIN-only admin and audit routes.",
+        "Banking assistant fusing pgvector similarity search with Neo4j: every match is enriched with its graph relationships, such as a loan's borrower, before the answer is generated.",
+        "Stateless JWT authentication with bcrypt-hashed credentials, and admin and audit routes restricted to the ADMIN role.",
+        "Hybrid retrieval: MiniLM embeddings matched in pgvector above a similarity threshold, then every hit enriched with its Neo4j relationships before the answer is generated, so results carry the links behind them rather than the closest matching text.",
+        "Fused pgvector semantic search (MiniLM embeddings) with Neo4j: every match is enriched with its graph relationships, such as a loan's borrower, before Groq writes the answer.",
+        "JWT authentication with bcrypt-hashed passwords, and ADMIN-only admin and audit APIs."
+      ],
+      "commits": "",
+      "timeline": "January 2026",
+      "team": "Solo"
+    },
+    {
+      "name": "JiraFlow Agent",
+      "slug": "jiraflow-agent",
+      "source": "src/data/portfolio.js",
+      "aliases": [],
+      "tags": [
+        "Python",
+        "React",
+        "Vite",
+        "Jira API",
+        "GitHub API",
+        "LLM Agents"
+      ],
+      "claims": [
+        "Jira ticket → branch → code change → pull request",
+        "One ai/scrum-<id> branch per ticket, traceable back to the issue",
+        "The agent proposes and a human merges, so it never pushes to main",
+        "Agent that picks up a Jira ticket, makes the change in the repository and opens a pull request against it. One branch per ticket, with human review still the merge gate.",
+        "I built an agent that reads a Jira/SCRUM ticket, locates the files it describes, applies the change, and opens a pull request from a dedicated `ai/scrum-<id>` branch whose commit message cites the ticket. The repository history is the proof, because every change arrived as a reviewed PR from its own ticket branch. The design point is the boundary: the agent proposes and a human merges, so a wrong edit costs a rejected PR rather than a broken main branch.",
+        "Small tickets close as reviewable pull requests without a context switch, and every automated change is traceable to the issue that asked for it.",
+        "Ticket → PR fully automated",
+        "1 branch per ticket",
+        "Human stays the merge gate",
+        "Turns a Jira ticket into a branch, a code change and a pull request, one ai/scrum-<id> branch per ticket. The agent proposes and a human merges, so a wrong edit costs a rejected PR rather than a broken main branch.",
+        "Automates the mechanical path from ticket to pull request: reads a Jira ticket, locates the files it describes, applies the change, and opens a PR from a dedicated ai/scrum-<id> branch whose commit message cites the ticket.",
+        "The boundary is the design point. The agent proposes and a human merges, so a wrong edit costs a rejected PR rather than a broken main branch, and every automated change is traceable to the issue that asked for it.",
+        "Reads a Jira ticket, locates the files it describes, applies the change and opens a pull request from a dedicated ai/scrum-<id> branch whose commit cites the ticket. The agent proposes and a human merges, so it never pushes to main."
+      ],
+      "commits": "",
+      "timeline": "January to February 2026",
+      "team": "Solo"
+    },
+    {
+      "name": "Zentrax",
+      "slug": "zentrax",
+      "source": "src/data/portfolio.js",
+      "aliases": [
+        "Zentrax: Agentic Desktop Assistant",
+        "Zentrax, voice and gesture desktop assistant"
+      ],
+      "tags": [
+        "Python",
+        "Whisper",
+        "MediaPipe",
+        "WebSocket",
+        "Ollama",
+        "Docker",
+        "PyTorch",
+        "TensorFlow/Keras",
+        "transformers"
+      ],
+      "claims": [
+        "Whisper STT + LLM intent recognition (Ollama)",
+        "Gesture control via MediaPipe with fallback pipelines",
+        "Real-time WebSocket monitoring dashboard",
+        "FRIDAY-inspired Windows desktop assistant enabling voice commands and gesture-based control, with local LLM execution for privacy-focused automation.",
+        "I built a Windows assistant that runs an LLM locally through Ollama, uses Whisper for on-device STT and intent recognition, and adds hands-free gesture control via MediaPipe with fallback pipelines for reliability. A WebSocket dashboard provides real-time monitoring, and the components are containerised with Docker.",
+        "A fully local voice-and-gesture assistant that keeps data on-device while automating desktop tasks.",
+        "Local LLM privacy-first (Ollama)",
+        "Voice + Gesture dual control",
+        "Real-time monitoring dashboard",
+        "LLM-based intent recognition (Ollama) with a modular tool / execution engine and fallback pipelines for reliability.",
+        "Local LLM deployment via Docker for privacy-focused, on-device automation.",
+        "12 of 16 commits. Desktop automation driven by voice and gesture, with the LLM running locally through Ollama so no command leaves the machine, and fallback pipelines when a recogniser fails.",
+        "QLoRA fine-tuning pipeline for SmolLM2 over a generated instruction dataset, with checkpoint resume and TensorBoard; separately, a Keras LSTM classifier and a scikit-learn random forest for gesture and voice-command recognition.",
+        "12 of 16 commits. Privacy-first desktop assistant running its LLM locally through Ollama with Whisper for on-device speech recognition and MediaPipe gesture control, monitored over a real-time WebSocket dashboard."
+      ],
+      "commits": "12 of 16",
+      "timeline": "October 2025 to March 2026",
+      "team": ""
+    },
+    {
+      "name": "TaskFlow",
+      "slug": "taskflow",
+      "source": "src/data/portfolio.js",
+      "aliases": [],
+      "tags": [
+        "Java",
+        "Spring Boot",
+        "Vite",
+        "TypeScript",
+        "PostgreSQL"
+      ],
+      "claims": [
+        "Clean REST APIs with DTO-based design",
+        "PostgreSQL persistence behind Spring Boot",
+        "Task prioritization and tracking in a Vite + TypeScript UI",
+        "Full-stack productivity app: Spring Boot REST APIs with a DTO-based architecture over PostgreSQL, and a Vite + TypeScript front end.",
+        "I designed a Spring Boot backend around DTOs, so the API contract stays separate from the persistence model, backed by PostgreSQL, with a Vite + TypeScript front end for prioritizing and tracking tasks.",
+        "A maintainable full-stack productivity app with a clean split between persistence and API contracts.",
+        "Spring Boot REST API",
+        "DTO-based clean architecture",
+        "PostgreSQL persistent tracking",
+        "8 of 9 commits. Spring Boot REST API designed around DTOs, so the published contract stays separate from the persistence model and the entity graph can change without breaking clients.",
+        "PostgreSQL persistence behind the service, with a Vite and TypeScript front end for task prioritisation and tracking."
+      ],
+      "commits": "8 of 9",
+      "timeline": "May to July 2025",
+      "team": ""
+    },
+    {
+      "name": "GroceryGo",
+      "slug": "grocerygo",
+      "source": "src/data/portfolio.js",
+      "aliases": [],
+      "tags": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Firebase"
+      ],
+      "claims": [
+        "Jetpack Compose UI with ViewModel-held screen state (MVVM)",
+        "Firebase Authentication and Realtime Database",
+        "Final project of my Internshala Android development training",
+        "Android grocery-list app built with Kotlin and Jetpack Compose, with Firebase Authentication and Realtime Database behind an MVVM architecture.",
+        "I built the app in Kotlin with Jetpack Compose for a declarative UI and an MVVM structure, with ViewModels holding screen state. Firebase Authentication handles sign-in and the Realtime Database stores the lists.",
+        "A working Compose + Firebase grocery app, and the project where I learned MVVM on Android.",
+        "Compose declarative UI",
+        "Firebase auth + realtime DB",
+        "MVVM architecture",
+        "4 of 4 commits. Android grocery-list app with a Jetpack Compose UI and ViewModel-held screen state on an MVVM structure, backed by Firebase Authentication and Realtime Database.",
+        "Final project of my Internshala Android development training, and where I learned MVVM on Android."
+      ],
+      "commits": "4 of 4",
+      "timeline": "June to July 2025",
+      "team": "Solo"
+    },
+    {
+      "name": "AI Personal CFO and Talo",
+      "slug": "",
+      "source": "public/resume-agentic-ai.tex",
+      "aliases": [],
+      "tags": [
+        "Kotlin",
+        "Jetpack Compose",
+        "Hilt",
+        "Room/SQLCipher",
+        "ML Kit",
+        "Gemini Live"
+      ],
+      "claims": [
+        "Sole author, 159 commits, 34 Gradle modules, 199 test files. Twelve deterministic engines compute every figure and the model is only permitted to explain them, on a written rule: numbers from math, words from AI.",
+        "An output guardrail rewrites any number in model text that is absent from the tool result as [unverified]. An MCP-style in-process tool host exposes the engines through a JSON registry carrying inputSchema, readOnlyHint and destructiveHint; chat reads through the registry and never writes.",
+        "Sole author, 159 commits, 34 Gradle modules, 199 test files. Twelve deterministic engines compute every figure and the model is only permitted to explain them, on a written rule: numbers from math, words from AI.",
+        "An output guardrail rewrites any number in model text that is absent from the tool result as [unverified]. An MCP-style in-process tool host exposes the engines through a JSON registry carrying inputSchema, readOnlyHint and destructiveHint; chat reads through the registry and never writes.",
+        "On-device ML Kit OCR extracts receipt fields; the SMS parser is built to refuse, resolving every ambiguous case to null. Both are scored against frozen evaluation fixtures.",
+        "Sole author, 159 commits, 34 Gradle modules, 199 test files. A one-way module graph keeps feature modules independent of each other, and the calculation engines are pure Kotlin with no Android imports, so they are testable without an emulator.",
+        "Compose UI over immutable state, Hilt constructor injection throughout, and Room on SQLCipher with the database key held in the Android Keystore. On-device ML Kit OCR extracts receipt fields, and the SMS parser is built to refuse, resolving every ambiguous case to null.",
+        "Twelve deterministic engines compute every figure and the model is only permitted to explain them; an output guardrail rewrites any number absent from the tool result as [unverified]."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    },
+    {
+      "name": "Dental Clinic AI Assistant",
+      "slug": "",
+      "source": "public/resume-agentic-ai.tex",
+      "aliases": [],
+      "tags": [
+        "Python",
+        "Flask",
+        "PostgreSQL/pgvector",
+        "Gemini",
+        "WhatsApp Business API"
+      ],
+      "claims": [
+        "Chunked document RAG (800-token chunks, 100 overlap) embedded with text-embedding-004 into pgvector, retrieved by cosine distance with a full-text fallback and role-scoped row filtering applied inside the retriever, so authorisation cannot be prompted around.",
+        "Gemini function calling for booking behind a role-based tool router admitting one tool per turn, and a 19-state WhatsApp conversation state machine that hands off to a phone agent with context preserved.",
+        "Chunked document RAG (800-token chunks, 100 overlap) embedded with text-embedding-004 into pgvector, retrieved by cosine distance with a full-text fallback and role-scoped row filtering applied inside the retriever, so authorisation cannot be prompted around. Gemini function calling for booking behind a role-based tool router.",
+        "Chunked document RAG (800-token chunks, 100 overlap) embedded with text-embedding-004 into pgvector, retrieved by cosine distance with a full-text fallback and role-scoped row filtering applied inside the retriever, so authorisation cannot be prompted around. Gemini function calling for booking behind a role-based tool router.",
+        "Chunked document RAG (800-token chunks, 100 overlap) embedded with text-embedding-004 into pgvector, retrieved by cosine distance with a Postgres full-text fallback and role-scoped row filtering applied inside the retriever, so authorisation cannot be prompted around.",
+        "Gemini function calling for booking with preconditions encoded in the tool descriptions, a role-based tool router admitting one tool per turn, and a 19-state WhatsApp conversation state machine that hands off to a phone agent with context preserved."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    },
+    {
+      "name": "Refyne Voice Agent: Real-Time Contact-Centre Voice AI",
+      "slug": "",
+      "source": "public/resume-anz-ai-engineer.tex",
+      "aliases": [],
+      "tags": [
+        "Python",
+        "FastAPI",
+        "Pipecat",
+        "Plivo",
+        "Sarvam",
+        "WebSocket",
+        "VAD"
+      ],
+      "claims": [
+        "Built a real-time phone-call voice agent streaming STT $ $ LLM $ $ TTS over telephony, orchestrated with Pipecat.",
+        "Low-latency turn-taking via voice activity detection, automatic language detection, and inbound + outbound call handling.",
+        "Mirrors contact-centre concierge / triage and real-time assist patterns over voice channels."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    },
+    {
+      "name": "MediGraph AI: Hybrid RAG Clinical Assistant",
+      "slug": "",
+      "source": "public/resume-anz-ai-engineer.tex",
+      "aliases": [],
+      "tags": [
+        "Node.js",
+        "React",
+        "Neo4j",
+        "Supabase pgvector",
+        "HF Embeddings"
+      ],
+      "claims": [
+        "Hybrid retrieval fusing a Neo4j knowledge graph with pgvector semantic search for grounded answers.",
+        "Role-based access isolating patient and clinician data; interactive force-directed graph visualisation."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    },
+    {
+      "name": "Lendly, lending platform backend",
+      "slug": "",
+      "source": "public/resume-anz-platform-engineer.tex",
+      "aliases": [
+        "Lendly, lending platform"
+      ],
+      "tags": [
+        "Java 21",
+        "Spring Boot 3.5",
+        "PostgreSQL",
+        "Flyway",
+        "Docker",
+        "React"
+      ],
+      "claims": [
+        "Spring Boot 3.5 on Java 21 with Spring Security and JJWT, Data JPA and Bean Validation, Flyway versioned migrations against PostgreSQL and H2 for tests, GitHub Actions CI and Docker Compose for local environments.",
+        "Spring Boot 3.5 on Java 21 with Spring Security and JJWT, Data JPA and Bean Validation, Flyway versioned migrations against PostgreSQL with H2 for tests, GitHub Actions CI and Docker Compose for local environments.",
+        "Spring Boot 3.5 on Java 21 with Spring Security and JJWT, Data JPA and Bean Validation, Flyway versioned migrations against PostgreSQL and H2 for tests, a React front end, GitHub Actions CI and Docker Compose for local environments.",
+        "Spring Boot 3.5 on Java 21 with Spring Security and JJWT, Data JPA and Bean Validation, Flyway migrations against PostgreSQL with H2 for tests, a React front end, GitHub Actions CI and Docker Compose for local environments.",
+        "Spring Boot 3.5 on Java 21 with Spring Security and JJWT for stateless authentication, Spring Data JPA for persistence and Bean Validation on the request boundary.",
+        "Flyway versioned migrations against PostgreSQL with H2 standing in for tests, so the schema is reproducible from an empty database; GitHub Actions CI and Docker Compose for local environments; React front end against the REST API."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    },
+    {
+      "name": "AI Code-Review Gate",
+      "slug": "",
+      "source": "public/resume-automation-rpa.tex",
+      "aliases": [
+        "LeadCall AI and AI Code-Review Gate"
+      ],
+      "tags": [
+        "Python",
+        "FastAPI",
+        "Ollama",
+        "GitHub API",
+        "PostgreSQL",
+        "Celery",
+        "React"
+      ],
+      "claims": [
+        "An approval gate for AI-generated code changes that an agent cannot argue past: high-risk changes are blocked from approval outright, a rejection requires a written reason and regenerates with that reason fed back, and every reviewer action lands in an append-only audit log. Nothing auto-merges.",
+        "An approval gate for AI-generated code changes that an agent cannot argue past: high-risk changes are blocked from approval outright, a rejection requires a written reason and regenerates with that reason fed back, and every reviewer action lands in an append-only audit log. Nothing auto-merges.",
+        "Multi-tenant outbound calling underneath it: Celery dial and callback workers, Redis dial locks, per-tenant telephony credentials encrypted at rest, and Excel lead import."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    },
+    {
+      "name": "Demand Forecasting System",
+      "slug": "",
+      "source": "public/resume-cgi-ai-engineer.tex",
+      "aliases": [],
+      "tags": [
+        "Python",
+        "PyCaret",
+        "scikit-learn",
+        "Docker",
+        "Streamlit",
+        "Playwright"
+      ],
+      "claims": [
+        "Sole author. Monthly forecasts across roughly 1,500 product series of 36 points each, from a tiered model zoo of about 150 labelled configurations: pure-numpy statistical models, a global ML tier, and a PyCaret sweep on aggregates.",
+        "The ML tier fits one model across all series pooled rather than one per series, which is what makes a 48-configuration sweep affordable on 36-point histories, and forecasts the 12-month horizon directly rather than recursively, so no prediction is ever fed back as an input and error cannot compound across the horizon.",
+        "Scored out-of-sample on WAPE and MASE rather than MAPE, which explodes on zero months, with seasonal-naive as a mandatory baseline that ships if no candidate beats it. Prediction intervals are conformal, computed from model residuals rather than from the variance of the data, and a GREEN / AMBER / RED certification reports that median product-level WAPE is 16.6% and 18.7% of series land inside the client's requested 10% band, rather than narrowing every interval until the requirement appears to be met.",
+        "Sole author. Monthly forecasts across roughly 1,500 product series from a tiered zoo of about 150 labelled configurations, with one global model fitted across all series pooled rather than one per series, and a direct twelve-month horizon so error cannot compound.",
+        "Scored out-of-sample on WAPE and MASE, with seasonal-naive as a mandatory baseline that ships if nothing beats it. Intervals are conformal, from model residuals rather than the variance of the data, and a GREEN / AMBER / RED certification reports that median WAPE is 16.6% and 18.7% of series meet the client's 10% target, rather than narrowing the bands until the requirement appears to be met.",
+        "Sole author. Monthly forecasts across roughly 1,500 product series from a tiered zoo of about 150 labelled configurations, with one global model fitted across all series pooled rather than one per series, and a direct twelve-month horizon so error cannot compound.",
+        "Scored out of sample on WAPE and MASE rather than MAPE, which explodes on zero months, with seasonal-naive as a mandatory baseline that ships if nothing beats it. Intervals are conformal, computed from model residuals rather than the variance of the data.",
+        "A GREEN / AMBER / RED certification reports that median product-level WAPE is 16.6% and that 18.7% of series land inside the client's requested 10% band, rather than narrowing the bands until the requirement appears to be met."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    },
+    {
+      "name": "Inventory & Sales Prediction",
+      "slug": "",
+      "source": "public/resume-cgi-ai-engineer.tex",
+      "aliases": [],
+      "tags": [
+        "Python",
+        "LightGBM",
+        "FastAPI",
+        "PostgreSQL",
+        "Docker"
+      ],
+      "claims": [
+        "Sole author. Three quantile LightGBM models give a lower, median and upper bound per product-store-day, over lag features at 1, 2, 3, 7, 14 and 28 days plus rolling mean, standard deviation, minimum and maximum windows and calendar features.",
+        "Concept to production in one pipeline: train / validation / test split, WMAPE, MAE, RMSE and $R^2$ scoring, joblib persistence, a model loader that hot-reloads without a restart, a retrain entry point, and FastAPI serving in Docker.",
+        "Sole author. Three quantile LightGBM models give a lower, median and upper bound per product-store-day, over lag features at 1, 2, 3, 7, 14 and 28 days plus rolling mean, standard deviation, minimum and maximum windows and calendar features.",
+        "Concept to production in one pipeline: train / validation / test split, WMAPE, MAE, RMSE and R$^2$ scoring, joblib persistence, a model loader that hot-reloads without a restart, a retrain entry point, and FastAPI serving in Docker.",
+        "Sole author. Three quantile LightGBM models per product-store-day over lag features at 1, 2, 3, 7, 14 and 28 days, with joblib persistence, a model loader that hot-reloads without a restart, a retrain entry point and FastAPI serving in Docker."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    },
+    {
+      "name": "Sales & Inventory Forecasting: ML Decision Support",
+      "slug": "",
+      "source": "public/resume.tex",
+      "aliases": [],
+      "tags": [
+        "Python",
+        "FastAPI",
+        "LightGBM",
+        "Prophet",
+        "PostgreSQL",
+        "React",
+        "Streamlit",
+        "Docker"
+      ],
+      "claims": [
+        "Item-level demand forecasting (LightGBM, Prophet) behind a FastAPI service, turned into policy: safety stock, reorder points, EOQ and ABC classification, with interactive dashboards."
+      ],
+      "commits": "",
+      "timeline": "",
+      "team": ""
+    }
+  ],
+  "numbers": {
+    "1006": [
+      "CortexCraft Voice Agent"
+    ],
+    "589": [
+      "CortexCraft Voice Agent",
+      "CortexCraft Voice Agent (commits)",
+      "Software Developer at CortexCraft.ai"
+    ],
+    "67": [
+      "CortexCraft Voice Agent (commits)",
+      "Software Developer at CortexCraft.ai"
+    ],
+    "75": [
+      "CortexCraft Voice Agent (commits)",
+      "Software Developer at CortexCraft.ai"
+    ],
+    "626": [
+      "CortexCraft Voice Agent (commits)",
+      "Software Developer at CortexCraft.ai"
+    ],
+    "24": [
+      "KisanVoice AI",
+      "Software Developer at CortexCraft.ai"
+    ],
+    "10": [
+      "KisanVoice AI"
+    ],
+    "172": [
+      "KisanVoice AI",
+      "KisanVoice AI (commits)",
+      "Software Developer at CortexCraft.ai"
+    ],
+    "192": [
+      "KisanVoice AI",
+      "KisanVoice AI (commits)",
+      "Software Developer at CortexCraft.ai"
+    ],
+    "16": [
+      "Zentrax",
+      "Zentrax (commits)"
+    ],
+    "12": [
+      "Zentrax",
+      "Zentrax (commits)",
+      "Demand Forecasting System"
+    ],
+    "199": [
+      "AI Personal CFO and Talo"
+    ],
+    "159": [
+      "AI Personal CFO and Talo"
+    ],
+    "34": [
+      "AI Personal CFO and Talo"
+    ],
+    "100": [
+      "Dental Clinic AI Assistant"
+    ],
+    "004": [
+      "Dental Clinic AI Assistant"
+    ],
+    "800": [
+      "Dental Clinic AI Assistant"
+    ],
+    "19": [
+      "Dental Clinic AI Assistant"
+    ],
+    "3.5": [
+      "Lendly, lending platform backend"
+    ],
+    "21": [
+      "Lendly, lending platform backend"
+    ],
+    "36": [
+      "Demand Forecasting System"
+    ],
+    "500": [
+      "Demand Forecasting System"
+    ],
+    "150": [
+      "Demand Forecasting System"
+    ],
+    "48": [
+      "Demand Forecasting System"
+    ],
+    "16.6%": [
+      "Demand Forecasting System"
+    ],
+    "10%": [
+      "Demand Forecasting System"
+    ],
+    "18.7%": [
+      "Demand Forecasting System"
+    ],
+    "14": [
+      "Inventory & Sales Prediction"
+    ],
+    "28": [
+      "Inventory & Sales Prediction"
+    ],
+    "132": [
+      "profile.about"
+    ]
+  },
+  "do_not_claim": [
+    {
+      "subject": "CortexCraft Voice Agent",
+      "note": "Move agent document search from Postgres full-text to embeddings, so agents match meaning rather than exact words.",
+      "source": "portfolio.js reflection (cortexcraft-voice-agent)"
+    },
+    {
+      "subject": "CortexCraft Voice Agent",
+      "note": "Write an incident report for every production fix, not only the NAT hairpinning one.",
+      "source": "portfolio.js reflection (cortexcraft-voice-agent)"
+    },
+    {
+      "subject": "KisanVoice AI",
+      "note": "Delete the leftover Sarvam guard module, which nothing imports any more.",
+      "source": "portfolio.js reflection (kisanvoice-ai)"
+    },
+    {
+      "subject": "KisanVoice AI",
+      "note": "Consolidate the duplicated WhatsApp route and controller modules into one of each.",
+      "source": "portfolio.js reflection (kisanvoice-ai)"
+    },
+    {
+      "subject": "KisanVoice AI",
+      "note": "Stream WhatsApp survey answers to the dashboard live; today only phone-call events are pushed.",
+      "source": "portfolio.js reflection (kisanvoice-ai)"
+    },
+    {
+      "subject": "FinGraph AI",
+      "note": "Put JWT middleware on /api/chat and take the role from the verified token, not the request body.",
+      "source": "portfolio.js reflection (fingraph-ai)"
+    },
+    {
+      "subject": "FinGraph AI",
+      "note": "Mount the audit writer, so every question is actually logged.",
+      "source": "portfolio.js reflection (fingraph-ai)"
+    }
+  ]
+}

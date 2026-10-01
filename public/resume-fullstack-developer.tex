@@ -1,0 +1,157 @@
+% ----------------------------------------------------------------------
+% Why:     Full-stack screens want proof of both ends, repeatedly, not a framework
+%          list. This variant picks projects where I built the UI and the service.
+% What:    One-page resume targeting full-stack roles across two backend
+%          ecosystems.
+%          Built from the resume-forge evidence ledger; every number traces to a
+%          repository.
+% Result:  Range with depth: React against FastAPI, Express and Spring Boot, over
+%          PostgreSQL, MongoDB and Neo4j.
+% Changed: 2026-09-27 -- created from assets/resume-template.tex.
+% Build:   bash ~/.claude/skills/resume-forge/scripts/build_resume.sh \
+%            public/resume-fullstack-developer.tex
+% Check:   python3 ~/.claude/skills/resume-forge/scripts/evaluate_resume.py \
+%            public/resume-fullstack-developer.tex --role fullstack-developer --min-score 85
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.25cm,right=1.25cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - Full-Stack Developer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+% ----------------------------------------------------------------------
+% Section styling: sans-serif bold heading with a thin rule beneath
+% ----------------------------------------------------------------------
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+% Compact bullet lists: the single biggest lever on whether this fits a page.
+\setlist[itemize]{leftmargin=1.2em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.97}\selectfont
+\pagestyle{empty}
+
+% ----------------------------------------------------------------------
+% Helpers
+% ----------------------------------------------------------------------
+% Entry heading row with a right-aligned date: \entry{Title}{Date}
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+% Middot separator: keeps the skills block scannable instead of prose-like.
+\newcommand{\sep}{\,\textperiodcentered\,}
+% Fixed-width label so every skills row starts at the same column. A fixed
+% \makebox overlapped its own content whenever a label was wider than the box,
+% so the gap is measured instead: aligned when the label fits, and a plain 0.6em
+% gap when it does not. A long label can never collide with the row again.
+\newlength{\skillwidth}\setlength{\skillwidth}{6.4em}
+\newlength{\skilllabel}
+\newcommand{\skill}[2]{%
+  \settowidth{\skilllabel}{\textbf{#1}}%
+  \hangindent=\skillwidth\hangafter=1%
+  \mbox{\textbf{#1}}%  \mbox so inner spaces cannot stretch under justification
+  \ifdim\skilllabel<\skillwidth\hspace{\dimexpr\skillwidth-\skilllabel}\else\hspace{0.6em}\fi
+  #2\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\LARGE\bfseries Harish G}\\[1pt]
+{\normalsize\bfseries Full-Stack Developer \textbar{} React \textperiodcentered{} FastAPI \textperiodcentered{} Spring Boot \textperiodcentered{} PostgreSQL}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad
+\href{https://github.com/harish00506/}{GitHub}}
+
+\section{Profile}
+I like owning a feature end to end. That means settling the REST contract before either end exists,
+because deciding it late is how a front end ends up shaped like the database underneath it, and I
+have had to unpick that more than once. Two ecosystems, same habit: React against FastAPI and
+Express, React against Spring Boot.
+
+\section{Core Skills}
+\skill{Languages}{Python \sep JavaScript \sep TypeScript \sep Java 21 \sep Kotlin \sep SQL}
+\skill{Frontend}{React \sep Vite \sep Tailwind CSS \sep NextUI \sep Socket.io \sep Jetpack Compose}
+\skill{Backend}{FastAPI \sep Node.js/Express \sep Spring Boot 3.5 \sep Celery \sep Alembic \sep Flyway \sep WebSockets \sep REST API Design}
+\skill{Data}{PostgreSQL \sep MongoDB \sep Neo4j \sep Supabase/pgvector \sep Redis \sep Firebase}
+\skill{Platform}{Docker \& Compose \sep GitHub Actions \sep GitLab CI \sep Jenkins \sep Git}
+\skill{Concepts}{System Design \sep Modular Architecture \sep DTO-Based Architecture \sep JWT Auth \& RBAC \sep Multi-Tenant SaaS \sep Query Optimization}
+
+\section{Experience}
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Built and maintain the voice-agent platform (589 of 626 commits on the SaaS platform, 67 of 75
+        on the core engine): FastAPI services, a React dashboard for configuring agents, and an
+        external REST API that other products call instead of forking the stack.
+  \item Shipped LeadCall AI on that platform, both halves of it. React dashboard, FastAPI backend,
+        Celery dial and callback workers, Excel lead import and Alembic-migrated PostgreSQL.
+  \item Own production reliability across the stack. Fixed outbound routing, added reconnect handling
+        for dropped sockets, and traced a Docker TLS failure to NAT hairpinning.
+  \item Lead author (172 of 192 commits) on the multilingual survey platform, including the React
+        admin dashboard and the FastAPI backend that replaced its Node.js one.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+\begin{itemize}
+  \item Delivered web and app projects for local clients, front end and back: React/Vite front ends,
+        Python and Node.js services, plus ongoing fixes and deployment support.
+\end{itemize}
+
+\section{Selected Projects}
+\textbf{KisanVoice AI} \textit{Python, FastAPI, React, MongoDB, Socket.io, Google STT/TTS, Jenkins, Docker}
+\begin{itemize}
+  \item 172 of 192 commits. WhatsApp survey platform: FastAPI backend, MongoDB storage, and a React
+        admin dashboard with an audio QC workflow and Excel export that receives live call events
+        over Socket.io.
+  \item Migrated the platform off its Node.js backend onto FastAPI and off Sarvam onto Google STT/TTS
+        without interrupting live surveys; 24 locales come from a config-driven registry, so adding
+        one is a config row rather than a deploy.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{FinGraph AI} \textit{Node.js, Express, React, Neo4j, Supabase pgvector, Groq, JWT}
+\begin{itemize}
+  \item Banking assistant fusing pgvector similarity search over MiniLM embeddings with Neo4j, so
+        every match is enriched with its graph relationships before the answer is generated.
+  \item Express API behind a React chat client, with JWT authentication over bcrypt-hashed
+        credentials and ADMIN-only admin and audit routes.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Lendly, lending platform} \textit{Java 21, Spring Boot 3.5, React, PostgreSQL, Flyway, Docker}
+\begin{itemize}
+  \item Spring Boot 3.5 on Java 21 with Spring Security and JJWT, Data JPA and Bean Validation, Flyway
+        migrations against PostgreSQL with H2 for tests, a React front end, GitHub Actions CI and
+        Docker Compose for local environments.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{StockSense AI} \textit{Python, FastAPI, LightGBM, Prophet, PostgreSQL, React, Streamlit}
+\begin{itemize}
+  \item Item-level demand forecasting behind a FastAPI service, turned into stocking policy (safety
+        stock, reorder points, EOQ and ABC classes) and explored through React and Streamlit
+        dashboards.
+\end{itemize}
+
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore\\
+Feature branches and conventional commits; GitLab CI with 132 pytest files as the merge gate on the
+voice-agent platform.
+
+\end{document}

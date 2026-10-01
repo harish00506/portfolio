@@ -1,0 +1,154 @@
+% ----------------------------------------------------------------------
+% Why:     A Python screen wants to see the language used across layers, not one
+%          framework repeated. This variant spans async services, a live migration,
+%          modelling, agents and local inference.
+% What:    One-page resume targeting Python developer roles.
+%          Built from the resume-forge evidence ledger; every number traces to a
+%          repository.
+% Result:  Python from async streaming services through to model serving, with
+%          pytest in CI as the merge gate.
+% Changed: 2026-09-27 -- created from assets/resume-template.tex.
+% Build:   bash ~/.claude/skills/resume-forge/scripts/build_resume.sh \
+%            public/resume-python-developer.tex
+% Check:   python3 ~/.claude/skills/resume-forge/scripts/evaluate_resume.py \
+%            public/resume-python-developer.tex --role python-developer --min-score 85
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.25cm,right=1.25cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - Python Developer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+% ----------------------------------------------------------------------
+% Section styling: sans-serif bold heading with a thin rule beneath
+% ----------------------------------------------------------------------
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+% Compact bullet lists: the single biggest lever on whether this fits a page.
+\setlist[itemize]{leftmargin=1.2em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.97}\selectfont
+\pagestyle{empty}
+
+% ----------------------------------------------------------------------
+% Helpers
+% ----------------------------------------------------------------------
+% Entry heading row with a right-aligned date: \entry{Title}{Date}
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+% Middot separator: keeps the skills block scannable instead of prose-like.
+\newcommand{\sep}{\,\textperiodcentered\,}
+% Fixed-width label so every skills row starts at the same column. A fixed
+% \makebox overlapped its own content whenever a label was wider than the box,
+% so the gap is measured instead: aligned when the label fits, and a plain 0.6em
+% gap when it does not. A long label can never collide with the row again.
+\newlength{\skillwidth}\setlength{\skillwidth}{6.4em}
+\newlength{\skilllabel}
+\newcommand{\skill}[2]{%
+  \settowidth{\skilllabel}{\textbf{#1}}%
+  \hangindent=\skillwidth\hangafter=1%
+  \mbox{\textbf{#1}}%  \mbox so inner spaces cannot stretch under justification
+  \ifdim\skilllabel<\skillwidth\hspace{\dimexpr\skillwidth-\skilllabel}\else\hspace{0.6em}\fi
+  #2\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\LARGE\bfseries Harish G}\\[1pt]
+{\normalsize\bfseries Python Developer \textbar{} FastAPI, Celery, asyncio, pytest}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad
+\href{https://github.com/harish00506/}{GitHub}}
+
+\section{Profile}
+Most of what I write is Python that has to stay up. Async services streaming audio both ways over a
+socket, Celery workers doing the things that must not happen inside a request, and migrations that
+let a schema move while the service is still serving. Once I replaced a live platform's Node backend
+with FastAPI and swapped its speech provider underneath it. Nobody's survey dropped.
+
+\section{Core Skills}
+\skill{Languages}{Python \sep JavaScript \sep TypeScript \sep Java \sep SQL}
+\skill{Backend}{FastAPI \sep asyncio \sep WebSockets \sep Celery \sep Flask \sep Alembic \sep REST API Design}
+\skill{Data}{PostgreSQL \sep MongoDB \sep Redis \sep pgvector \sep LightGBM \sep Prophet \sep scikit-learn \sep Streamlit}
+\skill{AI / LLM}{LLM Integration \sep RAG \sep Agents \& Tool Calling \sep Output Guardrails \sep Gemini Live \sep Whisper \sep Ollama}
+\skill{Testing}{pytest \sep GitLab CI \sep Jenkins \sep GitHub Actions \sep Docker \& Compose}
+\skill{Concepts}{System Design \sep Modular Architecture \sep JWT Auth \& RBAC \sep Multi-Tenant SaaS \sep Query Optimization}
+
+\section{Experience}
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Built and maintain the voice-agent platform (589 of 626 commits on the SaaS platform, 67 of 75
+        on the core engine) in Python: FastAPI services, asyncio tasks streaming audio both ways over
+        WebSockets, and an external REST API other products call.
+  \item Shipped LeadCall AI on that platform: Celery dial and callback workers, Alembic-migrated
+        PostgreSQL, Excel lead import and per-tenant credentials encrypted at rest.
+  \item Lead author (172 of 192 commits) on the multilingual survey platform. Replaced its Node.js
+        backend with FastAPI and swapped the speech provider behind a config-driven registry of 24
+        locales, both without interrupting live surveys.
+  \item Gate merges on GitLab CI with 132 pytest files, on feature branches with conventional commits.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+\begin{itemize}
+  \item Delivered Python and Node.js services, automation scripts and React front ends end to end for local clients.
+\end{itemize}
+
+\section{Selected Projects}
+\textbf{KisanVoice AI} \textit{Python, FastAPI, MongoDB, WhatsApp Flows, Google STT/TTS, Jenkins, Docker}
+\begin{itemize}
+  \item 172 of 192 commits. Voice surveys in 24 configured locales (10 Indian) from a JSON-plus-database
+        language registry merged into one alias index, so adding a language is a config row rather
+        than a deploy.
+  \item Option matching survives imperfect speech through fuzzy and semantic fallback; long option
+        sets go out as paginated WhatsApp Flows instead of unusable text menus.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Inventory \& Sales Prediction} \textit{Python, LightGBM, FastAPI, PostgreSQL, Docker}
+\begin{itemize}
+  \item Sole author. Three quantile LightGBM models per product-store-day over lag features at 1, 2,
+        3, 7, 14 and 28 days, with joblib persistence, a model loader that hot-reloads without a
+        restart, a retrain entry point and FastAPI serving in Docker.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{JiraFlow Agent} \textit{Python, React, Vite, Jira API, GitHub API}
+\begin{itemize}
+  \item Reads a Jira ticket, locates the files it describes, applies the change and opens a pull
+        request from a dedicated \texttt{ai/scrum-<id>} branch whose commit cites the ticket. The
+        agent proposes and a human merges, so it never pushes to main.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Zentrax} \textit{Python, Whisper, MediaPipe, Ollama, WebSocket, Docker}
+\begin{itemize}
+  \item 12 of 16 commits. Privacy-first desktop assistant running its LLM locally through Ollama with
+        Whisper for on-device speech recognition and MediaPipe gesture control, monitored over a
+        real-time WebSocket dashboard.
+\end{itemize}
+
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore\\
+Feature branches and conventional commits; GitLab CI with 132 pytest files as the merge gate on the
+voice-agent platform.
+
+\end{document}

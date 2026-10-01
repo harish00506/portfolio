@@ -1,0 +1,175 @@
+% ----------------------------------------------------------------------
+% Why:     Role-targeted resume variant for platform-operations and
+%          integration-engineering roles, written against ANZ req 121836
+%          ("Software Engineer", Tech Institutional Digital Banking
+%          Operations, GoldTier KYC platform, Bengaluru).
+%          Both the general resume.tex and resume-hpe-agentic-rpa.tex lead
+%          with AI work. This req is a run-the-platform role: deployment,
+%          release management, integration workflows, log analysis and
+%          production stability. Those things are genuinely in the repos but
+%          are invisible in every other variant.
+% What:    Source for public/resume-anz-platform-engineer.pdf. Per CLAUDE.md
+%          section 6 this is a role-targeted variant: it drifts from
+%          resume.tex on purpose and must NOT be "synced" back to it. It is
+%          also distinct from resume-anz-ai-engineer.tex, which targets a
+%          different ANZ role.
+% Result:  One page. Every claim traces to a repository on disk. Deliberately
+%          silent on GoldTier, IBM MQ and Kafka, none of which appear in any
+%          project swept (section 1.3).
+% Changed: 2026-08-22 - created for ANZ req 121836.
+% Build:   pdflatex -interaction=nonstopmode -output-directory=public
+%            public/resume-anz-platform-engineer.tex   (run twice, then
+%            delete the .aux / .log / .out it leaves behind)
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.6cm,bottom=0.5cm,left=1.1cm,right=1.1cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - Software Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{3pt}{1pt}
+
+\setlist[itemize]{leftmargin=1.1em,itemsep=0pt,topsep=0.5pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.88}\selectfont
+\pagestyle{plain}
+
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\LARGE\bfseries Harish G}\\[1pt]
+{\small\bfseries Software Engineer \textbar{} Platform Operations, Integration \& Release Engineering}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad \href{https://github.com/harish00506/}{GitHub}}
+
+% ----------------------------------------------------------------------
+% Profile
+% ----------------------------------------------------------------------
+\section{Profile}
+Backend engineer who owns systems after they ship, not only up to the merge. On the platforms I have
+built I own the release path and the operational surface under it: multi-stage CI with separate
+staging and production gates, versioned schema migrations, containerised services, structured JSON
+logging correlated by request ID, latency instrumentation and a metrics endpoint, and deployment
+runbooks that name the failures the team actually hits. Java 21 with Spring Boot and Python with
+FastAPI, integrating upstream and downstream systems over REST, signed webhooks and bulk file
+transfer. Software Developer at CortexCraft.ai.
+
+% ----------------------------------------------------------------------
+% Core Skills
+% ----------------------------------------------------------------------
+\section{Core Skills}
+\textbf{Deployment \& Release Management:} GitLab CI (lint, test, build, deploy with separate staging
+and production gates), Jenkins, GitHub Actions; Docker and Compose, multi-image builds; Helm charts
+with per-environment values; Terraform for managed cloud services; Alembic and Flyway versioned
+migrations; tagged releases with written hotfix and rollback procedures\\
+\textbf{Monitoring \& Log Analysis:} single-line structured JSON logging, \texttt{X-Request-ID}
+correlation end to end, per-request latency instrumentation, Prometheus \texttt{/metrics} endpoint,
+health checks, rate limiting, append-only audit trails\\
+\textbf{Integration:} REST and webhook integration across upstream and downstream systems (Twilio,
+Plivo, WhatsApp Business API, Google Calendar, Jira, GitHub); HMAC signature verification with
+constant-time comparison; retry with configurable delay and attempt limits; bulk CSV and Excel file
+transfer; Celery and APScheduler job queues; Redis locks\\
+\textbf{Languages \& Backend:} Java 21, Python, JavaScript / TypeScript, SQL; Spring Boot 3.5
+(Security, Data JPA, Validation, JJWT, Flyway), FastAPI, Node / Express; PostgreSQL, MongoDB, Redis\\
+\textbf{Defect Resolution \& Stability:} guarded state machines that reject invalid transitions
+outright, 92 pytest suites behind coverage gates, Playwright end-to-end tests, schema validation at
+the boundary, idempotent handlers\\
+\textbf{Documentation \& Ways of Working:} deployment runbooks with a symptom-to-fix section, release
+process and version-control SOPs, ADRs recorded before the code lands, one issue per branch, a
+changelog per release
+
+% ----------------------------------------------------------------------
+% Experience
+% ----------------------------------------------------------------------
+\section{Experience}
+
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Authored 380 of 418 commits on the voice-agent SaaS platform, across the application, its
+        integration layer and its release path.
+  \item Sole author of the deploy tree. A four-stage GitLab pipeline runs lint, test, build and
+        deploy with separate staging and production jobs; three container images build from it
+        including a dedicated worker; a Helm chart carries per-environment values and Terraform
+        provisions the managed services behind it.
+  \item Treat schema and configuration change as releases: 27 Alembic migrations applied in order,
+        per-tenant configuration held in the database rather than in code, and vendor credentials
+        encrypted at rest.
+  \item Maintain integration workflows against two telephony vendors and several partner APIs:
+        signed webhook handlers verified with constant-time HMAC comparison, retry with configurable
+        delay and attempt limits, and a generic HTTP executor so onboarding a new upstream system is
+        a configuration change rather than a code change.
+  \item Put the campaign lifecycle behind a guarded state machine with an explicit transition table,
+        terminal states and a unit-tested rejection path returning HTTP 409, so a run cannot drift
+        into an inconsistent state instead of failing loudly.
+  \item Quality gate on every pipeline run: 92 pytest suites plus Playwright end-to-end tests.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+Delivered client projects end to end and then supported them: build, deployment, and the fixes,
+environment changes and upgrades afterwards. Direct client contact for scoping, release sign-off and
+issue triage.
+
+% ----------------------------------------------------------------------
+% Projects
+% ----------------------------------------------------------------------
+\section{Selected Projects}
+
+\textbf{KisanVoice AI, multilingual survey platform} \textit{Python, FastAPI, MongoDB, Jenkins, Docker}
+\begin{itemize}
+  \item 172 of 192 commits. Operations built in rather than added later: every request carries an
+        \texttt{X-Request-ID} that is forwarded or generated and echoed back, every log line is a
+        single JSON object carrying that ID, and each response is logged with its status and
+        duration in milliseconds. A Prometheus instrumentator exposes \texttt{/metrics} with status
+        codes grouped and health endpoints excluded.
+  \item Ships with a deployment runbook covering prerequisites, environment setup, a verification
+        step and a symptom-to-fix section for the failures the team actually hit, alongside a
+        written release process with a hotfix flow and a rollback procedure. Jenkins builds it,
+        Docker Compose runs it.
+  \item Integration and bulk transfer: WhatsApp Business API flows, bulk CSV invite jobs and Excel
+        round-trip, over an append-only audit log with TTL retention and ownership guards.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Lendly, lending platform backend} \textit{Java 21, Spring Boot 3.5, PostgreSQL, Flyway, Docker}
+\begin{itemize}
+  \item Spring Boot 3.5 on Java 21 with Spring Security and JJWT, Data JPA and Bean Validation,
+        Flyway versioned migrations against PostgreSQL and H2 for tests, GitHub Actions CI and
+        Docker Compose for local environments.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{LeadCall AI, multi-tenant outbound calling} \textit{FastAPI, Celery, PostgreSQL, Redis, React}
+\begin{itemize}
+  \item Asynchronous integration workload: Celery dial and callback workers behind Redis dial locks,
+        per-tenant telephony credentials encrypted at rest, Excel lead import, and an append-only
+        audit log of every operator action.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Education
+% ----------------------------------------------------------------------
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore.
+One issue per branch, decisions recorded as ADRs before the code lands, tests as the merge gate.
+
+\end{document}

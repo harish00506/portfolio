@@ -1,0 +1,186 @@
+% ----------------------------------------------------------------------
+% Why:     Role-targeted resume variant for agentic-AI / intelligent-automation
+%          roles, written against the HPE "Agentic AI & RPA Developer" posting.
+%          The general resume.tex leads with voice telephony and mobile finance
+%          and buries the agent-orchestration, process-automation and document-
+%          intelligence work that these roles actually screen for.
+% What:    Source for public/resume-hpe-agentic-rpa.pdf. Per CLAUDE.md section 6
+%          this is a role-targeted variant: it drifts from resume.tex on purpose
+%          and must NOT be "synced" back to it.
+% Result:  One page. Every claim traces to a repository on disk; nothing here
+%          asserts a tool or framework that is absent from the code (section 1.3).
+% Changed: 2026-08-22 - created.
+%          2026-08-22 - restructured around AI containment as the through-line.
+%            Guardrails and control moved to the first line of the profile and the
+%            top of Core Skills; projects reordered so the two strongest control
+%            exhibits (AI Personal CFO/Talo, LeadCall + review gate) lead.
+%            Rationale: human-in-the-loop governance is the most differentiated
+%            and hardest-to-fake asset here, and the target JDs name it outright.
+%          2026-08-22 - tightened margins, leading and section spacing to bring the
+%            restructured content back to one page; no claims changed.
+% Build:   pdflatex -interaction=nonstopmode -output-directory=public
+%            public/resume-hpe-agentic-rpa.tex   (run twice, then delete the
+%            .aux / .log / .out it leaves behind)
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.6cm,bottom=0.5cm,left=1.1cm,right=1.1cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - Agentic AI and Automation Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{3pt}{1pt}
+
+\setlist[itemize]{leftmargin=1.1em,itemsep=0pt,topsep=0.5pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.88}\selectfont
+\pagestyle{plain}
+
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\LARGE\bfseries Harish G}\\[1pt]
+{\small\bfseries Agentic AI \& Automation Engineer \textbar{} LLM Guardrails, Agent Orchestration, RAG, Document Intelligence}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad \href{https://github.com/harish00506/}{GitHub}}
+
+% ----------------------------------------------------------------------
+% Profile
+% ----------------------------------------------------------------------
+\section{Profile}
+I build LLM systems that cannot invent a number. The pattern is the same in everything I ship:
+deterministic code holds authority, the model is a constrained component, and any figure it states is
+checked against the tool result that produced it. That means numeric guardrails that rewrite
+unverified output, retrieval that runs before the model with role filters inside the retriever,
+extraction that returns null rather than guess, and human approval gates an agent cannot talk its way
+past. Software Developer at CortexCraft.ai, in Python/FastAPI and Java/Spring Boot.
+
+% ----------------------------------------------------------------------
+% Core Skills
+% ----------------------------------------------------------------------
+\section{Core Skills}
+\textbf{AI Guardrails \& Control:} numeric provenance guardrails, retrieval-before-inference,
+deterministic-first fallback chains, refusal-by-design parsers, human approval gates and safe
+escalation, role-scoped retrieval, append-only audit trails, frozen evaluation fixtures\\
+\textbf{Agentic AI:} LLM function and tool calling (runtime Gemini function declarations,
+bidirectional tool-call loop), config-driven tool registries, MCP-style tool hosting
+(\texttt{inputSchema}, \texttt{readOnlyHint}, \texttt{destructiveHint}), prompt frameworks\\
+\textbf{RAG \& Retrieval:} pgvector (HNSW, cosine distance), Gemini \texttt{text-embedding-004} and
+MiniLM embeddings, chunking with overlap, Postgres full-text fallback, role-scoped row-level
+retrieval, Neo4j graph-enriched retrieval\\
+\textbf{Document Intelligence:} PDF / DOCX / XLSX / CSV extraction with magic-byte validation,
+schema-driven LLM field extraction with per-type coercion, closed-label classification,
+summarisation with sentiment and aspect tagging, on-device OCR (ML Kit)\\
+\textbf{Process Automation \& Integration:} throttled job runners, guarded state machines,
+do-not-call screening, retry and backoff policy, Celery and APScheduler queues, CSV / Excel
+pipelines, desktop UI automation; Twilio, Plivo, WhatsApp Business API, Google Calendar, Jira,
+GitHub, REST and webhook APIs\\
+\textbf{Languages, Backend \& Delivery:} Python, Java, JavaScript / TypeScript, Kotlin, SQL; FastAPI,
+Spring Boot, Node / Express, Celery, Redis; PostgreSQL / pgvector, MongoDB, Neo4j; Docker, GitLab CI,
+GitHub Actions, Jenkins, pytest with coverage gates
+
+% ----------------------------------------------------------------------
+% Experience
+% ----------------------------------------------------------------------
+\section{Experience}
+
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Authored 380 of 418 commits on the voice-agent SaaS platform: agent orchestration, campaign
+        automation, transcript intelligence and tenant governance, behind 92 pytest suites,
+        Playwright end-to-end tests and a GitLab CI pipeline.
+  \item Built human-in-the-loop escalation along two independent paths, so the guarantee survives the
+        model failing: a \texttt{flag\_\allowbreak{}human\_\allowbreak{}request} tool the agent calls, and a transcript-pattern
+        safety net that sets the same state when it does not. Live escalation dials a person into the
+        running call through a Twilio conference.
+  \item Built transcript document intelligence on Gemini JSON mode: schema-driven field extraction
+        that coerces each value to its declared type and nulls anything off-type rather than
+        fabricating it, plus summarisation with key points, sentiment and per-topic aspect tags.
+  \item Built the agent tool layer: runtime Gemini function declarations from agent config, a
+        bidirectional tool-call loop and a generic HTTP tool executor, so onboarding a customer
+        system is configuration rather than code.
+  \item Built the campaign automation runner: tick-driven dispatch throttled by concurrency and
+        calls-per-hour, do-not-call screening before dial, retry with configurable delay and attempt
+        limits, behind a guarded state machine that rejects invalid transitions with HTTP 409.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+Delivered full-stack web and app projects end to end for clients: React front ends, Python and Node
+services, and automation scripts.
+
+% ----------------------------------------------------------------------
+% Projects
+% ----------------------------------------------------------------------
+\section{Selected Projects}
+
+\textbf{AI Personal CFO and Talo} \textit{Kotlin, Jetpack Compose, Hilt, Room/SQLCipher, ML Kit, Gemini Live}
+\begin{itemize}
+  \item Sole author, 159 commits, 34 Gradle modules, 199 test files. Twelve deterministic engines
+        compute every figure and the model is only permitted to explain them, on a written rule:
+        numbers from math, words from AI.
+  \item An output guardrail rewrites any number in model text that is absent from the tool result as
+        \texttt{[unverified]}. An MCP-style in-process tool host exposes the engines through a JSON
+        registry carrying \texttt{inputSchema}, \texttt{readOnlyHint} and \texttt{destructiveHint};
+        chat reads through the registry and never writes.
+  \item On-device ML Kit OCR extracts receipt fields; the SMS parser is built to refuse, resolving
+        every ambiguous case to null. Both are scored against frozen evaluation fixtures.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{LeadCall AI and AI Code-Review Gate} \textit{FastAPI, Celery, PostgreSQL, React, Ollama, GitHub API}
+\begin{itemize}
+  \item An approval gate for AI-generated code changes that an agent cannot argue past: high-risk
+        changes are blocked from approval outright, a rejection requires a written reason and
+        regenerates with that reason fed back, and every reviewer action lands in an append-only
+        audit log. Nothing auto-merges.
+  \item Multi-tenant outbound calling underneath it: Celery dial and callback workers, Redis dial
+        locks, per-tenant telephony credentials encrypted at rest, and Excel lead import.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Dental Clinic AI Assistant} \textit{Python, Flask, PostgreSQL/pgvector, Gemini, WhatsApp Business API}
+\begin{itemize}
+  \item Chunked document RAG (800-token chunks, 100 overlap) embedded with
+        \texttt{text-embedding-004} into pgvector, retrieved by cosine distance with a Postgres
+        full-text fallback and role-scoped row filtering applied inside the retriever, so
+        authorisation cannot be prompted around.
+  \item Gemini function calling for booking with preconditions encoded in the tool descriptions, a
+        role-based tool router admitting one tool per turn, and a 19-state WhatsApp conversation
+        state machine that hands off to a phone agent with context preserved.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{KisanVoice AI} \textit{Python, FastAPI, MongoDB, WhatsApp Flows, Google STT/TTS, Jenkins, Docker}
+\begin{itemize}
+  \item 172 of 192 commits. Multilingual voice surveys across 24 locales, with programmatic
+        WhatsApp Flow form generation, bulk CSV invite jobs and Excel round-trip, over an
+        append-only audit log with TTL retention and ownership guards.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Education
+% ----------------------------------------------------------------------
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore.
+One issue per branch, decisions recorded as ADRs before the code lands, tests as the merge gate.
+
+\end{document}

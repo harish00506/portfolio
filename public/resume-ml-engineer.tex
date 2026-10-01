@@ -1,0 +1,160 @@
+% ----------------------------------------------------------------------
+% Why:     Most forecasting resumes quote an accuracy number without saying what it
+%          was measured against. This variant leads with the evaluation discipline,
+%          because that is the part that is hard to fake and easy to check.
+% What:    One-page resume targeting ML and data science roles.
+%          Built from the resume-forge evidence ledger; every number traces to a
+%          repository.
+% Result:  Honest evaluation as the through-line: a mandatory baseline, metrics
+%          chosen for the data, and a certification that reports the shortfall.
+% Changed: 2026-09-27 -- created from assets/resume-template.tex.
+% Build:   bash ~/.claude/skills/resume-forge/scripts/build_resume.sh \
+%            public/resume-ml-engineer.tex
+% Check:   python3 ~/.claude/skills/resume-forge/scripts/evaluate_resume.py \
+%            public/resume-ml-engineer.tex --role ml-engineer --min-score 85
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.25cm,right=1.25cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - ML and Data Science Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+% ----------------------------------------------------------------------
+% Section styling: sans-serif bold heading with a thin rule beneath
+% ----------------------------------------------------------------------
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+% Compact bullet lists: the single biggest lever on whether this fits a page.
+\setlist[itemize]{leftmargin=1.2em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.97}\selectfont
+\pagestyle{empty}
+
+% ----------------------------------------------------------------------
+% Helpers
+% ----------------------------------------------------------------------
+% Entry heading row with a right-aligned date: \entry{Title}{Date}
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+% Middot separator: keeps the skills block scannable instead of prose-like.
+\newcommand{\sep}{\,\textperiodcentered\,}
+% Fixed-width label so every skills row starts at the same column. A fixed
+% \makebox overlapped its own content whenever a label was wider than the box,
+% so the gap is measured instead: aligned when the label fits, and a plain 0.6em
+% gap when it does not. A long label can never collide with the row again.
+\newlength{\skillwidth}\setlength{\skillwidth}{6.4em}
+\newlength{\skilllabel}
+\newcommand{\skill}[2]{%
+  \settowidth{\skilllabel}{\textbf{#1}}%
+  \hangindent=\skillwidth\hangafter=1%
+  \mbox{\textbf{#1}}%  \mbox so inner spaces cannot stretch under justification
+  \ifdim\skilllabel<\skillwidth\hspace{\dimexpr\skillwidth-\skilllabel}\else\hspace{0.6em}\fi
+  #2\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\LARGE\bfseries Harish G}\\[1pt]
+{\normalsize\bfseries ML / Data Science Engineer \textbar{} Forecasting in Production, Embeddings \& Retrieval}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad
+\href{https://github.com/harish00506/}{GitHub}}
+
+\section{Profile}
+I report what a model actually does, including when that is disappointing. The forecasting system I
+own ships with a certification: median error of 16.6\%, and only 18.7\% of series inside the
+client's requested 10\% band. I could have narrowed the intervals until that number looked right. I
+did not. Everything I ship is scored out of sample against a seasonal-naive baseline that is allowed
+to win.
+
+\section{Core Skills}
+\skill{Languages}{Python \sep SQL \sep JavaScript \sep Java}
+\skill{Modelling}{LightGBM \sep Prophet \sep scikit-learn \sep PyCaret \sep Quantile Regression \sep Conformal Prediction \sep Feature Engineering \sep QLoRA Fine-Tuning \sep Keras/LSTM}
+\skill{Evaluation}{WAPE \sep MASE \sep WMAPE \sep MAE / RMSE / R$^2$ \sep Out-of-Sample Splits \sep Seasonal-Naive Baselines}
+\skill{Serving}{FastAPI \sep joblib \sep Model Hot-Reload \sep Retrain Pipelines \sep Docker \& Compose \sep Streamlit \sep GitLab CI}
+\skill{AI / LLM}{RAG \sep MiniLM \& text-embedding-004 \sep pgvector \sep Neo4j Graph Enrichment \sep Whisper \sep Gemini \sep Ollama}
+\skill{Data}{PostgreSQL \sep Supabase/pgvector \sep MongoDB \sep Neo4j \sep Redis}
+
+\section{Experience}
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Built and maintain the voice-agent platform (589 of 626 commits on the SaaS platform, 67 of 75
+        on the core engine), including the per-agent retrieval that grounds each agent in its own
+        documents and the post-call extraction that turns transcripts into structured fields.
+  \item Design the output guardrails and tool-calling contracts that constrain model output:
+        extracted data is coerced to its declared type before anything downstream trusts it.
+  \item Lead author (172 of 192 commits) on the multilingual survey platform: Google speech-to-text
+        and text-to-speech behind a config-driven registry covering 24 locales, with fuzzy and
+        semantic fallback matching so imperfect speech still resolves to an option.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+\begin{itemize}
+  \item Delivered data and automation work for local clients alongside full-stack web projects in Python and Node.js.
+\end{itemize}
+
+\section{Selected Projects}
+\textbf{Demand Forecasting System} \textit{Python, PyCaret, scikit-learn, Docker, Streamlit}
+\begin{itemize}
+  \item Sole author. Monthly forecasts across roughly 1,500 product series from a tiered zoo of about
+        150 labelled configurations, with one global model fitted across all series pooled rather
+        than one per series, and a direct twelve-month horizon so error cannot compound.
+  \item Scored out of sample on WAPE and MASE rather than MAPE, which explodes on zero months, with
+        seasonal-naive as a mandatory baseline that ships if nothing beats it. Intervals are
+        conformal, computed from model residuals rather than the variance of the data.
+  \item A GREEN / AMBER / RED certification reports that median product-level WAPE is 16.6\% and that
+        18.7\% of series land inside the client's requested 10\% band, rather than narrowing the
+        bands until the requirement appears to be met.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Inventory \& Sales Prediction} \textit{Python, LightGBM, FastAPI, PostgreSQL, Docker}
+\begin{itemize}
+  \item Sole author. Three quantile LightGBM models give a lower, median and upper bound per
+        product-store-day, over lag features at 1, 2, 3, 7, 14 and 28 days plus rolling mean,
+        standard deviation, minimum and maximum windows and calendar features.
+  \item Concept to production in one pipeline: train / validation / test split, WMAPE, MAE, RMSE and
+        R$^2$ scoring, joblib persistence, a model loader that hot-reloads without a restart, a
+        retrain entry point, and FastAPI serving in Docker.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{StockSense AI} \textit{Python, FastAPI, LightGBM, Prophet, PostgreSQL, React, Streamlit}
+\begin{itemize}
+  \item Item-level demand forecasting with LightGBM and Prophet, turned into inventory policy: safety
+        stock, reorder points, EOQ and ABC classification, explored through interactive dashboards.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{FinGraph AI} \textit{Node.js, Neo4j, Supabase pgvector, Hugging Face, Groq}
+\begin{itemize}
+  \item Hybrid retrieval: MiniLM embeddings matched in pgvector above a similarity threshold, then
+        every hit enriched with its Neo4j relationships before the answer is generated, so results
+        carry the links behind them rather than the closest matching text.
+\end{itemize}
+
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore\\
+Feature branches and conventional commits; GitLab CI with 132 pytest files as the merge gate on the
+voice-agent platform.
+
+\end{document}

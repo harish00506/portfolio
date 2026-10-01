@@ -1,0 +1,176 @@
+% ----------------------------------------------------------------------
+% Why:     Role-targeted resume variant for AI/ML engineering roles that ask
+%          for BOTH halves of the job, written against CGI req J0726-0318
+%          ("Software Engineer - AI Engineer", Bangalore). That JD wants
+%          traditional ML taken from concept to production AND GenAI / RAG /
+%          agentic systems. Every other variant on file leads with GenAI only
+%          and leaves the forecasting and model-training work invisible.
+% What:    Source for public/resume-cgi-ai-engineer.pdf. Per CLAUDE.md
+%          section 6 this is a role-targeted variant: it drifts from
+%          resume.tex on purpose and must NOT be "synced" back to it.
+% Result:  One page. Every claim traces to a repository on disk. Deliberately
+%          silent on LangChain, LangGraph, LlamaIndex, CrewAI, AutoGen,
+%          Pinecone and ChromaDB, none of which appear in any project swept,
+%          and on the OpenAI and Anthropic SDKs, which appear in no
+%          application code (section 1.3).
+% Changed: 2026-08-22 - created for CGI req J0726-0318.
+% Build:   pdflatex -interaction=nonstopmode -output-directory=public
+%            public/resume-cgi-ai-engineer.tex   (run twice, then delete the
+%            .aux / .log / .out it leaves behind)
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.6cm,bottom=0.5cm,left=1.1cm,right=1.1cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - AI and Machine Learning Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{3pt}{1pt}
+
+\setlist[itemize]{leftmargin=1.1em,itemsep=0pt,topsep=0.5pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.88}\selectfont
+\pagestyle{plain}
+
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\LARGE\bfseries Harish G}\\[1pt]
+{\small\bfseries AI / ML Engineer \textbar{} Forecasting \& Traditional ML in Production, GenAI, RAG, Agentic Systems}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad \href{https://github.com/harish00506/}{GitHub}}
+
+% ----------------------------------------------------------------------
+% Profile
+% ----------------------------------------------------------------------
+\section{Profile}
+I take models to production and I report what they actually do. On the traditional side that means
+gradient-boosted and global forecasting models measured out-of-sample against a mandatory
+seasonal-naive baseline, with conformal intervals derived from residuals and an accuracy
+certification that says plainly which forecasts clear the client's tolerance and which do not. On the
+generative side it means agents that call tools through declared schemas, retrieval that runs before
+inference with authorisation applied inside the retriever, and guardrails that mark any number the
+model did not get from a tool. Software Developer at CortexCraft.ai, in Python and Java.
+
+% ----------------------------------------------------------------------
+% Core Skills
+% ----------------------------------------------------------------------
+\section{Core Skills}
+\textbf{Machine Learning:} LightGBM quantile regression, PyCaret, scikit-learn, TensorFlow / Keras
+(LSTM classifiers), PyTorch; QLoRA fine-tuning with \texttt{transformers}, \texttt{peft},
+\texttt{trl} and \texttt{bitsandbytes}; lag, rolling-window and calendar feature engineering;
+backtesting on holdout and rolling folds; WAPE, MASE, WMAPE, RMSE and $R^2$; conformal prediction
+intervals; champion selection against a baseline that ships if nothing beats it\\
+\textbf{GenAI \& Agentic:} LLM function and tool calling (runtime Gemini function declarations,
+bidirectional tool-call loop), config-driven tool registries and generic HTTP tool execution,
+MCP-style tool hosting (\texttt{inputSchema}, \texttt{readOnlyHint}, \texttt{destructiveHint}),
+role-based tool routing, multi-agent prompt design, numeric output guardrails\\
+\textbf{RAG \& Vector Storage:} pgvector (HNSW index, cosine distance), Gemini
+\texttt{text-embedding-004}, Hugging Face Inference (\texttt{all-MiniLM-L6-v2}, 384-d), chunking with
+overlap, Postgres full-text fallback, role-scoped row-level retrieval, Neo4j graph-enriched retrieval\\
+\textbf{MLOps \& DevOps:} model persistence and hot reload, retraining pipelines, Docker and Compose,
+four-stage GitLab CI with staging and production gates, Jenkins, GitHub Actions, Helm charts with
+per-environment values, Terraform for managed cloud services, Prometheus metrics, structured JSON
+logging with request-ID correlation\\
+\textbf{Languages \& Backend:} Python, Java 21, JavaScript / TypeScript, SQL; FastAPI, Spring Boot,
+Node / Express, Celery, Redis, Streamlit; PostgreSQL / pgvector, MongoDB, Neo4j; React
+
+% ----------------------------------------------------------------------
+% Experience
+% ----------------------------------------------------------------------
+\section{Experience}
+
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Authored 380 of 418 commits on the voice-agent SaaS platform, behind 92 pytest suites,
+        Playwright end-to-end tests and a four-stage GitLab CI pipeline.
+  \item Built the agent tool layer: Gemini function declarations generated at runtime from agent
+        configuration, a bidirectional tool-call loop and a generic HTTP tool executor, so
+        onboarding a customer system is configuration rather than code.
+  \item Built transcript document intelligence on Gemini JSON mode: schema-driven field extraction
+        that coerces each value to its declared type and nulls anything off-type rather than
+        fabricating it, plus summarisation with key points, sentiment and per-topic aspect tags.
+  \item Own the deployment path end to end, as sole author of the deploy tree: three container
+        images, a Helm chart with per-environment values, and Terraform for the managed services.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+Delivered full-stack and data projects end to end for clients, then supported them through
+deployment, fixes and upgrades.
+
+% ----------------------------------------------------------------------
+% Projects
+% ----------------------------------------------------------------------
+\section{Selected Projects}
+
+\textbf{Demand Forecasting System} \textit{Python, PyCaret, scikit-learn, Docker, Streamlit, Playwright}
+\begin{itemize}
+  \item Sole author. Monthly forecasts across roughly 1,500 product series of 36 points each, from a
+        tiered model zoo of about 150 labelled configurations: pure-numpy statistical models, a
+        global ML tier, and a PyCaret sweep on aggregates.
+  \item The ML tier fits one model across all series pooled rather than one per series, which is
+        what makes a 48-configuration sweep affordable on 36-point histories, and forecasts the
+        12-month horizon directly rather than recursively, so no prediction is ever fed back as an
+        input and error cannot compound across the horizon.
+  \item Scored out-of-sample on WAPE and MASE rather than MAPE, which explodes on zero months, with
+        seasonal-naive as a mandatory baseline that ships if no candidate beats it. Prediction
+        intervals are conformal, computed from model residuals rather than from the variance of the
+        data, and a GREEN / AMBER / RED certification reports that median product-level WAPE is
+        16.6\% and 18.7\% of series land inside the client's requested 10\% band, rather than
+        narrowing every interval until the requirement appears to be met.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Inventory \& Sales Prediction} \textit{Python, LightGBM, FastAPI, PostgreSQL, Docker}
+\begin{itemize}
+  \item Sole author. Three quantile LightGBM models give a lower, median and upper bound per
+        product-store-day, over lag features at 1, 2, 3, 7, 14 and 28 days plus rolling mean,
+        standard deviation, minimum and maximum windows and calendar features.
+  \item Concept to production in one pipeline: train / validation / test split, WMAPE, MAE, RMSE and
+        $R^2$ scoring, joblib persistence, a model loader that hot-reloads without a restart, a
+        retrain entry point, and FastAPI serving in Docker.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Dental Clinic AI Assistant} \textit{Python, Flask, PostgreSQL/pgvector, Gemini, WhatsApp Business API}
+\begin{itemize}
+  \item Chunked document RAG (800-token chunks, 100 overlap) embedded with
+        \texttt{text-embedding-004} into pgvector, retrieved by cosine distance with a full-text
+        fallback and role-scoped row filtering applied inside the retriever, so authorisation cannot
+        be prompted around. Gemini function calling for booking behind a role-based tool router.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Zentrax, voice and gesture desktop assistant} \textit{Python, PyTorch, TensorFlow/Keras, transformers}
+\begin{itemize}
+  \item QLoRA fine-tuning pipeline for SmolLM2 over a generated instruction dataset, with checkpoint
+        resume and TensorBoard; separately, a Keras LSTM classifier and a scikit-learn random forest
+        for gesture and voice-command recognition.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Education
+% ----------------------------------------------------------------------
+\section{Education}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore.
+
+\end{document}

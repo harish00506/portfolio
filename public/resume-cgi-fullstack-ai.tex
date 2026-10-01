@@ -1,0 +1,154 @@
+% ----------------------------------------------------------------------
+% Why:     Single resume covering two CGI Bangalore requisitions at once:
+%          J0626-0475 "Java fullstack" (Java/Spring Boot microservices,
+%          ReactJS, PostgreSQL, Redis, OpenShift/K8s, Jenkins) and
+%          J0726-0318 "Software Engineer - AI Engineer" (Python, agentic AI,
+%          RAG, vector storage, MLOps). The overlap is real, so one document
+%          serves both, but each screener sees some material it did not ask
+%          for. Both must-have sets are therefore placed in the top third.
+% What:    Source for public/resume-cgi-fullstack-ai.pdf. Per CLAUDE.md
+%          section 6 this is a role-targeted variant: it drifts from
+%          resume.tex on purpose and must NOT be "synced" back to it.
+% Result:  One page. Skills are grouped and separated by middots so the
+%          block scans in a few seconds rather than reading as prose. Every
+%          claim traces to a repository on disk (section 1.3).
+% Changed: 2026-08-23 - created for CGI J0626-0475 + J0726-0318.
+% Build:   pdflatex -interaction=nonstopmode -output-directory=public
+%            public/resume-cgi-fullstack-ai.tex   (run twice, then delete
+%            the .aux / .log / .out it leaves behind)
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.6cm,bottom=0.5cm,left=1.1cm,right=1.1cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - AI and Full-Stack Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{3pt}{1pt}
+
+\setlist[itemize]{leftmargin=1.1em,itemsep=0pt,topsep=0.5pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.88}\selectfont
+\pagestyle{plain}
+
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+% Middot separator: keeps the skills block scannable instead of prose-like.
+\newcommand{\sep}{\,\textperiodcentered\,}
+% Fixed-width label so every skills row starts at the same column.
+\newcommand{\skill}[2]{\hangindent=5.4em\hangafter=1\makebox[5.4em][l]{\textbf{#1}}#2\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\LARGE\bfseries Harish G}\\[1pt]
+{\small\bfseries AI \& Full-Stack Engineer \textbar{} Java / Spring Boot \textperiodcentered{} React \textperiodcentered{} Python \textperiodcentered{} LLM Agents, RAG \& ML in Production}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad \href{https://github.com/harish00506/}{GitHub}}
+
+% ----------------------------------------------------------------------
+% Profile
+% ----------------------------------------------------------------------
+\section{Profile}
+Full-stack engineer who builds the AI as well as the application around it. Java 21 and Spring Boot
+on the backend, React on the front, PostgreSQL and Redis underneath, shipped as containers through
+CI. On the AI side I take models to production and report what they actually do: gradient-boosted
+forecasting measured out-of-sample against a mandatory baseline, retrieval that runs before inference
+with authorisation applied inside the retriever, and agents that call tools through declared schemas.
+Software Developer at CortexCraft.ai, where I authored 380 of 418 commits on our platform.
+
+% ----------------------------------------------------------------------
+% Core Skills
+% ----------------------------------------------------------------------
+\section{Core Skills}
+\skill{Languages}{Java 21 \sep Python \sep JavaScript / TypeScript \sep Kotlin \sep SQL \sep HTML / CSS}
+\skill{Backend}{Spring Boot 3.5 (Security, Data JPA, Validation, JJWT, Flyway) \sep FastAPI \sep Node / Express \sep Celery}
+\skill{Frontend}{React \sep Vite \sep Tailwind CSS \sep Jetpack Compose}
+\skill{Databases}{PostgreSQL \sep pgvector \sep MongoDB \sep Redis \sep Neo4j \sep SQLite / Room}
+\skill{AI \& LLM}{LLM function and tool calling \sep config-driven tool registries \sep MCP-style tool hosting \sep prompt design \sep output guardrails}
+\skill{RAG}{pgvector (HNSW, cosine) \sep \texttt{text-embedding-004} \sep Hugging Face MiniLM \sep chunking with overlap \sep full-text fallback \sep role-scoped retrieval}
+\skill{ML}{LightGBM \sep PyCaret \sep scikit-learn \sep TensorFlow / Keras \sep PyTorch \sep QLoRA fine-tuning \sep WAPE / MASE / RMSE \sep conformal intervals}
+\skill{DevOps}{Docker \sep Kubernetes (Helm) \sep Terraform \sep GitLab CI \sep Jenkins \sep GitHub Actions \sep Prometheus}
+\skill{Testing}{pytest \sep Playwright \sep JUnit \sep coverage gates \sep append-only audit trails}
+
+% ----------------------------------------------------------------------
+% Experience
+% ----------------------------------------------------------------------
+\section{Experience}
+
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Authored 380 of 418 commits on the voice-agent platform, built as separate backend services
+        with a React front end, PostgreSQL and Redis, behind 92 pytest suites, Playwright end-to-end
+        tests and a four-stage GitLab CI pipeline.
+  \item Built the agent tool layer: Gemini function declarations generated at runtime from agent
+        configuration, a bidirectional tool-call loop and a generic HTTP tool executor, so onboarding
+        a customer system is configuration rather than code.
+  \item Built transcript document intelligence in Gemini JSON mode: schema-driven field extraction
+        that coerces each value to its declared type and nulls anything off-type rather than
+        fabricating it, plus summarisation with key points, sentiment and per-topic tags.
+  \item Sole author of the deploy tree: three container images including a dedicated worker, a Helm
+        chart with per-environment values, and Terraform for the managed cloud services.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+Delivered full-stack and data projects end to end for clients, then supported them through
+deployment, fixes and upgrades.
+
+% ----------------------------------------------------------------------
+% Projects
+% ----------------------------------------------------------------------
+\section{Selected Projects}
+
+\textbf{Lendly, lending platform} \textit{Java 21, Spring Boot 3.5, React, PostgreSQL, Flyway, Docker}
+\begin{itemize}
+  \item Spring Boot 3.5 on Java 21 with Spring Security and JJWT, Data JPA and Bean Validation,
+        Flyway versioned migrations against PostgreSQL and H2 for tests, a React front end, GitHub
+        Actions CI and Docker Compose for local environments.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Demand Forecasting System} \textit{Python, PyCaret, scikit-learn, Docker, Streamlit}
+\begin{itemize}
+  \item Sole author. Monthly forecasts across roughly 1,500 product series from a tiered zoo of about
+        150 labelled configurations, with one global model fitted across all series pooled rather
+        than one per series, and a direct twelve-month horizon so error cannot compound.
+  \item Scored out-of-sample on WAPE and MASE, with seasonal-naive as a mandatory baseline that ships
+        if nothing beats it. Intervals are conformal, from model residuals rather than the variance
+        of the data, and a GREEN / AMBER / RED certification reports that median WAPE is 16.6\% and
+        18.7\% of series meet the client's 10\% target, rather than narrowing the bands until the
+        requirement appears to be met.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Dental Clinic AI Assistant} \textit{Python, Flask, PostgreSQL/pgvector, Gemini, WhatsApp Business API}
+\begin{itemize}
+  \item Chunked document RAG (800-token chunks, 100 overlap) embedded with
+        \texttt{text-embedding-004} into pgvector, retrieved by cosine distance with a full-text
+        fallback and role-scoped row filtering applied inside the retriever, so authorisation cannot
+        be prompted around. Gemini function calling for booking behind a role-based tool router.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Education
+% ----------------------------------------------------------------------
+\section{Education}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore.
+
+\end{document}

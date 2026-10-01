@@ -1,79 +1,54 @@
-# Resume Improvement Notes — Harish G
+# Resume notes — Harish G
 
-These are suggestions to strengthen your resume (`Harish_G_Resume`). They are **notes only** — no
-changes have been made to your PDF. Prioritized from highest impact to polish.
+The advice that used to live here is now enforced rather than written down. It moved into the
+**`resume-forge`** skill (`~/.claude/skills/resume-forge/`), which builds a resume from a verified
+evidence ledger and then scores it.
 
----
+> The previous version of this file was written before the August–September 2026 content rewrite and
+> had gone stale in a way that was worse than useless: it gave advice about "Farmers Survey AI",
+> "MedChat-AI" and "Task Tracker" (now KisanVoice AI, FinGraph AI and TaskFlow), claimed "5 Indian
+> languages" against the current 24 configured locales and "200+ commits" against the actual 172 of
+> 192, and described a final-year student rather than a working software developer. Advice that
+> contradicts the source of truth is a liability, so it is gone.
 
-## 1. High impact — content & positioning
+## Where the advice lives now
 
-### Lead with quantified, flagship work
-Your strongest project (Farmers Survey AI) is under-sold on the current resume. Recruiters skim — put
-numbers up front:
-- "WhatsApp survey platform handling voice + text responses in **5 Indian languages**, **200+
-  commits**, real-time admin dashboard, audio QC workflow." Mention Twilio/WhatsApp, Groq, Sarvam,
-  Socket.io, Docker.
-- Every bullet should answer **"how much / how many / what impact?"** Add metrics wherever possible
-  (users, latency, accuracy, scale, languages, data volume).
+| Was | Now |
+|---|---|
+| "Lead with quantified work", "every bullet answers how much" | `references/rubric.md` → bullet quality, scored |
+| "Never claim a number you cannot point at" | `references/rubric.md` → fact traceability, scored against `docs/resume-evidence.json` |
+| "Add the real projects the resume omits" | `references/evidence-ledger.md` → the full inventory |
+| "Reorder for relevance per role" | `references/role-profiles.md` + `assets/role-profiles.json` |
+| "One consistent email", "make links clickable" | `references/rubric.md` → contact check, scored |
+| "ATS-friendly, single column, standard headings" | `references/rubric.md` → ATS check, scored |
+| "Strong action verbs, avoid Worked on / Responsible for" | `references/rubric.md` → weak-opener list, scored |
+| "One page" | `scripts/build_resume.sh` fails the build if `pdfinfo` says otherwise |
 
-### Add the real projects the resume omits
-The resume lists Zentrax, Task Tracker, GroceryGo — but you've built more substantial work that isn't
-shown. Add at least:
-- **MedChat-AI** — hybrid RAG (Neo4j knowledge graph + pgvector semantic search) with interactive
-  graph visualization. This is exactly the "RAG / agents / context management" your profile claims.
-- **Inventory & Sales Forecasting** — ML demand forecasting (LightGBM / Prophet), FastAPI + React,
-  EOQ/ABC optimization. Demonstrates real data-science depth.
+## Using it
 
-These directly back up the AI/ML skills you list, so they're worth more than a third "app" project.
+```bash
+# 1. Rebuild the fact base (do this first, every time)
+python3 ~/.claude/skills/resume-forge/scripts/extract_evidence.py --repo .
 
-### Tighten the profile/summary
-Cut it to 2–3 punchy lines. Current version repeats the skills section. Replace with a sharp
-positioning line + 1 differentiator, e.g.:
-> "Final-year ISE student and AI Developer Intern building production AI systems — RAG pipelines,
-> voice (STT/TTS) agents, and scalable backends in Spring Boot / FastAPI / Express."
+# 2. Build a variant's PDF and check it is one page
+bash ~/.claude/skills/resume-forge/scripts/build_resume.sh public/resume-java-developer.tex
 
-### Make the experience section achievement-oriented
-The CortexCraft bullets are responsibility statements ("Developing…", "Building…"). Convert at least
-two into outcomes: what shipped, what improved, what scale. Use past/active tense consistently.
+# 3. Score it
+python3 ~/.claude/skills/resume-forge/scripts/evaluate_resume.py \
+  public/resume-java-developer.tex --role java-developer --min-score 85
+```
 
----
+Ready to send at **85 or above with zero fact-traceability and zero claim-integrity findings**. An
+honest 78 beats a 92 that invented a number.
 
-## 2. Medium impact — structure & consistency
+## Open items the evaluator currently reports
 
-- **Reorder for relevance:** for AI roles, put Projects (or a "Selected AI Projects" block) above the
-  full skill dump. Recruiters want proof before keyword lists.
-- **Group skills more tightly:** the Concepts line is long and reads as filler. Trim to the 5–6 that
-  matter (REST API Design, System Design, JWT Auth, Query Optimization) and drop generic ones
-  ("Basic UI/UX Design Principles").
-- **One consistent contact email.** Resume uses `harishgreddy.work@gmail.com`; make sure LinkedIn,
-  GitHub and the portfolio all match. Pick one and use it everywhere.
-- **Make links clickable and verified.** "LinkedIn — GitHub" should be real hyperlinks; confirm they
-  resolve. Add the portfolio URL once it's deployed.
-
----
-
-## 3. Polish — formatting & ATS
-
-- **Date format consistency:** use a single style throughout (e.g. `Jan 2026 – Present`,
-  `2022 – 2026`).
-- **Typos / spacing:** fix "Multithreading, Query Optimization, Modular System Design, Resource
-  Management,Basic UI/UX…" (missing space after the comma). Proofread the full doc once more.
-- **One page vs two:** as a final-year student, aim for **one page**. The current page 2 holds only
-  Education + 3 generic achievement lines — fold those onto page 1 and drop vague achievements that
-  repeat the projects.
-- **ATS-friendliness:** keep it single-column, standard section headings (Experience, Projects,
-  Skills, Education), no text inside images/tables, standard fonts. Save as a text-selectable PDF
-  (not a flat scan).
-- **Strong action verbs:** start bullets with Built, Designed, Reduced, Integrated, Automated,
-  Optimized — avoid "Worked on" / "Responsible for".
-
----
-
-## Suggested final ordering (one page)
-
-1. Header (name, title, location, one consistent email, phone, LinkedIn, GitHub, **portfolio URL**)
-2. Summary (2–3 lines)
-3. Experience (CortexCraft.ai — outcome-focused bullets)
-4. Selected Projects (Farmers Survey AI, MedChat-AI, Inventory & Sales Forecasting + 1 more)
-5. Skills (tightened)
-6. Education + 1–2 genuine achievements
+- Four company-targeted variants (`resume-anz-platform-engineer`, `resume-cgi-ai-engineer`,
+  `resume-cgi-fullstack-ai`, `resume-hpe-agentic-rpa`) still say **380 of 418 commits**, an August
+  snapshot. `portfolio.js` and `resume.tex` say **589 of 626** (plus 67 of 75 on the core engine).
+  Commit counts only grow, so the higher figures are current and those four need updating.
+- `resume.tex` calls the forecasting project **"Sales & Inventory Forecasting"**; `portfolio.js`
+  calls it **"StockSense AI"**. Same project, two names. Pick one.
+- Lendly, AI Personal CFO and Talo, the Dental Clinic AI Assistant, the Demand Forecasting System,
+  Inventory & Sales Prediction and the AI Code-Review Gate appear on resumes but not on the site.
+  Adding them to `portfolio.js` would need slugs, STAR case studies and metrics.

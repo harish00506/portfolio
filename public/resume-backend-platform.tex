@@ -1,0 +1,154 @@
+% ----------------------------------------------------------------------
+% Why:     Platform screens want evidence of running something in production, not of
+%          shipping features. This variant leads with reliability work and the
+%          operations built into the services rather than added afterwards.
+% What:    One-page resume targeting backend and platform engineering roles.
+%          Built from the resume-forge evidence ledger; every number traces to a
+%          repository.
+% Result:  Production ownership as the through-line: APIs, async workers,
+%          observability, migrations and CI gates.
+% Changed: 2026-09-27 -- created from assets/resume-template.tex.
+% Build:   bash ~/.claude/skills/resume-forge/scripts/build_resume.sh \
+%            public/resume-backend-platform.tex
+% Check:   python3 ~/.claude/skills/resume-forge/scripts/evaluate_resume.py \
+%            public/resume-backend-platform.tex --role backend-platform --min-score 85
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.25cm,right=1.25cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - Backend and Platform Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+% ----------------------------------------------------------------------
+% Section styling: sans-serif bold heading with a thin rule beneath
+% ----------------------------------------------------------------------
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+% Compact bullet lists: the single biggest lever on whether this fits a page.
+\setlist[itemize]{leftmargin=1.2em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.97}\selectfont
+\pagestyle{empty}
+
+% ----------------------------------------------------------------------
+% Helpers
+% ----------------------------------------------------------------------
+% Entry heading row with a right-aligned date: \entry{Title}{Date}
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+% Middot separator: keeps the skills block scannable instead of prose-like.
+\newcommand{\sep}{\,\textperiodcentered\,}
+% Fixed-width label so every skills row starts at the same column. A fixed
+% \makebox overlapped its own content whenever a label was wider than the box,
+% so the gap is measured instead: aligned when the label fits, and a plain 0.6em
+% gap when it does not. A long label can never collide with the row again.
+\newlength{\skillwidth}\setlength{\skillwidth}{6.4em}
+\newlength{\skilllabel}
+\newcommand{\skill}[2]{%
+  \settowidth{\skilllabel}{\textbf{#1}}%
+  \hangindent=\skillwidth\hangafter=1%
+  \mbox{\textbf{#1}}%  \mbox so inner spaces cannot stretch under justification
+  \ifdim\skilllabel<\skillwidth\hspace{\dimexpr\skillwidth-\skilllabel}\else\hspace{0.6em}\fi
+  #2\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\LARGE\bfseries Harish G}\\[1pt]
+{\normalsize\bfseries Backend \& Platform Engineer \textbar{} APIs, Async Workers, Observability, CI/CD}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad
+\href{https://github.com/harish00506/}{GitHub}}
+
+\section{Profile}
+The interesting part of a service is the week after it ships. In that week I have traced a Docker
+TLS failure to NAT hairpinning on a self-hosted domain, added reconnect handling for sockets that
+drop mid-call, and worked out why outbound routing was picking the wrong carrier. So now I build
+the operations in from the start. A request ID through every log line, metrics on a port, and the
+rollback written down before anyone needs it.
+
+\section{Core Skills}
+\skill{Languages}{Python \sep Java 21 \sep JavaScript \sep TypeScript \sep SQL}
+\skill{Backend}{FastAPI \sep Spring Boot 3.5 \sep Node.js/Express \sep Celery \sep WebSockets \sep REST API Design \sep Multi-Tenant SaaS}
+\skill{Data}{PostgreSQL \sep Alembic \sep Flyway \sep MongoDB \sep Redis \sep Neo4j \sep Query Optimization}
+\skill{Platform}{Docker \& Compose \sep Jenkins \sep GitLab CI \sep GitHub Actions \sep Git \sep Twilio \sep Plivo}
+\skill{Ops}{Structured JSON Logging \sep Request-ID Propagation \sep Prometheus Metrics \sep Health Endpoints \sep Runbooks \& Rollback \sep Append-Only Audit Logs}
+\skill{Concepts}{System Design \sep Modular Architecture \sep JWT Auth \& RBAC \sep Idempotency \& Locking \sep Zero-Downtime Migration}
+
+\section{Experience}
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Built and maintain the voice-agent platform (589 of 626 commits on the SaaS platform, 67 of 75
+        on the core engine), including the external REST API that other products integrate against,
+        so one platform backs several shipped products instead of several codebases.
+  \item Own production reliability of the call pipeline: fixed outbound routing, added reconnect
+        handling for dropped sockets, tightened termination detection so calls end cleanly, and
+        traced a Docker TLS failure to NAT hairpinning on a self-hosted domain.
+  \item Shipped LeadCall AI on the platform: Celery dial and callback workers behind Redis dial locks,
+        per-tenant telephony credentials encrypted at rest, Alembic-migrated PostgreSQL, and an
+        append-only audit log of operator actions.
+  \item Gate merges on GitLab CI with 132 pytest files, on feature branches with conventional commits.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+\begin{itemize}
+  \item Delivered backend services, automation scripts and deployment support for local clients in Python and Node.js.
+\end{itemize}
+
+\section{Selected Projects}
+\textbf{KisanVoice AI, multilingual survey platform} \textit{Python, FastAPI, MongoDB, Jenkins, Docker}
+\begin{itemize}
+  \item 172 of 192 commits. Operations built in rather than added later: every request carries an
+        \texttt{X-Request-ID} that is forwarded or generated and echoed back, every log line is a
+        single JSON object carrying that ID, and each response is logged with its status and duration
+        in milliseconds. A Prometheus instrumentator exposes \texttt{/metrics} with status codes
+        grouped and health endpoints excluded.
+  \item Ships with a deployment runbook covering prerequisites, environment setup, a verification step
+        and a symptom-to-fix section for the failures the team actually hit, alongside a written
+        release process with a hotfix flow and a rollback procedure.
+  \item Replaced the Node.js backend with FastAPI and swapped the speech provider behind a
+        config-driven registry of 24 locales, both without interrupting live surveys. Jenkins builds
+        it, Docker Compose runs it.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Lendly, lending platform backend} \textit{Java 21, Spring Boot 3.5, PostgreSQL, Flyway, Docker}
+\begin{itemize}
+  \item Spring Boot 3.5 on Java 21 with Spring Security and JJWT, Data JPA and Bean Validation, Flyway
+        versioned migrations against PostgreSQL with H2 for tests, GitHub Actions CI and Docker
+        Compose for local environments.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{FinGraph AI} \textit{Node.js, Express, Neo4j, Supabase pgvector, JWT}
+\begin{itemize}
+  \item Two stores behind one query path: pgvector for similarity search and Neo4j for the
+        relationships each hit is enriched with, under JWT authentication with bcrypt-hashed
+        credentials and role-restricted admin routes.
+\end{itemize}
+
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore\\
+Feature branches and conventional commits; GitLab CI with 132 pytest files as the merge gate on the
+voice-agent platform.
+
+\end{document}

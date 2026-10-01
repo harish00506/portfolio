@@ -86,7 +86,20 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
   Rebuild: `pdflatex -interaction=nonstopmode -output-directory=public public/resume.tex` (twice),
   then delete the `.aux` / `.log` / `.out` it leaves behind.
 - `public/resume-anz-ai-engineer.tex` is a role-targeted variant. It drifts from `resume.tex` on
-  purpose, so do not "sync" the two.
+  purpose, so do not "sync" the two. The same applies to the other company-targeted variants
+  (`resume-anz-platform-engineer`, `resume-cgi-*`, `resume-hpe-*`).
+- **The `resume-<role>.tex` family is generated, not hand-written.** `resume-agentic-ai`,
+  `resume-java-developer`, `resume-mobile-developer`, `resume-fullstack-developer`,
+  `resume-ml-engineer`, `resume-backend-platform`, `resume-python-developer` and
+  `resume-automation-rpa` all come from the `resume-forge` skill
+  (`~/.claude/skills/resume-forge/`). Regenerate or re-score one with that skill rather than
+  editing it ad hoc, so the family keeps one template and one set of numbers.
+- **These variants draw on a wider evidence ledger than `portfolio.js`.** The ledger
+  (`docs/resume-evidence.json`, rebuilt by the skill) merges `portfolio.js` with the project blocks
+  of the shipped `.tex` variants, which carry real work the site does not list — Lendly, AI Personal
+  CFO and Talo, the Dental Clinic AI Assistant, the forecasting systems. §1.2 still binds everything
+  the *site* shows; a variant may go beyond it, but may never contradict it, and every number must
+  still trace to something real (§1.3). The skill's evaluator enforces exactly that.
 - One page. If something new goes on, something old comes off.
 - `dist/` is gitignored build output. Editing a `.tex` under `dist/` changes nothing.
 
