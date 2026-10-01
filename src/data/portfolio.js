@@ -112,7 +112,12 @@ export const projectCategories = ['All', 'AI', 'Full-Stack', 'ML', 'Mobile']
 // Each project carries a STAR case study (Situation · Task · Action · Result).
 // Flagship projects additionally include `action.samples` (code) and
 // `action.screenshots`. Code samples are real excerpts from each project's repo,
-// trimmed for length; screenshots point at /public/projects/<slug>/ (add images).
+// trimmed for length.
+//
+// `action.screenshots` is currently empty everywhere on purpose. Three entries used to point at
+// /projects/<slug>/*.png while public/projects/ did not exist, so two live case studies served
+// 404s for every image. Add a screenshot back only once its file is in public/projects/<slug>/:
+//   screenshots: [{ src: '/projects/<slug>/<file>.png', caption: '<what it shows>' }]
 export const projects = [
   {
     slug: 'cortexcraft-voice-agent',
@@ -323,10 +328,6 @@ for raw in config.get("languages") or []:
             alias_to_iso[alias] = code`
           },
         ],
-        screenshots: [
-          { src: '/projects/kisanvoice-ai/dashboard.png', caption: 'Real-time admin dashboard with live responses and analytics' },
-          { src: '/projects/kisanvoice-ai/whatsapp.png', caption: 'WhatsApp voice survey flow in a regional language' },
-        ],
       },
       result: {
         narrative:
@@ -449,9 +450,6 @@ async function semanticSearch(query, contentType = null, limit = 5) {
   return enrichWithGraphData(vectorResults);
 }`,
           },
-        ],
-        screenshots: [
-          { src: '/projects/fingraph-ai/answer.png', caption: 'Answer grounded in graph-enriched search results' },
         ],
       },
       result: {
