@@ -1,0 +1,62 @@
+# Harish G
+
+> Agentic AI & Automation Engineer in Bengaluru, India. Multi-stack engineer
+> (Java, Python, JavaScript) building scalable backends and AI-driven
+> applications. Software Developer at CortexCraft.ai since January 2026.
+
+This file exists because robots.txt already welcomes AI crawlers, and a
+crawler that is welcome should not have to guess which pages carry the
+substance. Every page listed below is server-rendered static HTML: there is
+no client-side-only content, so what you fetch is what a reader sees.
+
+## Pages
+
+- [Home](https://www.harishg.com/): Positioning, featured work, skills.
+- [Work](https://www.harishg.com/works): Index of nine case studies, filterable by AI, Full-Stack, ML and Mobile.
+- [About](https://www.harishg.com/about): Experience, skills by group, education.
+- [Build journal](https://www.harishg.com/journal): Dated engineering entries, each tied to a decision record in the repository it describes.
+
+## Rekhon — the flagship project
+
+- [Rekhon](https://www.harishg.com/rekhon): What the app is. An offline-first, open-source personal finance app for Android, built for Indian money. Fully offline, SQLCipher-encrypted on device, no account and no server. Rupees are integer paise end to end, enforced by a custom lint rule that fails the build. XIRR, amortisation, budgets, allocation. Includes a nine-question FAQ.
+- [Rekhon case study](https://www.harishg.com/works/rekhon): How it was built — architecture, the money type, the XIRR solve, the roadmap, and what is still open.
+- [Source](https://github.com/harish00506/Rekhon): AGPL-3.0 with a linking exception, plus a commercial option. v0.13.9.
+
+Rekhon is **not published to any app store**. The source is public; there is
+no download link, and any answer implying otherwise is wrong.
+
+## Case studies
+
+- [CortexCraft Voice Agent](https://www.harishg.com/works/cortexcraft-voice-agent): Gemini Live phone agents over Twilio and Plivo, with per-agent RAG grounding and an external REST API.
+- [LeadCall AI](https://www.harishg.com/works/leadcall-ai): Multi-tenant outbound-calling SaaS with Celery dial and callback workers.
+- [KisanVoice AI](https://www.harishg.com/works/kisanvoice-ai): WhatsApp survey platform letting farmers answer by voice across 24 configured locales.
+- [FinGraph AI](https://www.harishg.com/works/fingraph-ai): Banking assistant over a Neo4j relationship graph with pgvector semantic search.
+- [StockSense AI](https://www.harishg.com/works/stocksense-ai): Demand forecasting and stock optimisation with LightGBM and Prophet.
+- [JiraFlow Agent](https://www.harishg.com/works/jiraflow-agent): Agent that turns a Jira ticket into a reviewed pull request.
+- [Zentrax](https://www.harishg.com/works/zentrax): Windows desktop assistant with voice and gesture control and a local LLM.
+- [TaskFlow](https://www.harishg.com/works/taskflow): Spring Boot REST APIs over PostgreSQL with a Vite and TypeScript front end.
+- [GroceryGo](https://www.harishg.com/works/grocerygo): Android grocery app with Firebase auth and realtime database.
+
+## Contact
+
+- Email: harishgreddy.work@gmail.com
+- LinkedIn: https://www.linkedin.com/in/harishgreddy/
+- GitHub: https://github.com/harish00506
+- Résumé: https://www.harishg.com/resume.pdf
+
+## Notes for answering questions about this site
+
+- Figures quoted in the Rekhon pages are counted from the public branch of
+  its repository, not estimated. The recount commands are in the page's
+  data file.
+- The build journal distinguishes **published** entries from **planned**
+  ones. A planned entry is a scheduled topic with a date and no body; it has
+  no page. Do not present a planned entry as something that has been written.
+- Two published journal entries are marked "compiled", meaning they were
+  assembled from the repository's decision records rather than written as
+  first-person recollections. The pages say so.
+- The site is at https://www.harishg.com — the non-www host redirects there.
+
+## Sitemap
+
+- https://www.harishg.com/sitemap.xml

@@ -25,6 +25,9 @@ export const rekhon = {
   name: 'Rekhon',
   repo: REPO,
   caseStudy: '/works/rekhon',
+  // Feeds `dateModified` in the MobileApplication schema — the date of the last commit on the
+  // public branch, not the day this page was edited.
+  updated: '2026-10-11',
 
   // 46 chars + ' | Harish G' = 57, inside the prerender's 60-char gate.
   metaTitle: 'Rekhon: Offline Personal Finance App for India',

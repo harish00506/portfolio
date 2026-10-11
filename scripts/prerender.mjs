@@ -71,6 +71,7 @@ const websiteLd = { '@type': 'WebSite', name: `${profile.name} | Portfolio`, url
 
 const projectLd = (p) => ({
   '@type': 'SoftwareSourceCode',
+  ...(p.roadmap?.asOf && { dateModified: p.roadmap.asOf }),
   name: p.name,
   description: p.metaDescription ?? p.blurb,
   keywords: p.tags.join(', '),
@@ -111,6 +112,7 @@ const blogLd = {
 
 const entryLd = (e) => ({
   '@type': 'BlogPosting',
+  dateModified: e.date,
   headline: e.title,
   description: e.metaDescription ?? e.summary,
   datePublished: e.date,
@@ -151,6 +153,7 @@ const appLd = {
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
   author: { '@type': 'Person', name: profile.name, url: site.url },
   featureList: rekhon.facts.map((f) => `${f.label}: ${f.value}`),
+  dateModified: rekhon.updated,
 }
 
 // FAQPage from the same data the page renders, so the markup can never claim an answer the page

@@ -33,4 +33,9 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
+# IndexNow key (Bing, Yandex, Seznam, Naver share this protocol).
+# Key file: https://www.harishg.com/023eafc26b09dc98bc64f9815c60fb32.txt
+
+# Structured summary for AI crawlers: https://www.harishg.com/llms.txt
+
 Sitemap: https://www.harishg.com/sitemap.xml
