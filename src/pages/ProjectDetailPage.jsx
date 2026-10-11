@@ -11,12 +11,14 @@
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ExternalLink, Github } from 'lucide-react'
 import { projects, getProjectBySlug } from '../data/portfolio.js'
+import { publishedEntriesForProject } from '../data/journal.js'
 import ArchitectureDiagram from '../components/ArchitectureDiagram.jsx'
 import CodeSample from '../components/CodeSample.jsx'
 import MetricStat from '../components/MetricStat.jsx'
 import ProjectDetails from '../components/ProjectDetails.jsx'
 import ProjectPager from '../components/ProjectPager.jsx'
 import Reflection from '../components/Reflection.jsx'
+import ProjectRoadmap from '../components/ProjectRoadmap.jsx'
 import Screenshot from '../components/Screenshot.jsx'
 import { Button } from '@/components/ui/button'
 import NotFoundPage from './NotFoundPage.jsx'
@@ -62,8 +64,9 @@ export default function ProjectDetailPage() {
 
   if (!project) return <NotFoundPage />
 
-  const { name, blurb, tags, categories = [], links = {}, note, star = {}, details, diagram, reflection } =
+  const { name, blurb, tags, categories = [], links = {}, note, star = {}, details, diagram, reflection, roadmap } =
     project
+  const entries = publishedEntriesForProject(slug)
   const action = star.action ?? {}
   const samples = action.samples ?? []
   const screenshots = action.screenshots ?? []
@@ -153,6 +156,59 @@ export default function ProjectDetailPage() {
           <Chapter label="Action" text={action.narrative} media={actionMedia} />
           <Chapter label="Result" text={star.result?.narrative} media={resultMedia} />
         </div>
+
+        {roadmap && (
+          <div className="mt-20">
+            <ProjectRoadmap roadmap={roadmap} />
+          </div>
+        )}
+
+        {entries.length > 0 && (
+          <section aria-labelledby="journal-title" className="mt-20">
+            <p className="kicker">Build journal</p>
+            <h2
+              id="journal-title"
+              className="display mt-3 text-balance text-3xl font-bold leading-tight text-foreground sm:text-4xl"
+            >
+              How the thinking moved
+            </h2>
+            <p className="mt-4 max-w-[66ch] leading-relaxed text-muted-foreground">
+              Dated entries on the decisions behind this project, each linking to the record it came
+              from.
+            </p>
+            <ul className="mt-8 divide-y divide-border border-y border-border">
+              {entries.map((entry) => (
+                <li key={entry.slug}>
+                  <Link
+                    to={`/journal/${entry.slug}`}
+                    className="group flex flex-col gap-1.5 py-5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex-row sm:items-baseline sm:gap-6"
+                  >
+                    <time
+                      dateTime={entry.date}
+                      className="min-w-[7rem] flex-none font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground"
+                    >
+                      {entry.date}
+                    </time>
+                    <span className="min-w-0">
+                      <span className="block text-lg font-medium leading-snug text-foreground transition-colors group-hover:text-primary">
+                        {entry.title}
+                      </span>
+                      <span className="mt-1 block max-w-[62ch] text-sm leading-relaxed text-muted-foreground">
+                        {entry.summary}
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link
+              to="/journal"
+              className="mt-7 inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              All entries
+            </Link>
+          </section>
+        )}
 
         {reflection?.length > 0 && (
           <div className="mt-20">
