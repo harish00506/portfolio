@@ -22,7 +22,7 @@ export default function HomePage() {
       <Hero />
 
       {/* Selected work: the featured projects, projects-first ordering */}
-      <Section id="projects" index="01" kicker="Selected work" title="Things I've built" alt>
+      <Section id="projects" index="01" kicker="Selected work" title="Voice agents, AI platforms and Android apps" alt>
         <div className="grid gap-5 sm:grid-cols-2">
           {featuredProjects.map((project, i) => (
             <Reveal key={project.slug} delay={i * 0.05}>
