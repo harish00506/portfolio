@@ -15,6 +15,16 @@ export default function WorksPage() {
 
   return (
     <Section id="works" kicker="Work" title="Everything I've built" className="pt-28 sm:pt-32" headingLevel={1}>
+      {/* The index had no prose at all, which left the page with nothing describing what these
+          projects are — for a reader skimming, or for a search engine deciding what it is about. */}
+      <p className="mb-10 max-w-[70ch] text-lg leading-relaxed text-muted-foreground">
+        Nine case studies, each with the problem it solved, the architecture behind it, real code
+        from the repository and what actually shipped. The work spans AI engineering — Gemini Live
+        voice agents, RAG retrieval, tool-calling agents and output guardrails — alongside
+        full-stack platforms in FastAPI, Spring Boot and React, machine-learning forecasting, and
+        Android apps in Kotlin and Jetpack Compose.
+      </p>
+
       {/* Filter tabs */}
       <Tabs value={filter} onValueChange={setFilter} className="mb-10">
         <div className="flex flex-wrap items-center justify-between gap-4">

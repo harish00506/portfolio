@@ -380,6 +380,12 @@ private fun bisect(
       'Write an incident report for every production fix, not only the NAT hairpinning one.',
     ],
     star: {
+      headings: {
+        situation: 'Why every client wanted the same voice agent with a different script',
+        task: 'Making an AI phone agent configuration rather than code',
+        action: 'Gemini Live over Twilio and Plivo, with per-agent RAG grounding',
+        result: 'One FastAPI platform behind several shipped products',
+      },
       situation:
         'Every client wanted the same thing with a different script: an AI that answers or places phone calls, knows their documents, and hands a transcript back to whatever system they already run. Rebuilding that stack per client would have meant maintaining the same telephony and streaming bugs in several places at once.',
       task:
@@ -445,6 +451,12 @@ while True:
     tags: ['Python', 'FastAPI', 'Celery', 'Alembic', 'PostgreSQL', 'React', 'RAG', 'Docker Compose'],
     links: {},
     star: {
+      headings: {
+        situation: 'Why lead lists go uncalled, and it is not the conversation',
+        task: 'A lead list and a pitch document should be enough to run a campaign',
+        action: 'Celery dial and callback workers over an Alembic-migrated PostgreSQL',
+        result: 'Multi-tenant outbound calling without the client touching telephony',
+      },
       situation:
         'Small teams sit on lead lists they never call. The blocker is not the conversation. It is the operations around it: dialing at the right pace, knowing which calls actually finished, and keeping one client’s data away from another’s.',
       task:
@@ -511,6 +523,12 @@ while True:
       'Stream WhatsApp survey answers to the dashboard live; today only phone-call events are pushed.',
     ],
     star: {
+      headings: {
+        situation: 'Why rural field surveys exclude the people they are meant to reach',
+        task: 'Letting farmers answer a survey by voice, in their own language',
+        action: 'WhatsApp voice notes through Google STT and TTS across 24 locales',
+        result: 'A multilingual voice survey platform without the literacy barrier',
+      },
       situation:
         'Field surveys of rural farmers are slow, expensive and exclude people who can not read or fill in forms. Enumerators travel village to village, and language barriers across regions make consistent data collection hard.',
       task:
@@ -577,6 +595,12 @@ for raw in config.get("languages") or []:
       commits: '8 of 8 + 2 of 2 (two repositories)',
     },
     star: {
+      headings: {
+        situation: 'Overstocking ties up cash, and stockouts lose the sale',
+        task: 'Turning a demand forecast into an actual stocking decision',
+        action: 'LightGBM and Prophet forecasts, then safety stock, reorder points and EOQ',
+        result: 'Sales history converted into an actionable inventory policy',
+      },
       situation:
         'Retailers lose money at both ends of inventory: overstocking ties up cash, while stockouts lose sales. Manual reorder rules can not keep up with seasonal, item-level demand.',
       task:
@@ -635,6 +659,12 @@ for raw in config.get("languages") or []:
       'Mount the audit writer, so every question is actually logged.',
     ],
     star: {
+      headings: {
+        situation: 'Banking questions are about relationships, which vector search misses',
+        task: 'Retrieve by meaning, then ground every result in the graph',
+        action: 'A Neo4j graph plus pgvector semantic search, answered by Groq',
+        result: 'A banking assistant whose answers carry their relationships',
+      },
       situation:
         'Banking questions are about relationships: which customer holds which loan, what they asked before, how their records connect. Plain vector search finds similar text but loses those links, so answers come back plausible and unanchored.',
       task:
@@ -699,6 +729,12 @@ async function semanticSearch(query, contentType = null, limit = 5) {
       timeline: 'January to February 2026',
     },
     star: {
+      headings: {
+        situation: 'Small tickets cost a context switch, not engineering time',
+        task: 'Automating the path from a Jira ticket to a pull request',
+        action: 'An LLM agent that branches per ticket and opens a pull request',
+        result: 'Small tickets close as reviewable pull requests',
+      },
       situation:
         'A large share of any backlog is small, unambiguous tickets: a copy fix, a colour change, a missing prop. Each one still costs a context switch: read the ticket, branch, edit, push, open a PR.',
       task:
@@ -740,6 +776,12 @@ async function semanticSearch(query, contentType = null, limit = 5) {
       commits: '12 of 16',
     },
     star: {
+      headings: {
+        situation: 'A cloud assistant that controls your machine is a privacy problem',
+        task: 'A desktop assistant whose intelligence runs locally',
+        action: 'A local LLM through Ollama, Whisper speech recognition and MediaPipe gestures',
+        result: 'Voice and gesture desktop control that keeps data on the device',
+      },
       situation:
         'Cloud voice assistants send everything you say to a server. For a personal desktop assistant that controls your machine, that is both a privacy and a latency problem.',
       task:
@@ -781,6 +823,12 @@ async function semanticSearch(query, contentType = null, limit = 5) {
       commits: '8 of 9',
     },
     star: {
+      headings: {
+        situation: 'Task apps are easy to start and hard to keep maintainable',
+        task: 'A clear contract between the API and the database',
+        action: 'A DTO-based Spring Boot API over PostgreSQL with a Vite front end',
+        result: 'A maintainable full-stack app with persistence split from the API',
+      },
       situation:
         'Task apps are easy to start and hard to keep maintainable as the data and feature set grow.',
       task:
@@ -823,6 +871,12 @@ async function semanticSearch(query, contentType = null, limit = 5) {
       commits: '4 of 4',
     },
     star: {
+      headings: {
+        situation: 'A shared grocery list falls apart across two phones',
+        task: 'An Android grocery list with sign-in and data kept in the cloud',
+        action: 'Jetpack Compose with MVVM, Firebase Auth and Realtime Database',
+        result: 'A working Compose and Firebase app, and where I learned MVVM',
+      },
       situation:
         'Grocery lists live in chat threads and scraps of paper, and they fall apart as soon as two people shop for the same household.',
       task:
