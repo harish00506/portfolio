@@ -21,7 +21,8 @@
 //   2026-10-11 — Created. Two published entries (ADR-0001, ADR-0028, both on `main`) and three
 //                planned ones drawn from the open items on `dev` at v0.13.9.
 
-const REKHON_ADR = 'https://github.com/harish00506/Rekhon/blob'
+const REKHON = 'https://github.com/harish00506/Rekhon'
+const REKHON_ADR = `${REKHON}/blob`
 
 /**
  * Journal-wide settings the pages read instead of hardcoding them.
@@ -32,8 +33,8 @@ const REKHON_ADR = 'https://github.com/harish00506/Rekhon/blob'
 export const journalMeta = {
   title: 'Build journal',
   kicker: 'Journal',
-  cadence: 'biweekly',
-  cadenceLabel: 'A new entry every two weeks',
+  cadence: 'weekly',
+  cadenceLabel: 'Weekly, on Tuesdays',
   intro:
     'Dated notes from building Rekhon, newest first. Each entry is tied to a decision record in the repository and links to it, so the reasoning can be read at its source rather than taken on trust.',
   provenanceNote:
@@ -189,7 +190,7 @@ private fun bisect(signAtLow: Int, values: List<Long>, exponents: List<Int>): Bi
     slug: 'account-aggregator-and-the-enum-that-shipped-first',
     project: 'rekhon',
     title: 'Account Aggregator, and the enum that had to ship first',
-    date: '2026-10-25',
+    date: '2027-01-26',
     status: 'planned',
     summary:
       'The Account Aggregator design landed with one reserved source value shipped ahead of it, because the enum had to be right before any data existed to put in it.',
@@ -206,10 +207,10 @@ private fun bisect(signAtLow: Int, values: List<Long>, exponents: List<Int>): Bi
     slug: 'why-money-is-what-blocks-ios',
     project: 'rekhon',
     title: 'Why Money is what blocks iOS',
-    date: '2026-11-08',
+    date: '2027-02-02',
     status: 'planned',
     summary:
-      '“Android-free” turned out not to mean “KMP-portable”. The engines import no Android classes, and still do not port — the blocker is the exact-paise money type itself.',
+      'The engines import no Android classes and still do not port. The blocker is the exact-paise money type itself.',
     tags: ['KMP', 'Money', 'Portability'],
     scope:
       'What a KMP spike actually found, and why the one type that must never change is the one that stands in the way.',
@@ -223,7 +224,7 @@ private fun bisect(signAtLow: Int, values: List<Long>, exponents: List<Int>): Bi
     slug: 'orphaned-blobs-and-shredding-what-you-cannot-find',
     project: 'rekhon',
     title: 'Orphaned blobs, and shredding what you cannot find',
-    date: '2026-11-22',
+    date: '2027-02-09',
     status: 'planned',
     summary:
       'Closing the import-batch finding opened a new one: receipt blobs that outlive the rows pointing at them. Crypto-shredding only erases what the key covers.',
@@ -235,6 +236,143 @@ private fun bisect(signAtLow: Int, values: List<Long>, exponents: List<Int>): Bi
       href: `${REKHON_ADR}/main/docs/adr/0078-import-batches-exists-and-the-wipe-is-checked-not-trusted.md`,
     },
   },
+  // ─── From the fifteen-week LinkedIn series (Rekhon docs/linkedin-posts.md) ───
+  // Titles and dates are the author's own, taken from that plan: weekly, Tuesdays.
+  // Mapping: W07→24 Nov … W15→19 Jan. W01–W06 fall before this queue starts.
+  //
+  // W07, W08 and W09 carry no `source`: their proof is ADR-0079/0080, the verbaliser eval set and
+  // LlmModelStore, none of which are pushed yet. A planned entry may name a topic, but it does not
+  // get a link that 404s — the record goes in when the work does.
+  {
+    slug: 'a-check-stricter-than-the-gate-it-guarded',
+    project: 'rekhon',
+    title: 'My safety check was stricter than my safety gate',
+    date: '2026-11-24',
+    status: 'planned',
+    summary:
+      'A check meant to protect a feature silently switched it off instead, and nothing went red.',
+    tags: ['Guardrails', 'War story'],
+    scope:
+      'How an inner sanitiser ended up stricter than the guardrail it was guarding, and why a refused reply looked identical to a phone with no model installed. The decision record publishes with the work.',
+  },
+  {
+    slug: 'how-do-you-test-a-feature-that-writes-sentences',
+    project: 'rekhon',
+    title: 'How do you test a feature that writes sentences?',
+    date: '2026-12-01',
+    status: 'planned',
+    summary:
+      'You cannot unit-test a language model. You can unit-test what you do with its output.',
+    tags: ['Testing', 'AI'],
+    scope:
+      'The eval set and frozen expectations that stand in for a unit test when the output is prose. Publishes with the work.',
+  },
+  {
+    slug: 'a-truncated-download-is-not-a-model',
+    project: 'rekhon',
+    title: 'A truncated download is not a model',
+    date: '2026-12-08',
+    status: 'planned',
+    summary:
+      'Half a gigabyte of model weights fails inside a native library in ways no Kotlin can catch.',
+    tags: ['On-device', 'Integrity'],
+    scope:
+      'Verifying length and digest before trusting a model file, and treating the presence of a verified file as the opt-in. Publishes with the work.',
+  },
+  {
+    slug: 'your-receipts-never-leave-your-phone',
+    project: 'rekhon',
+    title: 'Your receipts never leave your phone',
+    date: '2026-12-15',
+    status: 'planned',
+    summary:
+      'A receipt says where you were, when, and what you bought — the most personal data the app holds.',
+    tags: ['Privacy', 'OCR', 'Consent'],
+    scope:
+      'What on-device OCR has to guarantee, and how the consents dashboard shows the record rather than just the switch.',
+    source: {
+      label: 'ADR-0059 — the consents dashboard shows the record, not just the switch',
+      href: `${REKHON_ADR}/main/docs/adr/0059-the-consents-dashboard-shows-the-record-not-just-the-switch.md`,
+    },
+  },
+  {
+    slug: 'erase-should-destroy-the-key-not-the-files',
+    project: 'rekhon',
+    title: '“Erase everything” should destroy the key, not the files',
+    date: '2026-12-22',
+    status: 'planned',
+    summary: 'Deleting a file on flash storage does not necessarily delete anything.',
+    tags: ['Privacy', 'Crypto-shredding'],
+    scope:
+      'Why an erase destroys keys first, and then says plainly what it cannot reach.',
+    source: {
+      label: 'ADR-0060 — an erase destroys keys first and says what it cannot reach',
+      href: `${REKHON_ADR}/main/docs/adr/0060-an-erase-destroys-keys-first-and-says-what-it-cannot-reach.md`,
+    },
+  },
+  {
+    slug: 'every-verdict-names-the-rule-that-fired',
+    project: 'rekhon',
+    title: 'Every verdict names the rule that fired',
+    date: '2026-12-29',
+    status: 'planned',
+    summary:
+      'A score you cannot check is a verdict, so every figure cites the rule and version behind it.',
+    tags: ['Rules', 'Reproducibility'],
+    scope:
+      'Thresholds as versioned data rows instead of constants buried in code, and what that buys six months later.',
+    source: {
+      label: 'ai/rules — the versioned rulebook every insight cites',
+      href: `${REKHON}/tree/main/ai/rules`,
+    },
+  },
+  {
+    slug: 'your-sips-return-is-roughly-double-what-your-app-shows',
+    project: 'rekhon',
+    title: 'Your SIP’s return is roughly double what your app shows',
+    date: '2027-01-05',
+    status: 'planned',
+    summary:
+      'A cost-to-value ratio understates a monthly SIP by roughly half. The honest figure is money-weighted.',
+    tags: ['Investments', 'XIRR'],
+    scope:
+      'The user-facing half of the XIRR story: what the common portfolio screen gets wrong, and by how much.',
+    source: {
+      label: 'domain/engines/investment — the holdings and XIRR engine',
+      href: `${REKHON}/tree/main/domain/engines/investment`,
+    },
+  },
+  {
+    slug: 'open-source-as-proof-not-marketing',
+    project: 'rekhon',
+    title: 'Open source as proof, not marketing',
+    date: '2027-01-12',
+    status: 'planned',
+    summary:
+      'The claim is that nothing about your money leaves your phone — not something a store listing can prove.',
+    tags: ['Licensing', 'Open source'],
+    scope:
+      'Why the source is public, and why the AGPL linking exception is deliberately narrow.',
+    source: {
+      label: 'LICENSE — AGPL-3.0 with an ML Kit linking exception',
+      href: `${REKHON}/blob/main/LICENSE`,
+    },
+  },
+  {
+    slug: 'fifteen-weeks-in-public',
+    project: 'rekhon',
+    title: 'Fifteen weeks in public — and what I am looking for',
+    date: '2027-01-19',
+    status: 'planned',
+    summary: 'What fifteen weeks of building in public changed, and what comes next.',
+    tags: ['Retrospective'],
+    scope: 'A closing retrospective on the series, and what it was for.',
+    source: {
+      label: 'The repository',
+      href: REKHON,
+    },
+  },
+
 ]
 
 /**
