@@ -1,65 +1,116 @@
-# Harish G Portfolio
+# Harish G — Portfolio
 
-A clean, minimal, single-page portfolio built with **React 18 + Vite + Tailwind CSS**, with subtle
-scroll animations (Framer Motion) and Lucide icons.
+**Live: [www.harishg.com](https://www.harishg.com)**
+
+The source of my portfolio: nine engineering case studies, a dated build journal, and a page for
+[Rekhon](https://www.harishg.com/rekhon), an offline-first personal finance app for Android.
+
+Built with React 18, Vite and Tailwind CSS. Not a single-page app in the usual sense — every route
+is **pre-rendered to static HTML** at build time, so a crawler and a reader get the same thing and
+no content depends on JavaScript running.
+
+| | |
+|---|---|
+| **Site** | [www.harishg.com](https://www.harishg.com) |
+| **Case studies** | [/works](https://www.harishg.com/works) — nine, each with architecture, real code and results |
+| **Build journal** | [/journal](https://www.harishg.com/journal) — dated entries, each tied to a decision record |
+| **Rekhon** | [/rekhon](https://www.harishg.com/rekhon) · [source](https://github.com/harish00506/Rekhon) |
+| **Résumé** | [/resume.pdf](https://www.harishg.com/resume.pdf) |
+
+---
 
 ## Run locally
 
 ```bash
 npm install      # first time only
-npm run dev      # start dev server → http://localhost:5173
+npm run dev      # dev server → http://localhost:5173
+npm run build    # client + SSR bundle + prerender → dist/
+npm run preview  # serve the production build
 ```
 
-## Build & preview
+`npm run build` does three things in order: builds the client bundle, builds an SSR bundle, then
+runs `scripts/prerender.mjs` to render every route to `dist/<route>/index.html` and regenerate
+`sitemap.xml` and `robots.txt`.
 
-```bash
-npm run build    # output to dist/
-npm run preview  # serve the production build locally
+**The build is the test suite.** There is no separate test runner, and the prerender deliberately
+fails rather than shipping a broken page. It stops the build if a page title exceeds 60 characters,
+a meta description exceeds 160, or a meta tag was not rewritten for a route — the last one caught a
+bug where every page silently shipped the home page's description.
+
+---
+
+## Where the content lives
+
+All text, projects, skills and experience live in data files. The components read from them, so
+editing content means editing one of these three and nothing else:
+
+```
+src/data/portfolio.js   # profile, skills, experience, education, and all nine projects
+src/data/journal.js     # journal entries + the publishing cadence
+src/data/rekhon.js      # the long-form Rekhon page and its FAQ
 ```
 
-## Editing content
+Each project supports `links: { github, live }` and an optional `appPage` for a project with its
+own page. A project with a `roadmap` renders status lanes on its case study; one with
+`star.headings` gets descriptive H2s in place of the Situation/Task/Action/Result labels.
 
-All text, skills, experience, projects and education live in **one file**:
+Publishing a journal entry is documented in **[docs/journal-workflow.md](docs/journal-workflow.md)**,
+including the rule that decides what may go out: an entry is only published when its claim sits in a
+pushed public commit and carries a source link that resolves.
 
-```
-src/data/portfolio.js
-```
+---
 
-Edit that file to update content. You don't need to touch the components. Each project supports
-`links: { github: '...', live: '...' }`; leave `links` empty (`{}`) to show a small lock icon
-(used for private / internship work).
-
-### Things to personalize
-
-- **GitHub & LinkedIn URLs**: set `profile.socials.github` and `profile.socials.linkedin` in
-  `src/data/portfolio.js` (currently placeholders).
-- **Resume PDF**: a placeholder lives at `public/resume.pdf`. Replace it with your real resume
-  (keep the same filename) and the Download / Resume buttons will just work.
-- **Profile photo**: the hero shows an "HG" monogram. To use a photo, drop e.g. `public/profile.jpg`
-  and follow the comment inside `src/components/Hero.jsx` to swap the monogram for an `<img>`.
-- **Project repo / demo links**: add them to each project's `links` object in
-  `src/data/portfolio.js`.
-
-## Project structure
+## Structure
 
 ```
 src/
-  data/portfolio.js     # single source of truth for all content
-  components/            # Navbar, Hero, About, Skills, Experience,
-                         # Projects, ProjectCard, Education, Contact, Footer, Section
-  index.css              # Tailwind layers + base styles / design tokens
-  App.jsx, main.jsx
-public/                  # favicon.svg, resume.pdf (replace placeholder)
-tailwind.config.js       # accent color, fonts, shadows
+  data/           portfolio.js · journal.js · rekhon.js   (the only places content lives)
+  pages/          HomePage · WorksPage · ProjectDetailPage · RekhonPage
+                  JournalPage · JournalPostPage · AboutPage · NotFoundPage
+  components/     Hero · Navbar · Section · ProjectCard · ProjectDetails
+                  ArchitectureDiagram · ProjectRoadmap · ProseBlock · CodeSample
+                  MetricStat · Reflection · Skills · Experience · Education
+                  Layout · SayHello · ThemeToggle · Screenshot · ProjectPager
+  lib/            highlight.js  (dependency-free tokenizer for the code samples)
+  index.css       Tailwind layers, design tokens, light/dark themes
+scripts/
+  prerender.mjs   SSG: per-route HTML, meta, JSON-LD, sitemap, robots, 404
+docs/
+  journal-workflow.md   how to publish an entry
+  sitemap.md            how to find and verify an XML sitemap
+public/           fonts · og-image · robots.txt · llms.txt · résumé PDFs
 ```
 
-## Deploy later (when ready)
+---
 
-The site is a static SPA, so any static host works:
+## SEO and crawlability
 
-- **Vercel / Netlify:** import the repo, framework = Vite, build = `npm run build`,
-  output dir = `dist`. Zero extra config.
-- **GitHub Pages:** run `npm run build`, then publish the `dist/` folder (e.g. via the
-  `gh-pages` package or a GitHub Action). If served from a subpath, set `base` in
-  `vite.config.js` to `'/<repo-name>/'`.
-```
+Worth describing, because most of it is enforced rather than hoped for:
+
+- Every route is **static HTML** — no client-side-only content.
+- Per-page `title`, `description`, canonical, and Open Graph / Twitter tags, each length-gated by
+  the build.
+- JSON-LD per route: `Person` + `WebSite` + `ItemList` on the home page, `SoftwareSourceCode` +
+  `BreadcrumbList` on a case study, `MobileApplication` + `FAQPage` on `/rekhon`, `Blog` and
+  `BlogPosting` on the journal.
+- `sitemap.xml` generated from the route list, with `lastmod` taken from **the last commit that
+  touched the files each route is built from** rather than today's date — a lastmod Google cannot
+  trust is worse than none.
+- `robots.txt` welcomes search and AI crawlers, and declares both the sitemap and an IndexNow key.
+- `llms.txt` gives AI crawlers a map of the site rather than just an invitation.
+- The LaTeX résumé sources are served `noindex`: they are duplicate content of their PDFs.
+
+---
+
+## Theming
+
+Colors, fonts and shadows are design tokens in `src/index.css` (and `tailwind.config.js`), defined
+once for light mode and redefined for dark. The brand is carmine `#b3223a` with a slate-blue accent;
+nothing hardcodes a hex outside those token definitions.
+
+---
+
+## Licence
+
+Code is free to learn from. The written content, case studies and résumés are mine — please do not
+republish those as your own.
