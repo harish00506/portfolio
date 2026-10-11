@@ -29,6 +29,7 @@ const { site, profile, skills, projects, projectCategories, experience, educatio
 const { journalMeta, publishedEntries } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'journal.js')).href
 )
+const { rekhon } = await import(pathToFileURL(path.join(root, 'src', 'data', 'rekhon.js')).href)
 
 const template = await readFile(templatePath, 'utf8')
 
@@ -129,6 +130,48 @@ const entryBreadcrumbLd = (e) => ({
   ],
 })
 
+// /rekhon describes the app itself, so it gets MobileApplication rather than SoftwareSourceCode
+// (which is what the case study about building it carries). `offers` at price 0 is the honest
+// statement for an app whose source is public and which is not sold; `installUrl` is deliberately
+// absent, because it is not published to any store.
+const appLd = {
+  '@type': 'MobileApplication',
+  name: rekhon.name,
+  alternateName: 'Rekhon personal finance',
+  description: rekhon.metaDescription,
+  applicationCategory: 'FinanceApplication',
+  applicationSubCategory: 'Personal finance',
+  operatingSystem: 'Android',
+  softwareVersion: '0.13.9',
+  url: abs('/rekhon'),
+  codeRepository: rekhon.repo,
+  programmingLanguage: 'Kotlin',
+  license: 'https://www.gnu.org/licenses/agpl-3.0.html',
+  isAccessibleForFree: true,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+  author: { '@type': 'Person', name: profile.name, url: site.url },
+  featureList: rekhon.facts.map((f) => `${f.label}: ${f.value}`),
+}
+
+// FAQPage from the same data the page renders, so the markup can never claim an answer the page
+// does not show — Google treats that as a violation, and it would be a lie besides.
+const faqLd = {
+  '@type': 'FAQPage',
+  mainEntity: rekhon.faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+}
+
+const rekhonBreadcrumbLd = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+    { '@type': 'ListItem', position: 2, name: rekhon.name, item: abs('/rekhon') },
+  ],
+}
+
 // --- per-route metadata + structured data ---------------------------------
 function metaFor(route) {
   if (route === '/') {
@@ -151,6 +194,13 @@ function metaFor(route) {
       title: `About ${profile.name} | ${profile.title}`,
       description: `${profile.name}, ${profile.title} in ${locality}: skills, experience at ${experience[0].company} and education.`,
       ld: { '@context': 'https://schema.org', '@type': 'ProfilePage', url: abs('/about'), mainEntity: personLd },
+    }
+  }
+  if (route === '/rekhon') {
+    return {
+      title: `${rekhon.metaTitle} | ${profile.name}`,
+      description: rekhon.metaDescription,
+      ld: { '@context': 'https://schema.org', '@graph': [appLd, faqLd, rekhonBreadcrumbLd] },
     }
   }
   if (route === '/journal') {
@@ -249,6 +299,7 @@ const routes = [
   '/works',
   '/about',
   ...projects.map((p) => `/works/${p.slug}`),
+  '/rekhon',
   '/journal',
   // Only published entries get a page. A planned entry is listed on the index with its date and
   // has no body, so prerendering one would ship an empty page for a crawler to index.
@@ -299,6 +350,7 @@ const lastmodFor = (route) => {
   if (route === '/') return lastCommitDate([dataFile, 'src/pages/HomePage.jsx', 'src/components/Hero.jsx'])
   if (route === '/works') return lastCommitDate([dataFile, 'src/pages/WorksPage.jsx'])
   if (route === '/about') return lastCommitDate([dataFile, 'src/pages/AboutPage.jsx'])
+  if (route === '/rekhon') return lastCommitDate(['src/data/rekhon.js', 'src/pages/RekhonPage.jsx'])
   if (route === '/journal') return lastCommitDate([journalFile, 'src/pages/JournalPage.jsx'])
   if (route.startsWith('/journal/')) return lastCommitDate([journalFile, 'src/pages/JournalPostPage.jsx'])
   return lastCommitDate([dataFile, 'src/pages/ProjectDetailPage.jsx'])
@@ -308,7 +360,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 ${routes
   .map(
     (r) =>
-      `  <url>\n    <loc>${abs(r)}</loc>\n    <lastmod>${lastmodFor(r)}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${r === '/' ? '1.0' : '0.8'}</priority>\n  </url>`,
+      `  <url>\n    <loc>${abs(r)}</loc>\n    <lastmod>${lastmodFor(r)}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${r === '/' ? '1.0' : r === '/rekhon' ? '0.9' : '0.8'}</priority>\n  </url>`,
   )
   .join('\n')}
 </urlset>

@@ -146,13 +146,15 @@ export const projects = [
       'Gradle',
     ],
     links: { github: 'https://github.com/harish00506/Rekhon' },
+    // The project's own page: what the app is, as opposed to this page, which is how it was built.
+    appPage: '/rekhon',
     details: {
       role: 'Sole author',
       team: 'Solo project',
       timeline: 'July 2026 to present',
       commits: '349 of 350',
       responsibilities: [
-        'Module graph: 67 Gradle modules on a one-way feature → domain → data/core dependency rule',
+        'Module graph: 60 Gradle modules on a one-way feature → domain → data/core dependency rule',
         'Deterministic wealth engines: amortisation, XIRR, allocation and concentration',
         'On-device encryption: SQLCipher keyed from the Android Keystore',
         'Capture pipeline: ML Kit receipt OCR and bank-SMS parsing behind revocable consent',
@@ -271,13 +273,21 @@ export const projects = [
       'Publish the golden-file vectors for the wealth engines, so a reader can re-run the money math without building the app.',
     ],
     star: {
+      // The STAR labels stay as kickers; these become the page's h2s, because "Situation" is a
+      // structure label and nobody searches for it.
+      headings: {
+        situation: 'Why a personal finance app should show its working',
+        task: 'Building an offline finance app whose figures can be checked',
+        action: 'Exact paise, on-device encryption and 60 Kotlin modules',
+        result: 'Fourteen epics, 3,822 tests and a public repository',
+      },
       situation:
         'Most finance apps hand you a number with no way to check it: a health score, a projection, a “you can afford this” — with no statement of what was measured or what it was measured against. A figure you cannot check is a verdict. The apps that do explain themselves generally want your bank credentials and a server round trip to do it, which is a steep price for arithmetic that a phone can do on its own.',
       task:
         'Build a finance app where every figure is checkable and nothing about the money leaves the device. That makes two things non-negotiable rather than nice to have: the numbers must be exact, and the rule behind each one must be addressable — a specific id at a specific version — so an answer stays reproducible months later.',
       action: {
         narrative:
-          'The app is 67 Gradle modules on a one-way dependency rule (feature → domain → data/core), with the engines as pure Kotlin that cannot import Android — so the money math is unit-testable without a device, and 364 test files holding 3,895 tests run on the JVM. Money is integer paise end to end: a custom Android Lint module flags any floating-point declaration with a monetary name and fails the build, because binary floating point cannot represent 0.10 and the error is too small to notice until a reconciliation disagrees. Room sits on SQLCipher under a key held in the Android Keystore. ML Kit reads receipts and, with explicit consent that is off by default and revocable, bank SMS is parsed into proposed entries — neither leaves the phone. Financial thresholds are versioned JSON rows in ai/rules rather than constants in code, and every insight cites the rule id and version that produced it. 79 ADRs record why each of these is the way it is. The wealth math is where the determinism requirement bites hardest, and XIRR is the clearest case.',
+          'The app is 60 Gradle modules on a one-way dependency rule (feature → domain → data/core), with the engines as pure Kotlin that cannot import Android — so the money math is unit-testable without a device, and 355 test files holding 3,822 tests run on the JVM. Money is integer paise end to end: a custom Android Lint module flags any floating-point declaration with a monetary name and fails the build, because binary floating point cannot represent 0.10 and the error is too small to notice until a reconciliation disagrees. Room sits on SQLCipher under a key held in the Android Keystore. ML Kit reads receipts and, with explicit consent that is off by default and revocable, bank SMS is parsed into proposed entries — neither leaves the phone. Financial thresholds are versioned JSON rows in ai/rules rather than constants in code, and every insight cites the rule id and version that produced it. 79 ADRs record why each of these is the way it is. The wealth math is where the determinism requirement bites hardest, and XIRR is the clearest case.',
         samples: [
           {
             filename: 'domain/engines/investment/.../Xirr.kt',
@@ -317,8 +327,8 @@ private fun bisect(
           'Fourteen epics are built and verified — foundation, onboarding and security, capture, categorisation and budgets, dashboard and export, wealth, goals, backup, the AI core engines, the advisor and chat, privacy hardening, release quality and expansion — at v0.13.9, with the most recent committed work dated 10 October 2026. Eleven account types roll up into a daily net-worth snapshot; credit cards carry their real billing cycle and utilisation; loans amortise to the rupee; holdings carry dated lots and a money-weighted return. The source is public on purpose — the central claim is that nothing about your money leaves your device, and that is not something a store listing can prove.',
         metrics: [
           { value: '349', label: 'of 350 commits authored' },
-          { value: '3,895', label: 'tests across 364 files' },
-          { value: '67 modules', label: 'one-way dependency graph' },
+          { value: '3,822', label: 'tests across 355 files' },
+          { value: '60 modules', label: 'one-way dependency graph' },
         ],
       },
     },

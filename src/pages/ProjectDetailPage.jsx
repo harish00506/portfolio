@@ -30,15 +30,30 @@ import NotFoundPage from './NotFoundPage.jsx'
  * Input:  label - chapter name; text - narrative string; media - optional React node.
  * Output: <section>, or null when the chapter has neither text nor media.
  */
-function Chapter({ label, text, media }) {
+function Chapter({ label, heading, text, media }) {
   if (!text && !media) return null
+  // With a `heading`, the STAR label demotes to a kicker and the descriptive line becomes the h2 —
+  // "Situation" is a structure label, not something anyone searches for. Without one, the label
+  // stays the h2 so the older case studies keep their heading outline unchanged.
+  const Label = heading ? 'p' : 'h2'
   return (
     <section className="border-t border-border pt-10">
       <div className="grid gap-4 md:grid-cols-[12rem_1fr] md:gap-12">
-        <h2 className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-primary md:pt-1.5">
+        <Label className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-primary md:pt-1.5">
           {label}
-        </h2>
-        {text && <p className="max-w-[68ch] text-lg leading-relaxed text-foreground/85">{text}</p>}
+        </Label>
+        <div>
+          {heading && (
+            <h2 className="display max-w-[30ch] text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl">
+              {heading}
+            </h2>
+          )}
+          {text && (
+            <p className={`max-w-[68ch] text-lg leading-relaxed text-foreground/85${heading ? ' mt-5' : ''}`}>
+              {text}
+            </p>
+          )}
+        </div>
       </div>
       {media && <div className="mt-8">{media}</div>}
     </section>
@@ -68,6 +83,8 @@ export default function ProjectDetailPage() {
     project
   const entries = publishedEntriesForProject(slug)
   const action = star.action ?? {}
+  const headings = star.headings ?? {}
+  const appPage = project.appPage
   const samples = action.samples ?? []
   const screenshots = action.screenshots ?? []
   const metrics = star.result?.metrics ?? []
@@ -118,10 +135,15 @@ export default function ProjectDetailPage() {
           </h1>
           <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">{blurb}</p>
 
-          {(links.live || links.github) && (
+          {(links.live || links.github || appPage) && (
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              {links.live && (
+              {appPage && (
                 <Button asChild>
+                  <Link to={appPage}>What the app does</Link>
+                </Button>
+              )}
+              {links.live && (
+                <Button variant={appPage ? 'outline' : 'default'} asChild>
                   <a href={links.live} target="_blank" rel="noreferrer">
                     <ExternalLink />
                     Live site
@@ -151,10 +173,15 @@ export default function ProjectDetailPage() {
         )}
 
         <div className="mt-16 space-y-14">
-          <Chapter label="Situation" text={star.situation} />
-          <Chapter label="Task" text={star.task} />
-          <Chapter label="Action" text={action.narrative} media={actionMedia} />
-          <Chapter label="Result" text={star.result?.narrative} media={resultMedia} />
+          <Chapter label="Situation" heading={headings.situation} text={star.situation} />
+          <Chapter label="Task" heading={headings.task} text={star.task} />
+          <Chapter label="Action" heading={headings.action} text={action.narrative} media={actionMedia} />
+          <Chapter
+            label="Result"
+            heading={headings.result}
+            text={star.result?.narrative}
+            media={resultMedia}
+          />
         </div>
 
         {roadmap && (

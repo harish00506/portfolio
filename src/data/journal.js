@@ -238,11 +238,105 @@ private fun bisect(signAtLow: Int, values: List<Long>, exponents: List<Int>): Bi
   },
   // ─── From the fifteen-week LinkedIn series (Rekhon docs/linkedin-posts.md) ───
   // Titles and dates are the author's own, taken from that plan: weekly, Tuesdays.
-  // Mapping: W07→24 Nov … W15→19 Jan. W01–W06 fall before this queue starts.
+  // The full series: W01→13 Oct … W15→19 Jan, one per Tuesday.
   //
-  // W07, W08 and W09 carry no `source`: their proof is ADR-0079/0080, the verbaliser eval set and
-  // LlmModelStore, none of which are pushed yet. A planned entry may name a topic, but it does not
-  // get a link that 404s — the record goes in when the work does.
+  // W06, W07, W08 and W09 carry no `source`: their proof is ADR-0079/0080, the verbaliser eval set
+  // and LlmModelStore, none of which are pushed yet. A planned entry may name a topic, but it does
+  // not get a link that 404s — the record goes in when the work does.
+  {
+    slug: 'the-seven-rules-i-cannot-break',
+    project: 'rekhon',
+    title: 'The seven rules I cannot break',
+    date: '2026-10-13',
+    status: 'planned',
+    summary:
+      'Seven rules written down before the first line of code. Six custom lint rules now fail the build when code breaks one.',
+    tags: ['Product', 'Rules'],
+    scope:
+      'The seven binding rules, and the six lint detectors that turn them from prose into build failures.',
+    source: {
+      label: 'CLAUDE.md §1 — the rules that bind the code',
+      href: `${REKHON}/blob/main/CLAUDE.md`,
+    },
+  },
+  {
+    slug: 'numbers-from-math-words-from-ai',
+    project: 'rekhon',
+    title: 'Numbers from math, words from AI',
+    date: '2026-10-20',
+    status: 'planned',
+    summary:
+      'An LLM in a finance app will eventually state a confident, wrong rupee figure. This one is never given a number to state.',
+    tags: ['AI', 'Guardrails'],
+    scope:
+      'Where the boundary sits between the deterministic engines and the model, and how it is enforced rather than merely stated.',
+    source: {
+      label: 'ai/architecture/ai-architecture.md — the engine/model boundary',
+      href: `${REKHON}/blob/main/ai/architecture/ai-architecture.md`,
+    },
+  },
+  // Covers ADR-0001, the same decision as the published entry
+  // 'a-lint-rule-instead-of-a-reviewer'. Kept because it is the series' own framing of it;
+  // delete this entry if one telling is enough.
+  {
+    slug: 'money-is-a-long-and-double-fails-my-build',
+    project: 'rekhon',
+    title: 'Money is a `Long`, and `Double` fails my build',
+    date: '2026-10-27',
+    status: 'planned',
+    summary:
+      '0.1 + 0.2 != 0.3. In a finance app that is not a curiosity, it is a bug you ship and find months later.',
+    tags: ['Money', 'Lint'],
+    scope:
+      'Why exact paise is a build-blocking rule rather than a review note, and what the detector does and does not flag.',
+    source: {
+      label: 'ADR-0001 — custom lint module and money heuristic',
+      href: `${REKHON_ADR}/main/docs/adr/0001-custom-lint-module-and-money-heuristic.md`,
+    },
+  },
+  {
+    slug: 'indian-digit-grouping-is-not-a-formatting-detail',
+    project: 'rekhon',
+    title: '₹1,23,456.78 is not a formatting detail',
+    date: '2026-11-03',
+    status: 'planned',
+    summary:
+      'Most apps show ₹123,456.78. Indian digit grouping is ₹1,23,456.78, and reading it should not take three attempts.',
+    tags: ['India', 'Formatting'],
+    scope:
+      'Lakh and crore, Indian digit grouping, and why the formatter is a correctness concern rather than a cosmetic one.',
+    source: {
+      label: 'MoneyFormatter — Indian digit grouping, lakh and crore',
+      href: `${REKHON}/blob/main/core/model/src/main/kotlin/com/aicfo/core/model/MoneyFormatter.kt`,
+    },
+  },
+  {
+    slug: 'the-gate-that-never-ran',
+    project: 'rekhon',
+    title: 'The gate that never ran',
+    date: '2026-11-10',
+    status: 'planned',
+    summary: 'My CI was green for weeks. Then I checked what it was actually running.',
+    tags: ['CI', 'War story'],
+    scope:
+      'A coverage gate that passed because it was measuring almost nothing, and how that was found.',
+    source: {
+      label: 'ProjectExtensions.configureCoverage — the coverage gate',
+      href: `${REKHON}/blob/main/build-logic/convention/src/main/kotlin/ProjectExtensions.kt`,
+    },
+  },
+  {
+    slug: 'a-real-llm-on-the-phone-with-no-numbers',
+    project: 'rekhon',
+    title: 'I put a real LLM on the phone and gave it no numbers',
+    date: '2026-11-17',
+    status: 'planned',
+    summary:
+      'There is a language model inside the app, and it has never been given a figure to compute.',
+    tags: ['On-device', 'AI'],
+    scope:
+      'A real model running on the phone, handed figures already rendered and no arithmetic to do. The decision record publishes with the work.',
+  },
   {
     slug: 'a-check-stricter-than-the-gate-it-guarded',
     project: 'rekhon',

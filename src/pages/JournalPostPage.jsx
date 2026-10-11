@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
-import CodeSample from '../components/CodeSample.jsx'
+import ProseBlock from '../components/ProseBlock.jsx'
 import NotFoundPage from './NotFoundPage.jsx'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
@@ -24,65 +24,6 @@ function formatDay(iso) {
     year: 'numeric',
     timeZone: 'UTC',
   })
-}
-
-/**
- * Renders one body block.
- *
- * Why:  the entries are data, not markup, so the renderer owns the typography and an entry cannot
- *       inject HTML. Unknown block types render nothing rather than throwing, so a new type added
- *       to the data cannot take the page down before its case exists here.
- * Input:  block - { type: 'p' | 'h2' | 'quote' | 'list' | 'code', ... }.
- * Output: an element, or null for an unrecognised type.
- */
-function Block({ block }) {
-  switch (block.type) {
-    case 'h2':
-      return (
-        <h2 className="display mt-14 max-w-[26ch] text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl">
-          {block.text}
-        </h2>
-      )
-    case 'p':
-      return (
-        <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground/85">{block.text}</p>
-      )
-    case 'quote':
-      return (
-        <figure className="mt-8 max-w-[62ch] border-l-2 border-primary pl-6">
-          <blockquote className="text-lg italic leading-relaxed text-foreground">
-            {block.text}
-          </blockquote>
-          {block.cite && (
-            <figcaption className="mt-2 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
-              {block.cite}
-            </figcaption>
-          )}
-        </figure>
-      )
-    case 'list':
-      return (
-        <ul className="mt-7 space-y-3">
-          {block.items.map((item) => (
-            <li
-              key={item}
-              className="flex max-w-[66ch] gap-4 text-lg leading-relaxed text-foreground/85"
-            >
-              <span aria-hidden className="mt-3 h-1.5 w-1.5 flex-none bg-primary" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      )
-    case 'code':
-      return (
-        <div className="mt-8">
-          <CodeSample sample={block} />
-        </div>
-      )
-    default:
-      return null
-  }
 }
 
 /**
@@ -127,7 +68,10 @@ export default function JournalPostPage() {
                 <span aria-hidden className="text-muted-foreground/40">
                   /
                 </span>
-                <Link to={`/works/${parent.slug}`} className="transition-colors hover:text-primary">
+                <Link
+                  to={parent.appPage ?? `/works/${parent.slug}`}
+                  className="transition-colors hover:text-primary"
+                >
                   {parent.name}
                 </Link>
               </>
@@ -162,7 +106,7 @@ export default function JournalPostPage() {
 
         <div className="mt-2">
           {body.map((block, i) => (
-            <Block key={i} block={block} />
+            <ProseBlock key={i} block={block} />
           ))}
         </div>
 
