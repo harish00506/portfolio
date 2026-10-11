@@ -341,6 +341,115 @@ for raw in config.get("languages") or []:
     },
   },
   {
+    slug: 'rekhon',
+    name: 'Rekhon',
+    featured: true,
+    metaTitle: 'Rekhon: Offline-First Android Personal Finance',
+    metaDescription:
+      'Android personal-finance app that shows its working: every figure cites the rule that produced it. Fully offline, encrypted on device, exact paise math.',
+    categories: ['Mobile', 'AI'],
+    note: 'Open source · dual-licensed',
+    blurb:
+      'Android personal-finance app that shows its working — every figure cites the rule and version that produced it. Fully offline and encrypted on the device, with no account and no server. Rupees are integer paise end to end, and a custom lint rule fails the build if a floating-point type ever holds an amount.',
+    highlights: [
+      'Every figure cites the rule id and version behind it, so an answer given months ago stays reproducible',
+      'Exact paise arithmetic, enforced by a custom Android Lint rule that fails the build rather than a reviewer who must spot it',
+      'Receipt OCR and bank-SMS parsing run on the device, behind per-feature consent that is off by default and revocable',
+    ],
+    tags: [
+      'Kotlin',
+      'Jetpack Compose',
+      'Room / SQLCipher',
+      'Hilt',
+      'ML Kit',
+      'Coroutines / Flow',
+      'Android Keystore',
+      'Gradle',
+    ],
+    links: { github: 'https://github.com/harish00506/Rekhon' },
+    details: {
+      role: 'Sole author',
+      team: 'Solo project',
+      timeline: 'August 2026 to present',
+      commits: '349 of 350',
+      responsibilities: [
+        'Module graph: 67 Gradle modules on a one-way feature → domain → data/core dependency rule',
+        'Deterministic wealth engines: amortisation, XIRR, allocation and concentration',
+        'On-device encryption: SQLCipher keyed from the Android Keystore',
+        'Capture pipeline: ML Kit receipt OCR and bank-SMS parsing behind revocable consent',
+      ],
+    },
+    diagram: {
+      title: 'A receipt becomes a cited figure',
+      steps: [
+        { label: 'Photo', detail: 'feature/transactions' },
+        { label: 'On-device OCR', detail: 'ml/ocr (ML Kit)' },
+        { label: 'Classification', detail: 'domain/engines/classification' },
+        { label: 'Exact paise', detail: 'core/model/Money.kt' },
+        { label: 'Encrypted write', detail: 'core/database (Room + SQLCipher)' },
+        { label: 'Rule evaluation', detail: 'ai/rules + domain/engines/insight' },
+        { label: 'Dashboard + widget', detail: 'feature/dashboard, widget' },
+      ],
+      stores: ['SQLCipher (Room)', 'Proto DataStore', 'Android Keystore'],
+    },
+    reflection: [
+      'Goals, forecasting, the advisor and the on-device chat assistant are specified but not built yet; the engines they read from are already in place.',
+      'Publish the golden-file vectors for the wealth engines, so a reader can re-run the money math without building the app.',
+    ],
+    star: {
+      situation:
+        'Most finance apps hand you a number with no way to check it: a health score, a projection, a “you can afford this” — with no statement of what was measured or what it was measured against. A figure you cannot check is a verdict. The apps that do explain themselves generally want your bank credentials and a server round trip to do it, which is a steep price for arithmetic that a phone can do on its own.',
+      task:
+        'Build a finance app where every figure is checkable and nothing about the money leaves the device. That makes two things non-negotiable rather than nice to have: the numbers must be exact, and the rule behind each one must be addressable — a specific id at a specific version — so an answer stays reproducible months later.',
+      action: {
+        narrative:
+          'The app is 67 Gradle modules on a one-way dependency rule (feature → domain → data/core), with the engines as pure Kotlin that cannot import Android — so the money math is unit-testable without a device, and 364 test files holding 3,895 tests run on the JVM. Money is integer paise end to end: a custom Android Lint module flags any floating-point declaration with a monetary name and fails the build, because binary floating point cannot represent 0.10 and the error is too small to notice until a reconciliation disagrees. Room sits on SQLCipher under a key held in the Android Keystore. ML Kit reads receipts and, with explicit consent that is off by default and revocable, bank SMS is parsed into proposed entries — neither leaves the phone. Financial thresholds are versioned JSON rows in ai/rules rather than constants in code, and every insight cites the rule id and version that produced it. 79 ADRs record why each of these is the way it is. The wealth math is where the determinism requirement bites hardest, and XIRR is the clearest case.',
+        samples: [
+          {
+            filename: 'domain/engines/investment/.../Xirr.kt',
+            language: 'kotlin',
+            code: `// XIRR is normally NPV(r) = Σ cf · (1+r)^(−d/365), solved by Newton-Raphson from a guess.
+// Both halves are hostile to exactness: the fractional exponent has no exact decimal form,
+// so an implementation reaches for Double; and Newton's answer depends on the starting guess.
+//
+// Substituting x = (1+r)^(1/365) and multiplying through by x^dMax clears every division:
+//     F(x) = Σ cf_i · x^(dMax − d_i)
+// — a polynomial with whole-number exponents, so BigDecimal.pow is all it needs.
+private fun bisect(
+    signAtLow: Int,
+    values: List<Long>,
+    exponents: List<Int>,
+): BigDecimal {
+    var low = X_LOW
+    var high = X_HIGH
+    // Fixed iteration count over a literal bracket, with no early exit: no guess to depend
+    // on and no tolerance branch to drift, so the same flows give the same basis points on
+    // every machine and every build. Slower than Newton, and it does not care.
+    repeat(ITERATIONS) {
+        val mid = low.add(high).divide(TWO, CONTEXT)
+        if (polynomialAt(mid, values, exponents).signum() == signAtLow) {
+            low = mid
+        } else {
+            high = mid
+        }
+    }
+    return low.add(high).divide(TWO, CONTEXT)
+}`,
+          },
+        ],
+      },
+      result: {
+        narrative:
+          'Six epics are built and verified: foundation, onboarding and accounts, transactions and capture, categorisation and budgets, dashboard and export, and wealth through investment allocation. Eleven account types roll up into a daily net-worth snapshot; credit cards carry their real billing cycle and utilisation; loans amortise to the rupee; holdings carry dated lots and a money-weighted return. The source is public on purpose — the central claim is that nothing about your money leaves your device, and that is not something a store listing can prove.',
+        metrics: [
+          { value: '349', label: 'of 350 commits authored' },
+          { value: '3,895', label: 'tests across 364 files' },
+          { value: '67 modules', label: 'one-way dependency graph' },
+        ],
+      },
+    },
+  },
+  {
     slug: 'stocksense-ai',
     name: 'StockSense AI',
     featured: false,
