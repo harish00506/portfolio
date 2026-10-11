@@ -26,6 +26,9 @@ const { render } = await import(pathToFileURL(ssrEntry).href)
 const { site, profile, skills, projects, projectCategories, experience, education } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'portfolio.js')).href
 )
+const { journalMeta, publishedEntries } = await import(
+  pathToFileURL(path.join(root, 'src', 'data', 'journal.js')).href
+)
 
 const template = await readFile(templatePath, 'utf8')
 
@@ -95,6 +98,37 @@ const itemListLd = {
   })),
 }
 
+// A journal entry is a BlogPosting; the index is the Blog that holds them. `datePublished` is the
+// entry's own date (the day the decision landed), which is the only date a reader can check against
+// the repository.
+const blogLd = {
+  '@type': 'Blog',
+  name: `${journalMeta.title} — ${profile.name}`,
+  url: abs('/journal'),
+  author: { '@type': 'Person', name: profile.name, url: site.url },
+}
+
+const entryLd = (e) => ({
+  '@type': 'BlogPosting',
+  headline: e.title,
+  description: e.metaDescription ?? e.summary,
+  datePublished: e.date,
+  url: abs(`/journal/${e.slug}`),
+  author: { '@type': 'Person', name: profile.name, url: site.url },
+  ...(e.tags?.length && { keywords: e.tags.join(', ') }),
+  isPartOf: { '@type': 'Blog', name: journalMeta.title, url: abs('/journal') },
+  ...(e.source?.href && { citation: e.source.href }),
+})
+
+const entryBreadcrumbLd = (e) => ({
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+    { '@type': 'ListItem', position: 2, name: journalMeta.title, item: abs('/journal') },
+    { '@type': 'ListItem', position: 3, name: e.title, item: abs(`/journal/${e.slug}`) },
+  ],
+})
+
 // --- per-route metadata + structured data ---------------------------------
 function metaFor(route) {
   if (route === '/') {
@@ -117,6 +151,25 @@ function metaFor(route) {
       title: `About ${profile.name} | ${profile.title}`,
       description: `${profile.name}, ${profile.title} in ${locality}: skills, experience at ${experience[0].company} and education.`,
       ld: { '@context': 'https://schema.org', '@type': 'ProfilePage', url: abs('/about'), mainEntity: personLd },
+    }
+  }
+  if (route === '/journal') {
+    return {
+      title: `${journalMeta.title} | ${profile.name}`,
+      description: `Dated notes from building Rekhon: the decisions, the trade-offs and the records behind them. ${journalMeta.cadenceLabel}.`,
+      ld: {
+        '@context': 'https://schema.org',
+        '@graph': [{ ...blogLd, blogPost: publishedEntries.map(entryLd) }],
+      },
+    }
+  }
+  if (route.startsWith('/journal/')) {
+    const entrySlug = route.replace('/journal/', '')
+    const e = publishedEntries.find((x) => x.slug === entrySlug)
+    return {
+      title: `${e.title} | ${profile.name}`,
+      description: e.metaDescription ?? e.summary,
+      ld: { '@context': 'https://schema.org', '@graph': [entryLd(e), entryBreadcrumbLd(e)] },
     }
   }
   // /works/:slug
@@ -191,7 +244,16 @@ async function writeRoute(route) {
 }
 
 // --- run ------------------------------------------------------------------
-const routes = ['/', '/works', '/about', ...projects.map((p) => `/works/${p.slug}`)]
+const routes = [
+  '/',
+  '/works',
+  '/about',
+  ...projects.map((p) => `/works/${p.slug}`),
+  '/journal',
+  // Only published entries get a page. A planned entry is listed on the index with its date and
+  // has no body, so prerendering one would ship an empty page for a crawler to index.
+  ...publishedEntries.map((e) => `/journal/${e.slug}`),
+]
 
 for (const route of routes) {
   await writeRoute(route)
@@ -232,10 +294,13 @@ const lastCommitDate = (paths) => {
 
 // Every route renders from portfolio.js, so each one's date is the later of that file and its page.
 const dataFile = 'src/data/portfolio.js'
+const journalFile = 'src/data/journal.js'
 const lastmodFor = (route) => {
   if (route === '/') return lastCommitDate([dataFile, 'src/pages/HomePage.jsx', 'src/components/Hero.jsx'])
   if (route === '/works') return lastCommitDate([dataFile, 'src/pages/WorksPage.jsx'])
   if (route === '/about') return lastCommitDate([dataFile, 'src/pages/AboutPage.jsx'])
+  if (route === '/journal') return lastCommitDate([journalFile, 'src/pages/JournalPage.jsx'])
+  if (route.startsWith('/journal/')) return lastCommitDate([journalFile, 'src/pages/JournalPostPage.jsx'])
   return lastCommitDate([dataFile, 'src/pages/ProjectDetailPage.jsx'])
 }
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

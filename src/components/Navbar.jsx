@@ -26,7 +26,8 @@ import ThemeToggle from './ThemeToggle.jsx'
 const links = [
   { to: '/', label: 'Home', n: '01', end: true },
   { to: '/works', label: 'Work', n: '02' },
-  { to: '/about', label: 'About', n: '03' },
+  { to: '/journal', label: 'Journal', n: '03' },
+  { to: '/about', label: 'About', n: '04' },
 ]
 
 export default function Navbar() {
