@@ -22,7 +22,8 @@ import { cn } from '@/lib/utils'
  * Output: <motion.article>.
  */
 const ProjectCard = forwardRef(function ProjectCard({ project }, ref) {
-  const { slug, name, blurb, categories = [], highlights, tags, links = {}, featured, note } = project
+  const { slug, name, blurb, categories = [], highlights, tags, links = {}, featured, note, appPage } =
+    project
 
   return (
     <motion.article
@@ -79,6 +80,18 @@ const ProjectCard = forwardRef(function ProjectCard({ project }, ref) {
         <p className="mt-1.5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-brand-accent">
           {note}
         </p>
+      )}
+
+      {/* The card itself links to the case study. A project with its own page needs a second,
+          separately clickable link — and it puts that page one hop from the home page and /works,
+          which are the pages with the most inbound weight. `z-10` keeps it above the card overlay. */}
+      {appPage && (
+        <Link
+          to={appPage}
+          className="relative z-10 mt-2 inline-block rounded-sm font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          What the app does →
+        </Link>
       )}
 
       <p className="mt-3 leading-relaxed text-muted-foreground">{blurb}</p>
