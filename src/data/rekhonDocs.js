@@ -1,10 +1,11 @@
-// Content for /rekhon/docs — the eleven documents behind the app, each explained in plain English.
+// Content for /rekhon/docs — the as-built documents, each explained in plain English. The three
+// design proposals used to live here too; they moved to rekhonDesign.js (/rekhon/design).
 //
 // Why:  the project's strongest and least visible asset is its paperwork: a 234-page as-built
 //       blueprint, a report that lists its own faults, a picture of every screen that the build
 //       refuses to let go stale. All of it sat in a repository nobody opens, written for engineers.
 //       A reader who is not one had no way in, and a reader who is one still had to go looking.
-// What: eleven entries, each in the same four-line form — what it is, why it was written, an
+// What: seven entries, each in the same four-line form — what it is, why it was written, an
 //       everyday comparison, and the real figures inside — plus the PDF itself to download.
 // Result: one page that hands over the documents and explains each one without jargon.
 //
@@ -26,7 +27,7 @@
 /**
  * The documents, grouped by what a reader would come for.
  *
- * Why:  eleven cards in one undifferentiated list is a wall. Grouped by purpose, a reader can go
+ * Why:  cards in one undifferentiated list are a wall. Grouped by purpose, a reader can go
  *       straight to the group they want and ignore the rest.
  * Input:  none — this is data.
  * Output: { id, title, blurb, docs[] }[] in reading order. Each doc carries `href` (a file under
@@ -152,66 +153,6 @@ export const docGroups = [
       },
     ],
   },
-  {
-    id: 'three-ideas',
-    title: 'Three ideas for what it could look like next',
-    blurb:
-      'Three different answers to the same question, each one arguing with the ones before it. None has changed a line of the app.',
-    docs: [
-      {
-        slug: 'design-v2',
-        title: 'Idea one · one answer per screen',
-        href: '/docs/rekhon-design-v2.pdf',
-        pages: 34,
-        size: '4.7 MB',
-        source: 'docs/design/AI_Personal_CFO_redesign.pdf',
-        what: 'All 25 screens redrawn so that each one leads with a single big figure and answers exactly one question.',
-        why: 'The app had grown screens that tried to show everything at once. I wanted to see what happened if a screen was only allowed to say one thing.',
-        like: 'Tidying a bedroom by giving every toy one box, then putting the box you actually want on top.',
-        inside:
-          '25 screens redrawn, with the reason written beside every decision. It answers “how am I doing?” Not one line of app code was changed to produce it.',
-      },
-      {
-        slug: 'design-v3',
-        title: 'Idea two · one queue of decisions',
-        href: '/docs/rekhon-design-v3.pdf',
-        pages: 45,
-        size: '7.9 MB',
-        source: 'docs/design/AI_Personal_CFO_v3.pdf',
-        what: 'The same app drawn as a single queue of things that need you today, instead of a set of dashboards to read.',
-        why: 'Nearly every money app hands you pages to look at. I wanted to try one that hands you a list to clear, and find out which I would rather open on a Tuesday.',
-        like: 'Swapping a noticeboard for a to-do list you can tick off.',
-        inside:
-          '31 screens, answering “what needs me?” It copies idea one’s colours byte for byte, so putting the two side by side compares their shape and not their paint. Argued against idea one on every screen.',
-      },
-      {
-        slug: 'design-v4',
-        title: 'Idea three · the instrument panel',
-        href: '/docs/rekhon-design-v4.pdf',
-        pages: 47,
-        size: '10.6 MB',
-        source: 'docs/design/AI_Personal_CFO_v4.pdf',
-        what: 'The same app again, drawn the way the money apps Indians already open every day are drawn: dense, tabular, full of charts.',
-        why: 'Kite, Groww and Coin have already taught this audience what a money app looks like. A design that ignores that vocabulary is asking its users to learn the job twice.',
-        like: 'Writing in the handwriting everybody at school already reads.',
-        inside:
-          '34 screens: all 25 the app ships, plus nine that those apps have and this one is missing. It answers “let me look.” Its closing section argues when its own approach would be the wrong one, and names the hybrid worth considering instead.',
-      },
-      {
-        slug: 'design-v4-flow',
-        title: 'The map of idea three',
-        href: '/docs/rekhon-design-v4-flow.pdf',
-        pages: 23,
-        size: '3.3 MB',
-        source: 'docs/design/AI_Personal_CFO_v4_flow.pdf',
-        what: 'The zoo map again, drawn for the third idea — a version of the app that does not exist yet.',
-        why: 'A pile of mockups can look finished and still not join up anywhere. Asking the proposal the same question I had asked the real app was the cheapest way to find the holes.',
-        like: 'Checking a new bus timetable actually gets you home before you buy the ticket.',
-        inside:
-          'Five tabs, 54 arrows and ten journeys — and which of those arrows a mockup actually draws, as opposed to which are still only lines on a diagram.',
-      },
-    ],
-  },
 ]
 
 /** Every document in reading order, for the download table and the page’s totals. */
@@ -220,7 +161,7 @@ export const allDocs = docGroups.flatMap((g) => g.docs)
 /**
  * The group headings, for the on-page contents list.
  *
- * Why:  four groups and eleven cards make a long page; jump links save a reader the scroll, and
+ * Why:  several groups of cards make a long page; jump links save a reader the scroll, and
  *       Google sometimes surfaces them as sitelinks.
  * Input:  none.
  * Output: { id, title, count }[] — one entry per group.
@@ -254,9 +195,9 @@ export const docTotals = {
 export const docsMeta = {
   // 40 chars + ' | Harish G' = 51, inside the prerender's 60-char title gate.
   metaTitle: 'Rekhon explained simply, with the papers',
-  // 143 chars, inside the 160-char gate.
+  // 146 chars, inside the 160-char gate. Counts must match docTotals after a split.
   metaDescription:
-    'How an offline money app actually works, in plain words and real screenshots. Then the eleven documents behind it, 536 pages, free to download.',
+    'How an offline money app actually works, explained in plain words with no jargon. Then the seven documents behind it, 387 pages, free to download.',
 
   h1: 'An offline money app, explained in plain words',
   kicker: `Rekhon · a short read · ${docTotals.documents} documents to take away`,
@@ -266,7 +207,7 @@ export const docsMeta = {
 
   intro: [
     'Below are six short pieces about an Android money app called Rekhon, written for somebody who has never written a line of code. No screenshots: the app is dense and small pictures of it explain nothing. Where a picture genuinely helps, there is one.',
-    'The documents come after. You will not need them to follow any of this, which is rather the point.',
+    'The documents come after. You will not need them to follow any of this, which is rather the point. Three proposals for redesigning the app used to sit down there too; they are their own thing and now have their own page.',
   ],
 
   // The four labels every entry repeats, explained once at the top so the shape of a card is

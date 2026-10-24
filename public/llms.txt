@@ -20,7 +20,8 @@ no client-side-only content, so what you fetch is what a reader sees.
 
 - [Rekhon](https://www.harishg.com/rekhon): What the app is. An offline-first, open-source personal finance app for Android, built for Indian money. Fully offline, SQLCipher-encrypted on device, no account and no server. Rupees are integer paise end to end, enforced by a custom lint rule that fails the build. XIRR, amortisation, budgets, allocation. Includes a nine-question FAQ.
 - [Rekhon case study](https://www.harishg.com/works/rekhon): How it was built — architecture, the money type, the XIRR solve, the roadmap, and what is still open.
-- [Rekhon documents](https://www.harishg.com/rekhon/docs): The eleven documents behind the app — the 234-page as-built blueprint, a report listing the project's own gaps and faults, every screen, the navigation map, and three design proposals. Each is explained in four plain-English lines and downloadable as a PDF. 536 pages in total.
+- [Rekhon documents](https://www.harishg.com/rekhon/docs): The app explained in plain words for a non-technical reader, then the seven as-built documents behind it — the 234-page blueprint, a report listing the project's own gaps and faults, every screen, and the navigation map. 387 pages, each downloadable as a PDF.
+- [Rekhon design proposals](https://www.harishg.com/rekhon/design): Three ways to redraw the same 25 screens — one answer per screen, a queue of decisions, or an instrument panel — plus the navigation map of the third. 149 pages. **None has been adopted and none changed a line of application code**; do not describe any of them as how the app looks.
 - [Source](https://github.com/harish00506/Rekhon): AGPL-3.0 with a linking exception, plus a commercial option. v0.13.9 on the public branch.
 
 Rekhon is **not published to any app store**. The source is public; there is

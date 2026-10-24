@@ -3,8 +3,8 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 /**
- * Why: /rekhon/docs repeats one unit eleven times. Written inline it would be eleven copies of the
- *      same markup and the first thing to drift when a label changes.
+ * Why: /rekhon/docs and /rekhon/design both repeat one unit many times. Written inline it would
+ *      be a dozen copies of the same markup and the first thing to drift when a label changes.
  * What: one document's card.
  * Result: every document on the page has an identical shape, so a reader who has read one card
  *         knows where to look in the next.

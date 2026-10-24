@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Github } from 'lucide-react'
+import { ArrowLeft, Github, Palette } from 'lucide-react'
 import DocCard from '../components/DocCard.jsx'
 import ArticleFigure, { WorkedSum } from '../components/ArticleFigure.jsx'
 import { Button } from '@/components/ui/button'
@@ -14,7 +14,7 @@ import { articleSections, articleContents } from '../data/rekhonArticle.js'
  *      It lived in a repository, written for engineers. /rekhon says what the app is and
  *      /works/rekhon says how it was built; neither hands over the documents or explains one to
  *      somebody who does not write software.
- * What: /rekhon/docs — eleven documents, each in the same four-line form, each downloadable.
+ * What: /rekhon/docs — a short article, then the as-built documents, each downloadable.
  * Result: A page that gives the documents away and explains every one without jargon.
  * Changelog: 2026-10-24 - Created.
  */
@@ -122,7 +122,7 @@ export default function RekhonDocsPage() {
         </section>
 
         {/* The four labels, explained once. Every card below repeats them in this order, so a
-            reader who reads this knows the shape of all eleven. */}
+            reader who reads one knows the shape of the rest. */}
         <section aria-labelledby="form-title" className="mt-14">
           <h2 id="form-title" className="kicker">
             Every document gets the same four lines
@@ -179,6 +179,33 @@ export default function RekhonDocsPage() {
             </div>
           </section>
         ))}
+
+        {/* The proposals moved to their own page. A reader at the bottom of this one is exactly
+            the reader who might want them, so the pointer goes here rather than only in the nav. */}
+        <section
+          aria-labelledby="design-title"
+          className="mt-20 rounded-lg border border-border bg-secondary/50 p-6 sm:p-8"
+        >
+          <h2
+            id="design-title"
+            className="display text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl"
+          >
+            And three ideas for what it could look like instead
+          </h2>
+          <p className="mt-4 max-w-[66ch] leading-relaxed text-muted-foreground">
+            Everything above describes the app that exists. Three separate proposals redraw all 25
+            screens three different ways, each arguing with the one before it. None has been
+            adopted and none changed a line of code, so they live on their own page.
+          </p>
+          <div className="mt-7">
+            <Button asChild>
+              <Link to="/rekhon/design">
+                <Palette />
+                The design proposals
+              </Link>
+            </Button>
+          </div>
+        </section>
 
         <section aria-labelledby="whole-set-title" className="mt-20">
           <Separator className="mb-10" />
