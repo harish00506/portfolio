@@ -123,12 +123,15 @@ export default function RekhonPage() {
             through it. The page explains the app itself first, in plain English, and every
             document is free to download. Three proposals for redesigning it live separately.
           </p>
-          <div className="mt-7">
+          <div className="mt-7 flex flex-wrap gap-3">
             <Button asChild>
               <Link to="/rekhon/docs">
                 <FileText />
                 Read it, and take the papers
               </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link to="/rekhon/design">Three redesigns of it</Link>
             </Button>
           </div>
         </section>

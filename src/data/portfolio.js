@@ -151,6 +151,8 @@ export const projects = [
     // The documents page. Listed here for the same reason as appPage: an audit found it with one
     // inbound link against three or more for every other page on the site.
     docsPage: '/rekhon/docs',
+    // The design proposals. Same story, found by the same check after they were split out.
+    designPage: '/rekhon/design',
     details: {
       role: 'Sole author',
       team: 'Solo project',
