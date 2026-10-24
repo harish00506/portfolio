@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Github, Palette } from 'lucide-react'
 import DocCard from '../components/DocCard.jsx'
-import ArticleFigure, { WorkedSum } from '../components/ArticleFigure.jsx'
+import ArticleFigure, { WorkedSum, DataTable, FlowDiagram } from '../components/ArticleFigure.jsx'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { rekhon } from '../data/rekhon.js'
@@ -100,6 +100,8 @@ export default function RekhonDocsPage() {
               </p>
             ))}
             <WorkedSum sum={section.sum} />
+            <DataTable table={section.table} />
+            <FlowDiagram flow={section.flow} />
             <ArticleFigure figure={section.figure} />
           </section>
         ))}

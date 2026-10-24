@@ -398,6 +398,15 @@ for (const d of allDocs) {
 // a broken <img> and nothing in the rendered HTML would say so.
 for (const sec of articleSections) {
   if (!sec.heading || !sec.body?.length) docProblems.push(`article ${sec.id}: missing heading or body`)
+  if (sec.table && (!sec.table.head?.length || !sec.table.rows?.length)) {
+    docProblems.push(`article ${sec.id}: table needs a head and at least one row`)
+  }
+  if (sec.table?.rows?.some((r) => r.length !== sec.table.head.length)) {
+    docProblems.push(`article ${sec.id}: a table row does not match the number of columns`)
+  }
+  if (sec.flow && (!sec.flow.steps?.length || !sec.flow.outcomes?.length)) {
+    docProblems.push(`article ${sec.id}: flow needs steps and outcomes`)
+  }
   const f = sec.figure
   if (!f) continue
   if (!f.alt || !f.caption) docProblems.push(`article ${sec.id}: figure needs alt text and a caption`)

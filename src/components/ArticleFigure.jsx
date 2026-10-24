@@ -59,6 +59,137 @@ export function WorkedSum({ sum }) {
 }
 
 /**
+ * A small table.
+ *
+ * Why:  three of the article's sections were walls of prose. Each one had a short, concrete set of
+ *       facts buried in a sentence — the advisor's checks, what does and does not leave the phone —
+ *       and a table shows those faster than a paragraph does, at any width.
+ * Input:  table - { head: string[], rows: string[][], caption? }. The first column is the row
+ *         header; later columns are data.
+ * Output: a <figure>, or null when no table was supplied.
+ */
+export function DataTable({ table }) {
+  if (!table) return null
+
+  return (
+    <figure className="mt-8">
+      {/* Horizontal scroll rather than a squeeze: three columns of real text cannot wrap into
+          320px without becoming unreadable, and a scrolling table is honest about that. */}
+      <div className="overflow-x-auto rounded-lg border border-border bg-card shadow-card">
+        <table className="w-full min-w-[32rem] text-left text-sm">
+          <thead>
+            <tr className="border-b border-border bg-secondary/60">
+              {table.head.map((h) => (
+                <th
+                  key={h}
+                  scope="col"
+                  className="px-5 py-3 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground"
+                >
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {table.rows.map((row) => (
+              <tr key={row[0]} className="border-b border-border/60 last:border-0">
+                {row.map((cell, i) => (
+                  <td
+                    key={i}
+                    className={
+                      i === 0
+                        ? 'px-5 py-3 font-medium text-foreground'
+                        : 'px-5 py-3 leading-relaxed text-muted-foreground'
+                    }
+                  >
+                    {cell}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {table.caption && (
+        <figcaption className="mt-3 max-w-[62ch] text-sm leading-relaxed text-muted-foreground">
+          {table.caption}
+        </figcaption>
+      )}
+    </figure>
+  )
+}
+
+/**
+ * A left-to-right pipeline with one branch at the end.
+ *
+ * Why:  the guardrail is the project's central idea and it is a sequence, which prose makes a
+ *       reader hold in their head and a picture does not.
+ * What: built from HTML rather than SVG on purpose — it reflows to a column on a phone, the text
+ *       stays selectable and searchable, and it takes the theme's colours in both modes instead of
+ *       carrying its own.
+ * Input:  flow - { steps: [{ label, detail }], outcomes: [{ label, detail, tone }], caption? }
+ *         where tone is 'pass' or 'fail'.
+ * Output: a <figure>, or null when no flow was supplied.
+ */
+export function FlowDiagram({ flow }) {
+  if (!flow) return null
+
+  return (
+    <figure className="mt-8">
+      <div className="rounded-lg border border-border bg-card p-5 shadow-card sm:p-6">
+        <ol className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-0">
+          {flow.steps.map((step, i) => (
+            <li key={step.label} className="flex flex-1 flex-col sm:flex-row sm:items-center">
+              <div className="flex-1 rounded-md border border-border bg-background px-4 py-3">
+                <p className="font-semibold leading-snug text-foreground">{step.label}</p>
+                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{step.detail}</p>
+              </div>
+              {i < flow.steps.length - 1 && (
+                <span
+                  aria-hidden
+                  className="flex-none self-center px-2 py-1 font-mono text-muted-foreground"
+                >
+                  <span className="sm:hidden">↓</span>
+                  <span className="hidden sm:inline">→</span>
+                </span>
+              )}
+            </li>
+          ))}
+        </ol>
+
+        <p aria-hidden className="mt-4 text-center font-mono text-muted-foreground">
+          ↓
+        </p>
+
+        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+          {flow.outcomes.map((o) => (
+            <li
+              key={o.label}
+              className={`rounded-md border px-4 py-3 ${
+                o.tone === 'pass' ? 'border-border bg-background' : 'border-dashed border-border bg-secondary/50'
+              }`}
+            >
+              <p className="font-semibold leading-snug text-foreground">
+                <span aria-hidden className="mr-1.5 font-mono text-muted-foreground">
+                  {o.tone === 'pass' ? '✓' : '✕'}
+                </span>
+                {o.label}
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{o.detail}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      {flow.caption && (
+        <figcaption className="mt-3 max-w-[62ch] text-sm leading-relaxed text-muted-foreground">
+          {flow.caption}
+        </figcaption>
+      )}
+    </figure>
+  )
+}
+
+/**
  * The one diagram on the page.
  *
  * Why:  the navigation map is the only picture that earns its place — it shows a shape words
