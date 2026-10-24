@@ -252,21 +252,22 @@ export const docTotals = {
  * first draft of this file said 336 pages; the documents add up to 536.
  */
 export const docsMeta = {
-  // 42 chars + ' | Harish G' = 53, inside the prerender's 60-char title gate.
-  metaTitle: 'Rekhon project documents, explained simply',
-  // 153 chars, with margin under the 160-char gate (the first draft landed on exactly 160).
+  // 40 chars + ' | Harish G' = 51, inside the prerender's 60-char title gate.
+  metaTitle: 'Rekhon explained simply, with the papers',
+  // 143 chars, inside the 160-char gate.
   metaDescription:
-    'The eleven documents behind Rekhon: the blueprint, the gap report, every screen, the app map and three design proposals, each explained in plain English.',
+    'How an offline money app actually works, in plain words and real screenshots. Then the eleven documents behind it, 536 pages, free to download.',
 
-  h1: 'The documents behind the app, explained simply',
-  kicker: `Rekhon · ${docTotals.documents} documents · ${docTotals.pages} pages`,
+  h1: 'An offline money app, explained in plain words',
+  kicker: `Rekhon · read it here · ${docTotals.documents} documents to take away`,
 
-  tagline: `${docTotals.documents} documents and ${docTotals.pages} pages, none of them written to impress anybody. Here is what each one is for, in words a child could follow.`,
+  tagline:
+    'Four minutes of reading and seven real screens. If you still want the 536 pages afterwards, they are at the bottom.',
 
   intro: [
-    'Building the app was half the work. The other half was writing down what it does, what it stores, how somebody gets from one screen to the next, and the part most projects skip: everything about it that is still wrong. That paperwork is why a stranger can pick this project up, and why I can still answer a question about a decision I made eight months ago.',
-    'The trouble with paperwork is that it gets written for people who already understand the thing. So every document below gets the same four lines — what it is, why I bothered, something ordinary it resembles, and the real numbers inside. Read the four lines, decide whether you want the PDF, skip the ten you do not.',
-    'All of them are free to download and none of them needs the app. If you open one, open the short version: three pages, ten minutes, the whole project.',
+    'This page does the explaining first. Below are seven short pieces about an Android money app called Rekhon, each with a picture of the actual screen, written so that somebody who has never written a line of code can follow every one.',
+    'None of the pictures is a mock-up. The phone screens are the images the app\u2019s own tests record and check on every run, so a screen that changes without its picture changing turns the build red. The map is drawn from the navigation code. They are what the app looks like, not what I would like it to look like.',
+    'The documents come after. You will not need them to understand any of this, which is rather the point.',
   ],
 
   // The four labels every entry repeats, explained once at the top so the shape of a card is
