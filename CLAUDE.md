@@ -11,6 +11,8 @@
                 pages shipped their content invisible without JavaScript.
     2026-10-24: §10 records why /rekhon/docs carries no app screenshots, and why the
                 document cards collapse.
+    2026-10-24: §5 records that llms.txt is generated, and §1 that counted figures live in a
+                structured export rather than in prose.
 -->
 
 # Harish G Portfolio: Project Rules
@@ -28,7 +30,12 @@
 2. **The resume and `portfolio.js` must not disagree.** Same project names, same numbers, same
    claims. Change one, change the other in the same commit.
 3. **Never claim a number you cannot point at.** Every metric on this site traces to a real repo:
-   a commit count, a language count, a measured latency. No rounded-up guesses.
+   a commit count, a language count, a measured latency. No rounded-up guesses. **A figure that
+   more than one page states lives in a structured export, not in prose** — `rekhonCounted`
+   (rekhon.js) for the public branch, `docsSource` (rekhonDocs.js) for the version the PDFs were
+   copied at, `docTotals` / `designTotals` for the page counts. Recounting is then one edit, and
+   llms.txt follows it automatically. Where prose in `portfolio.js` repeats one of those figures —
+   it cannot import them, by §2 — the prerender gate in §5 fails the build when the two disagree.
 4. **`react-router-dom` stays on v6.** v7 breaks the SSR build. Do not upgrade it, and do not let a
    transitive bump drag it forward.
 
@@ -89,8 +96,17 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
 
 - The prerender derives its route list from `projects` in `portfolio.js`. **A new project needs no
   build change**; a new *page type* needs a route in `App.jsx` and a branch in `metaFor()`.
-- `scripts/prerender.mjs` also writes `sitemap.xml`, `robots.txt` and `404.html` into `dist/`. There
-  is no `public/sitemap.xml`; the generated one is the only one, so it can never go stale.
+- `scripts/prerender.mjs` also writes `sitemap.xml`, `robots.txt`, `llms.txt` and `404.html` into
+  `dist/`. There is no `public/sitemap.xml` and no `public/llms.txt`; the generated ones are the
+  only ones, so they cannot go stale.
+- **`llms.txt` is generated, and the build fails if it does not describe the site.** It was
+  hand-maintained until it had drifted twice in a month: "nine case studies" after the tenth
+  shipped, a page total typed from memory, and not one of the four journal entry pages listed.
+  Now `src/data/llms.js` holds only the sentences — one note per page, the notes a model should
+  read first — and `src/lib/llmsTxt.js` assembles them with the real counts. **A note there may
+  not state a number a data file already holds**; a `{token}` is filled from the data and an
+  unknown one fails the build. The route list and the described routes must match in *both*
+  directions, so a new page type stops the build until somebody says what it is for.
 - **`site.url` in `portfolio.js` is the only place the domain is written.** Canonical tags, OG/Twitter
   URLs, JSON-LD, every `<loc>` in the sitemap and the `Sitemap:` line in robots.txt are all derived
   from it. Never paste the domain a second time. No trailing slash. The one exception is the static

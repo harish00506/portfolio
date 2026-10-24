@@ -42,12 +42,16 @@ bug where every page silently shipped the home page's description.
 ## Where the content lives
 
 All text, projects, skills and experience live in data files. The components read from them, so
-editing content means editing one of these three and nothing else:
+editing content means editing one of these and nothing else:
 
 ```
-src/data/portfolio.js   # profile, skills, experience, education, and all nine projects
+src/data/portfolio.js   # profile, skills, experience, education, and all ten projects
 src/data/journal.js     # journal entries + the publishing cadence
-src/data/rekhon.js      # the long-form Rekhon page and its FAQ
+src/data/rekhon.js      # the long-form Rekhon page, its FAQ and the counted figures
+src/data/rekhonArticle.js  # the plain-English article at the top of /rekhon/docs
+src/data/rekhonDocs.js     # the as-built PDFs, and where each was copied from
+src/data/rekhonDesign.js   # the three design proposals
+src/data/llms.js           # the prose half of llms.txt; the figures come from the files above
 ```
 
 Each project supports `links: { github, live }` and an optional `appPage` for a project with its
@@ -74,11 +78,11 @@ src/
   lib/            highlight.js  (dependency-free tokenizer for the code samples)
   index.css       Tailwind layers, design tokens, light/dark themes
 scripts/
-  prerender.mjs   SSG: per-route HTML, meta, JSON-LD, sitemap, robots, 404
+  prerender.mjs   SSG: per-route HTML, meta, JSON-LD, sitemap, robots, llms.txt, 404
 docs/
   journal-workflow.md   how to publish an entry
   sitemap.md            how to find and verify an XML sitemap
-public/           fonts · og-image · robots.txt · llms.txt · résumé PDFs
+public/           fonts · og-image · robots.txt · docs/ (the Rekhon PDFs) · résumé PDFs
 ```
 
 ---
@@ -97,7 +101,10 @@ Worth describing, because most of it is enforced rather than hoped for:
   touched the files each route is built from** rather than today's date — a lastmod Google cannot
   trust is worse than none.
 - `robots.txt` welcomes search and AI crawlers, and declares both the sitemap and an IndexNow key.
-- `llms.txt` gives AI crawlers a map of the site rather than just an invitation.
+- `llms.txt` gives AI crawlers a map of the site rather than just an invitation, and it is
+  **generated from the data files too** — the hand-maintained copy drifted, so the prose now lives
+  in `src/data/llms.js` and every figure is read from the export the page renders from. The build
+  fails if a route it builds is not described there, or a described route no longer exists.
 - The LaTeX résumé sources are served `noindex`: they are duplicate content of their PDFs.
 
 ---
