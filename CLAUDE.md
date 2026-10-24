@@ -9,6 +9,8 @@
                 the three traps in rendering them.
     2026-10-24: §4 records the data-reveal contract after a review found the prerendered
                 pages shipped their content invisible without JavaScript.
+    2026-10-24: §10 records why /rekhon/docs carries no app screenshots, and why the
+                document cards collapse.
 -->
 
 # Harish G Portfolio: Project Rules
@@ -170,6 +172,17 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
   the file size and the figures in the prose are all stated, and all of them move.
 - **Do not hand-type the totals.** `docTotals` sums the page counts and the kicker and tagline read
   from it. The first draft said 336 pages against a real 536, which is exactly the bug this guards.
+- **The article leads, and it has no app screenshots.** Two earlier versions of this page failed
+  for opposite reasons: eleven download cards explained nothing to a reader who had not decided
+  they wanted a document, and then seven sections each carrying a phone screenshot ran to 14,000px
+  and 18 minutes while the page promised four. Shrunk into a text column the app's screens read as
+  grey noise. `rekhonArticle.js` now holds six short sections, one worked sum rendered as an HTML
+  table (`WorkedSum`), and one diagram — the navigation map, which shows a shape words cannot.
+  **Before adding a picture here, check it still means something at 400px wide.**
+- **The document cards keep their first line and hide the rest** behind a native `<details>`.
+  Eleven cards at four lines each came to 1,488 words and buried the article above them. The
+  disclosure is deliberately not a scripted accordion: it is keyboard accessible for free and it
+  still opens with no JavaScript, which the rest of this file works hard to preserve.
 - **The four labels (`docsMeta.form`) drive both the legend and every card.** `DocCard` maps a label
   to a field *by position*, so reordering `form` reorders the rendered lines. Adding a fifth label
   without adding a fifth field to the card renders `undefined`.

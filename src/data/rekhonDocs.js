@@ -259,15 +259,14 @@ export const docsMeta = {
     'How an offline money app actually works, in plain words and real screenshots. Then the eleven documents behind it, 536 pages, free to download.',
 
   h1: 'An offline money app, explained in plain words',
-  kicker: `Rekhon · read it here · ${docTotals.documents} documents to take away`,
+  kicker: `Rekhon · a short read · ${docTotals.documents} documents to take away`,
 
   tagline:
-    'Four minutes of reading and seven real screens. If you still want the 536 pages afterwards, they are at the bottom.',
+    'What an offline money app does, and why it is built the way it is. Five minutes, no jargon, no prior knowledge assumed.',
 
   intro: [
-    'This page does the explaining first. Below are seven short pieces about an Android money app called Rekhon, each with a picture of the actual screen, written so that somebody who has never written a line of code can follow every one.',
-    'None of the pictures is a mock-up. The phone screens are the images the app\u2019s own tests record and check on every run, so a screen that changes without its picture changing turns the build red. The map is drawn from the navigation code. They are what the app looks like, not what I would like it to look like.',
-    'The documents come after. You will not need them to understand any of this, which is rather the point.',
+    'Below are six short pieces about an Android money app called Rekhon, written for somebody who has never written a line of code. No screenshots: the app is dense and small pictures of it explain nothing. Where a picture genuinely helps, there is one.',
+    'The documents come after. You will not need them to follow any of this, which is rather the point.',
   ],
 
   // The four labels every entry repeats, explained once at the top so the shape of a card is
