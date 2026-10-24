@@ -34,6 +34,9 @@ const { rekhon } = await import(pathToFileURL(path.join(root, 'src', 'data', 're
 const { docsMeta, allDocs } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'rekhonDocs.js')).href
 )
+const { articleSections } = await import(
+  pathToFileURL(path.join(root, 'src', 'data', 'rekhonArticle.js')).href
+)
 
 const template = await readFile(templatePath, 'utf8')
 
@@ -354,6 +357,18 @@ for (const d of allDocs) {
     docProblems.push(`${d.slug}: no file at dist${d.href} — copy it into public${d.href}`)
   }
 }
+// The article's pictures are the same class of risk as the PDFs: a renamed baseline would ship as
+// a broken <img> and nothing in the rendered HTML would say so.
+for (const sec of articleSections) {
+  if (!sec.heading || !sec.body?.length) docProblems.push(`article ${sec.id}: missing heading or body`)
+  const f = sec.figure
+  if (!f) continue
+  if (!f.alt || !f.caption) docProblems.push(`article ${sec.id}: figure needs alt text and a caption`)
+  if (!existsSync(path.join(distDir, f.src))) {
+    docProblems.push(`article ${sec.id}: no image at dist${f.src} — copy it into public${f.src}`)
+  }
+}
+
 const docSlugs = allDocs.map((d) => d.slug)
 const duplicateSlugs = docSlugs.filter((x, i) => docSlugs.indexOf(x) !== i)
 if (duplicateSlugs.length) docProblems.push(`duplicate doc slugs: ${[...new Set(duplicateSlugs)].join(', ')}`)

@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Github } from 'lucide-react'
 import DocCard from '../components/DocCard.jsx'
+import ArticleFigure from '../components/ArticleFigure.jsx'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { rekhon } from '../data/rekhon.js'
 import { docsMeta, docGroups, docContents, docTotals } from '../data/rekhonDocs.js'
+import { articleSections, articleContents } from '../data/rekhonArticle.js'
 
 /**
  * Why: The project's paperwork — a 234-page as-built blueprint, a report listing its own faults,
@@ -55,6 +57,68 @@ export default function RekhonDocsPage() {
             </p>
           ))}
         </div>
+
+        {/* The article. It comes before the downloads because a shelf of PDFs answers a question
+            nobody has yet asked: it is useful once you want a document, useless for deciding
+            whether you do. Every picture is an artefact the app's own build produces. */}
+        <nav
+          aria-label="What this page explains"
+          className="mt-14 rounded-lg border border-border bg-secondary/50 p-6"
+        >
+          <p className="kicker">What this page explains</p>
+          <ol className="mt-4 grid gap-2 sm:grid-cols-2">
+            {articleContents.map((c, i) => (
+              <li key={c.id}>
+                <a
+                  href={`#${c.id}`}
+                  className="rounded-sm text-sm leading-relaxed text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <span className="font-mono text-xs text-muted-foreground">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>{' '}
+                  {c.heading}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
+        {articleSections.map((section) => (
+          <section key={section.id} aria-labelledby={section.id} className="mt-20">
+            <h2
+              id={section.id}
+              className="display max-w-[26ch] text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl"
+            >
+              {section.heading}
+            </h2>
+            {section.body.map((para) => (
+              <p
+                key={para.slice(0, 40)}
+                className="mt-5 max-w-[68ch] text-lg leading-relaxed text-foreground/85"
+              >
+                {para}
+              </p>
+            ))}
+            <ArticleFigure figure={section.figure} />
+          </section>
+        ))}
+
+        <Separator className="mt-20" />
+
+        <section aria-labelledby="library-title" className="mt-16">
+          <h2
+            id="library-title"
+            className="display text-balance text-3xl font-bold leading-tight text-foreground sm:text-4xl"
+          >
+            Now the papers themselves
+          </h2>
+          <p className="mt-4 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
+            That was the short version. Underneath it sit {docTotals.documents} documents and{' '}
+            {docTotals.pages} pages, free to download, none of which you need in order to have
+            understood the article above. Each one gets the same four lines so you can tell in ten
+            seconds whether you want it.
+          </p>
+        </section>
 
         {/* The four labels, explained once. Every card below repeats them in this order, so a
             reader who reads this knows the shape of all eleven. */}
