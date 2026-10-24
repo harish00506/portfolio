@@ -18,16 +18,22 @@ import { cn } from '@/lib/utils'
  * ref to track exit animations. The stretched-link overlay avoids invalid nested <a> elements.
  *
  * Input:  project - a project object from portfolio.js ({ slug, name, blurb, categories, highlights,
- *         tags, links, featured, note }); ref - forwarded to the root <article>.
+ *         tags, links, featured, note }); ref - forwarded to the root <article>;
+ *         headingLevel - 2 where the card sits directly under the page's <h1> (/works), 3 where a
+ *         section <h2> comes between (the home page). Mirrors Section's own `headingLevel` prop.
  * Output: <motion.article>.
+ * Changelog: 2026-10-24 - headingLevel added; /works went <h1> straight to <h3>, leaving a hole in
+ *            the screen-reader outline. data-reveal added so the no-JS fallback can reach the card.
  */
-const ProjectCard = forwardRef(function ProjectCard({ project }, ref) {
+const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3 }, ref) {
+  const Heading = headingLevel === 2 ? 'h2' : 'h3'
   const { slug, name, blurb, categories = [], highlights, tags, links = {}, featured, note, appPage } =
     project
 
   return (
     <motion.article
       ref={ref}
+      data-reveal
       layout
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
@@ -72,9 +78,9 @@ const ProjectCard = forwardRef(function ProjectCard({ project }, ref) {
         </div>
       </div>
 
-      <h3 className="display mt-4 text-2xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+      <Heading className="display mt-4 text-2xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
         {name}
-      </h3>
+      </Heading>
 
       {note && (
         <p className="mt-1.5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-brand-accent">

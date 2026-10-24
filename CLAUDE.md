@@ -5,6 +5,10 @@
   Result: A contributor knows the mandated patterns, the banned ones, and where content comes from.
   Changelog:
     2026-08-21: Created (modelled on AI_personal_cfo/CLAUDE.md, cut down for a static site).
+    2026-10-24: §10 added for /rekhon/docs — the eleven Rekhon PDFs, their provenance and
+                the three traps in rendering them.
+    2026-10-24: §4 records the data-reveal contract after a review found the prerendered
+                pages shipped their content invisible without JavaScript.
 -->
 
 # Harish G Portfolio: Project Rules
@@ -16,7 +20,9 @@
 
 1. **`src/data/portfolio.js` is the only source of content.** Profile text, projects, skills,
    experience, education, all of it. A component that hardcodes a name, a blurb, a metric or a tag
-   is wrong, even if it renders correctly.
+   is wrong, even if it renders correctly. The long-form pages have their own data files beside it
+   — `journal.js`, `rekhon.js`, `rekhonDocs.js` (§10) — and the same rule applies to each: the page
+   reads, the data file holds.
 2. **The resume and `portfolio.js` must not disagree.** Same project names, same numbers, same
    claims. Change one, change the other in the same commit.
 3. **Never claim a number you cannot point at.** Every metric on this site traces to a real repo:
@@ -58,6 +64,17 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
 - **Text contrast is AA (4.5:1) in both themes.** An opacity modifier on a text colour is where this
   breaks: `text-muted-foreground/70` measured 3.12:1 on light and 4.13:1 on dark and failed both.
   Use the bare token; if a thing is decorative, mark it `aria-hidden` rather than fading it.
+- **Every scroll-reveal wrapper must carry `data-reveal`.** framer-motion serialises its `initial`
+  state into an *inline* style during SSR, so a reveal block ships as `opacity:0` and only
+  JavaScript ever clears it. Before this was fixed the prerendered home page painted 15 blocks
+  invisible, `/about` 17 and `/works` 11: with JS off the site was a hero and then nothing, which
+  quietly undid the SSG. `index.html` adds `js-ready` to `<html>` before first paint, and
+  `index.css` carries `html:not(.js-ready) [data-reveal]` plus a `prefers-reduced-motion` twin, both
+  `!important` because a class cannot otherwise beat an inline style. **A new `motion.*` wrapper with
+  an `initial` opacity and no `data-reveal` reintroduces the bug** — and nothing fails the build if
+  you forget, so check the rendered HTML: every `style="opacity:0"` element must also match
+  `data-reveal`. The reduced-motion twin is also the only thing that honours that setting for
+  framer-motion; the `.rise` media query below covers the CSS animations only.
 - **The three families are self-hosted from `public/fonts`,** not fetched from Google. Loading them
   from fonts.googleapis.com cost a render-blocking request to a third origin plus a second connection
   to fonts.gstatic.com before any text could paint: 960ms of the mobile LCP. `src/index.css` holds the
@@ -141,3 +158,24 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
 3. The page renders correctly at `npm run dev` in both themes, keyboard-navigable.
 4. `resume.tex` rebuilt and still one page, if the change touched resume content.
 5. Nothing hardcoded that belongs in `portfolio.js`.
+
+## 10. The Rekhon documents (`/rekhon/docs`)
+
+- **`public/docs/` holds eleven PDFs copied out of the `AI_personal_cfo` repository, ~53 MB.** They
+  are committed, not fetched at build time, so the page works with that repository absent — most of
+  them are not on its public branch at all, which is why linking to GitHub was not an option.
+- **`src/data/rekhonDocs.js` is the content and `source` is the provenance.** Every entry names the
+  file in `AI_personal_cfo` it was copied from, and the page prints that path under the download.
+  **Refreshing a PDF means re-copying it and re-reading `pages` from `pdfinfo`** — the page count,
+  the file size and the figures in the prose are all stated, and all of them move.
+- **Do not hand-type the totals.** `docTotals` sums the page counts and the kicker and tagline read
+  from it. The first draft said 336 pages against a real 536, which is exactly the bug this guards.
+- **The four labels (`docsMeta.form`) drive both the legend and every card.** `DocCard` maps a label
+  to a field *by position*, so reordering `form` reorders the rendered lines. Adding a fifth label
+  without adding a fifth field to the card renders `undefined`.
+- **A file path is not styled `uppercase`.** Paths are case-sensitive, and
+  `docs/AI_Personal_CFO_story.pdf` rendered as `DOCS/AI_PERSONAL_CFO_STORY.PDF` is a path that does
+  not exist. Only the "In the repo:" label is uppercased.
+- `vercel.json` gives `/docs` no explicit cache header, which is deliberate: it gets the 4-hour
+  default rather than the immutable year that `/assets` and `/fonts` get, because these filenames
+  are **not** content-hashed and a rebuilt PDF has to be able to replace its predecessor.

@@ -65,7 +65,7 @@ export default function Hero() {
               </Button>
             </div>
 
-            <div {...riseDelay(0.4)} className="rise mt-9 flex items-center gap-5">
+            <div {...riseDelay(0.4)} className="rise mt-9 flex items-center gap-6">
               <span className="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
                 Find me
               </span>
@@ -81,7 +81,7 @@ export default function Hero() {
                   target={href.startsWith('http') ? '_blank' : undefined}
                   rel={href.startsWith('http') ? 'noreferrer' : undefined}
                   aria-label={label}
-                  className="text-muted-foreground transition-colors hover:text-primary"
+                  className="-m-3 rounded-sm p-3 text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   <Icon size={20} />
                 </a>
@@ -98,6 +98,10 @@ export default function Hero() {
               <img
                 src={profile.photo}
                 alt="Harish G"
+                width={520}
+                height={540}
+                fetchPriority="high"
+                decoding="async"
                 className="absolute inset-0 h-full w-full rounded-lg object-cover"
               />
 
