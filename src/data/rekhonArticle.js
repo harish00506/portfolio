@@ -91,7 +91,8 @@ export const articleSections = [
     figure: {
       src: '/docs/img/map.svg',
       alt: 'A map of the app. Along the top: open the app, app lock, onboarding, dashboard. Below, the dashboard sits above twelve destinations each one tap away, with the add-transaction button floating over every screen.',
-      caption: 'Drawn from the navigation code, so the picture cannot disagree with the app.',
+      caption:
+        'Drawn from the navigation code, so the picture cannot disagree with the app. Its footer mentions a table that follows — that is in the PDF, where this picture comes from.',
     },
   },
   {
