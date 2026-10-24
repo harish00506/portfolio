@@ -118,16 +118,16 @@ export default function RekhonPage() {
             Read the documents, explained simply
           </h2>
           <p className="mt-4 max-w-[66ch] leading-relaxed text-muted-foreground">
-            Eleven documents come with this app: the as-built blueprint, a report listing
-            everything still wrong with it, a picture of every screen, the map of how a person
-            moves through it, and three proposals for what it could look like next. Each one is
-            explained in plain English on its own page, and each is free to download.
+            Seven documents come with this app: the as-built blueprint, a report listing everything
+            still wrong with it, a picture of every screen, and the map of how a person moves
+            through it. The page explains the app itself first, in plain English, and every
+            document is free to download. Three proposals for redesigning it live separately.
           </p>
           <div className="mt-7">
             <Button asChild>
               <Link to="/rekhon/docs">
                 <FileText />
-                All eleven documents
+                Read it, and take the papers
               </Link>
             </Button>
           </div>

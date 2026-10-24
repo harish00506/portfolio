@@ -37,6 +37,9 @@ const { docsMeta, allDocs } = await import(
 const { articleSections } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'rekhonArticle.js')).href
 )
+const { designMeta, designDocs } = await import(
+  pathToFileURL(path.join(root, 'src', 'data', 'rekhonDesign.js')).href
+)
 
 const template = await readFile(templatePath, 'utf8')
 
@@ -203,6 +206,33 @@ const docsCollectionLd = {
   })),
 }
 
+const designCollectionLd = {
+  '@type': 'CollectionPage',
+  name: designMeta.h1,
+  description: designMeta.metaDescription,
+  url: abs('/rekhon/design'),
+  author: { '@type': 'Person', name: profile.name, url: site.url },
+  about: { '@type': 'MobileApplication', name: rekhon.name, url: abs('/rekhon') },
+  hasPart: designDocs.map((d) => ({
+    '@type': 'DigitalDocument',
+    name: d.title,
+    description: d.what,
+    url: abs('/rekhon/design'),
+    contentUrl: `${site.url}${d.href}`,
+    encodingFormat: 'application/pdf',
+    author: { '@type': 'Person', name: profile.name, url: site.url },
+  })),
+}
+
+const designBreadcrumbLd = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+    { '@type': 'ListItem', position: 2, name: rekhon.name, item: abs('/rekhon') },
+    { '@type': 'ListItem', position: 3, name: 'Design', item: abs('/rekhon/design') },
+  ],
+}
+
 const docsBreadcrumbLd = {
   '@type': 'BreadcrumbList',
   itemListElement: [
@@ -248,6 +278,13 @@ function metaFor(route) {
       title: `${docsMeta.metaTitle} | ${profile.name}`,
       description: docsMeta.metaDescription,
       ld: { '@context': 'https://schema.org', '@graph': [docsCollectionLd, docsBreadcrumbLd] },
+    }
+  }
+  if (route === '/rekhon/design') {
+    return {
+      title: `${designMeta.metaTitle} | ${profile.name}`,
+      description: designMeta.metaDescription,
+      ld: { '@context': 'https://schema.org', '@graph': [designCollectionLd, designBreadcrumbLd] },
     }
   }
   if (route === '/journal') {
@@ -369,6 +406,15 @@ for (const sec of articleSections) {
   }
 }
 
+for (const d of designDocs) {
+  for (const f of DOC_FIELDS) {
+    if (d[f] === undefined || d[f] === '') docProblems.push(`design ${d.slug ?? '(no slug)'}: missing "${f}"`)
+  }
+  if (d.href && !existsSync(path.join(distDir, d.href))) {
+    docProblems.push(`design ${d.slug}: no file at dist${d.href}`)
+  }
+}
+
 const docSlugs = allDocs.map((d) => d.slug)
 const duplicateSlugs = docSlugs.filter((x, i) => docSlugs.indexOf(x) !== i)
 if (duplicateSlugs.length) docProblems.push(`duplicate doc slugs: ${[...new Set(duplicateSlugs)].join(', ')}`)
@@ -388,6 +434,7 @@ const routes = [
   ...projects.map((p) => `/works/${p.slug}`),
   '/rekhon',
   '/rekhon/docs',
+  '/rekhon/design',
   '/journal',
   // Only published entries get a page. A planned entry is listed on the index with its date and
   // has no body, so prerendering one would ship an empty page for a crawler to index.
@@ -441,6 +488,8 @@ const lastmodFor = (route) => {
   if (route === '/rekhon') return lastCommitDate(['src/data/rekhon.js', 'src/pages/RekhonPage.jsx'])
   if (route === '/rekhon/docs')
     return lastCommitDate(['src/data/rekhonDocs.js', 'src/pages/RekhonDocsPage.jsx'])
+  if (route === '/rekhon/design')
+    return lastCommitDate(['src/data/rekhonDesign.js', 'src/pages/RekhonDesignPage.jsx'])
   if (route === '/journal') return lastCommitDate([journalFile, 'src/pages/JournalPage.jsx'])
   if (route.startsWith('/journal/')) return lastCommitDate([journalFile, 'src/pages/JournalPostPage.jsx'])
   return lastCommitDate([dataFile, 'src/pages/ProjectDetailPage.jsx'])
