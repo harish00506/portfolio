@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Github } from 'lucide-react'
 import DocCard from '../components/DocCard.jsx'
-import ArticleFigure from '../components/ArticleFigure.jsx'
+import ArticleFigure, { WorkedSum } from '../components/ArticleFigure.jsx'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { rekhon } from '../data/rekhon.js'
@@ -99,6 +99,7 @@ export default function RekhonDocsPage() {
                 {para}
               </p>
             ))}
+            <WorkedSum sum={section.sum} />
             <ArticleFigure figure={section.figure} />
           </section>
         ))}
