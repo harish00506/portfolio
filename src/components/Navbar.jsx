@@ -30,6 +30,10 @@ const links = [
   { to: '/about', label: 'About', n: '04' },
 ]
 
+// Contact is not a route, so it is not in `links`, and its number was typed in twice as "04" —
+// the same number About already carries. Derived here so the sequence cannot break again.
+const contactIndex = String(links.length + 1).padStart(2, '0')
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -111,7 +115,7 @@ export default function Navbar() {
               className="group flex items-baseline gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               <span className="font-mono text-[0.65rem] text-muted-foreground group-hover:text-primary">
-                04
+                {contactIndex}
               </span>
               <span className="link-underline">Contact</span>
             </Link>
@@ -172,7 +176,7 @@ export default function Navbar() {
                       to="/#contact"
                       className="flex items-baseline gap-3 py-3.5 text-base font-medium text-muted-foreground transition-colors hover:text-primary"
                     >
-                      <span className="font-mono text-xs text-muted-foreground">04</span>
+                      <span className="font-mono text-xs text-muted-foreground">{contactIndex}</span>
                       Contact
                     </Link>
                   </SheetClose>
