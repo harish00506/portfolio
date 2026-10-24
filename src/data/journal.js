@@ -20,6 +20,10 @@
 // Changelog:
 //   2026-10-11 — Created. Two published entries (ADR-0001, ADR-0028, both on `main`) and three
 //                planned ones drawn from the open items on `dev` at v0.13.9.
+//   2026-10-24 — The first two planned entries published. Both sources verified present on
+//                origin/main and resolving publicly before the status changed, per the
+//                provenance rule above. Dated by the record, not by the schedule slot: the
+//                rules landed on main 2026-07-18, the architecture record is dated 2026-07-17.
 
 const REKHON = 'https://github.com/harish00506/Rekhon'
 const REKHON_ADR = `${REKHON}/blob`
@@ -247,33 +251,133 @@ private fun bisect(signAtLow: Int, values: List<Long>, exponents: List<Int>): Bi
     slug: 'the-seven-rules-i-cannot-break',
     project: 'rekhon',
     title: 'The seven rules I cannot break',
-    date: '2026-10-13',
-    status: 'planned',
+    // The day the rules landed on the public branch, not the day this was written — the journal
+    // dates a decision, not its write-up. The detectors that enforce them arrived a week later,
+    // which is the other published entry.
+    date: '2026-07-18',
+    status: 'published',
+    compiled: true,
     summary:
-      'Seven rules written down before the first line of code. Six custom lint rules now fail the build when code breaks one.',
+      'Seven rules written down before the first line of application code, under a heading saying they override feature requests. Six of them later became detectors that fail the build.',
+    metaDescription:
+      'Seven binding rules written before any code, and the six custom lint detectors that turn the mechanical half of them into build failures.',
     tags: ['Product', 'Rules'],
-    scope:
-      'The seven binding rules, and the six lint detectors that turn them from prose into build failures.',
     source: {
       label: 'CLAUDE.md §1 — the rules that bind the code',
       href: `${REKHON}/blob/main/CLAUDE.md`,
     },
+    body: [
+      {
+        type: 'p',
+        text: 'Seven rules went into the repository before the first line of application code, under a heading that does not leave room for interpretation.',
+      },
+      {
+        type: 'quote',
+        text: 'Golden rules (never violate — these override feature requests).',
+        cite: 'CLAUDE.md §1',
+      },
+      {
+        type: 'p',
+        text: 'They are: every figure comes from deterministic code and a language model may only phrase it; every model output passes a numeric guardrail before display; no financial data leaves the device without explicit, revocable, per-feature consent; the app advises and never moves money; every core feature works in airplane mode; every engine turns fixed input into fixed output, with randomness only from an injected seedable source; and every recommendation shows its inputs and the rule that fired.',
+      },
+      {
+        type: 'p',
+        text: 'The trouble with a rule in a document is that documents are read once, usually by somebody who already agreed. A week later the lint module landed, and six of these stopped being prose.',
+      },
+      {
+        type: 'h2',
+        text: 'The six that became build failures',
+      },
+      {
+        type: 'list',
+        items: [
+          'MoneyDoubleDetector — a floating-point declaration whose name looks monetary.',
+          'DomainClockDetector — a wall-clock read inside a domain module instead of an injected clock.',
+          'GlobalScopeDetector — GlobalScope anywhere.',
+          'PiiLoggingDetector — a log line whose arguments name money or personal data.',
+          'HardcodedUiStringDetector — a user-visible string written in a feature module instead of the string resources.',
+          'HandRolledCryptoDetector — cryptography written by hand rather than through the sanctioned library.',
+        ],
+      },
+      {
+        type: 'h2',
+        text: 'What a detector can and cannot hold',
+      },
+      {
+        type: 'p',
+        text: 'The six do not map one-to-one onto the seven, and it would be tidier if they did. What they catch is the mechanical precondition of a rule, not the rule. Floating-point money and a wall-clock read are how determinism dies in practice. An amount in a log line is how privacy dies. Hand-rolled crypto is how the encrypted store stops being encrypted.',
+      },
+      {
+        type: 'p',
+        text: 'Two of the seven have no detector and never will. "Advice, never orders" is a statement about what the app refuses to build, and no static analysis can see an absence. "Show the work" is a claim about what a screen displays, held by screenshot tests and by review. Writing them down beside five mechanised rules is honest about which kind each one is.',
+      },
+      {
+        type: 'p',
+        text: 'The set also grew rather than arriving complete. The crypto detector came last, in October, with an architecture decision record that argues two exemptions rather than pretending there are none. A rule in a document is a wish. A rule in the build is a rule, and the difference shows up the first time it stops you.',
+      },
+    ],
   },
   {
     slug: 'numbers-from-math-words-from-ai',
     project: 'rekhon',
     title: 'Numbers from math, words from AI',
-    date: '2026-10-20',
-    status: 'planned',
+    // The date on the architecture record itself.
+    date: '2026-07-17',
+    status: 'published',
+    compiled: true,
     summary:
-      'An LLM in a finance app will eventually state a confident, wrong rupee figure. This one is never given a number to state.',
+      'A language model in a finance app will eventually state a confident, wrong rupee figure. The architecture answers by never handing it one to state, and checking the sentence afterwards anyway.',
+    metaDescription:
+      'A six-layer AI pipeline where the language model may not compute, and a deterministic guardrail that verifies every digit before it reaches the screen.',
     tags: ['AI', 'Guardrails'],
-    scope:
-      'Where the boundary sits between the deterministic engines and the model, and how it is enforced rather than merely stated.',
     source: {
       label: 'ai/architecture/ai-architecture.md — the engine/model boundary',
       href: `${REKHON}/blob/main/ai/architecture/ai-architecture.md`,
     },
+    body: [
+      {
+        type: 'p',
+        text: 'A language model asked about money will produce a figure. It will be formatted correctly, phrased confidently, and sometimes wrong, and nothing about the sentence will say which. The architecture record answers this by removing the opportunity rather than by trying to detect the mistake.',
+      },
+      {
+        type: 'quote',
+        text: 'LLMs never compute amounts, scores, or forecasts. They only verbalise deterministic-engine results.',
+        cite: 'P-03, ai/architecture/ai-architecture.md',
+      },
+      {
+        type: 'p',
+        text: 'The AI is six layers, not one model, and determinism increases as you go down. The encrypted database is the bottom. Above it sit aggregation and classification, then the rules engine, then the prediction models, then the decision engine that ranks what to do next. The language model is the top layer and the only one that writes English. It consumes structured results and may depend only on layers below it.',
+      },
+      {
+        type: 'h2',
+        text: 'The guardrail does not ask the model anything',
+      },
+      {
+        type: 'p',
+        text: 'Every piece of model output passes a numeric check before display — chat replies and any generated explanation alike. It extracts every numeric claim in the candidate text: currency amounts in either minor units or Indian digit grouping, percentages, counts, scores, dates. Each one is resolved against the values the engines and tools actually produced this turn. What cannot be resolved does not ship.',
+      },
+      {
+        type: 'quote',
+        text: 'It is a deterministic L3 check — it never uses the LLM to judge the LLM.',
+        cite: 'ai/chat/guardrail.md',
+      },
+      {
+        type: 'p',
+        text: 'That sentence is the whole design. A model asked to check its own arithmetic is a second opportunity to be confidently wrong, and the check has to be cheaper and more certain than the thing it is checking.',
+      },
+      {
+        type: 'h2',
+        text: 'What the record admits it does not do',
+      },
+      {
+        type: 'p',
+        text: 'The useful part of the file is its changelog. It states plainly that regeneration is not implemented: the engine can say "ask again", and until the chat layer existed nothing was asking. It records that the refusal wording and its audit entry belong to a layer that had not been built. And it names a bound the prose above it does not — rounding stops at the rupee, so lakh and crore wording verifies only when the figure is exact.',
+      },
+      {
+        type: 'p',
+        text: 'A design document that lists what it has not done yet is worth more than one that reads as though everything shipped. It is also the reason this entry can cite it: the claim and its limits are both on the public record, and a reader can check either.',
+      },
+    ],
   },
   // Covers ADR-0001, the same decision as the published entry
   // 'a-lint-rule-instead-of-a-reviewer'. Kept because it is the series' own framing of it;
