@@ -4,10 +4,12 @@
 //   2. Rewrites the <head> (title, description, canonical, OG/Twitter) per page.
 //   3. Injects route-specific JSON-LD structured data.
 //   4. Writes dist/<route>/index.html (real files → deep links + crawlers work).
-// It also regenerates sitemap.xml and robots.txt from the route list and site.url,
+// It also regenerates sitemap.xml, robots.txt and llms.txt from the route list and site.url,
 // and emits dist/404.html (noindex, no canonical, no structured data).
 //
 // Changelog:
+//   2026-10-24 - llms.txt is generated here instead of being hand-maintained in public/, and the
+//                build fails if a route it builds is not described (see the llms.txt gate below).
 //   2026-09-12 - Meta patterns tolerate wrapped tags; the build fails if a description is not rewritten.
 //   2026-10-01 - Sitemap <lastmod> follows the last commit per route instead of claiming today.
 //   2026-09-12 - Search titles/descriptions come from portfolio.js (metaTitle / metaDescription) with a
@@ -27,17 +29,21 @@ const { render } = await import(pathToFileURL(ssrEntry).href)
 const { site, profile, skills, projects, projectCategories, experience, education } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'portfolio.js')).href
 )
-const { journalMeta, publishedEntries } = await import(
+const { journalMeta, publishedEntries, plannedEntries } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'journal.js')).href
 )
-const { rekhon } = await import(pathToFileURL(path.join(root, 'src', 'data', 'rekhon.js')).href)
-const { docsMeta, allDocs } = await import(
+const { rekhon, rekhonCounted } = await import(
+  pathToFileURL(path.join(root, 'src', 'data', 'rekhon.js')).href
+)
+const { docsMeta, allDocs, docTotals, docsSource } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'rekhonDocs.js')).href
 )
+const { llmsContent } = await import(pathToFileURL(path.join(root, 'src', 'data', 'llms.js')).href)
+const { LlmsTxt } = await import(pathToFileURL(path.join(root, 'src', 'lib', 'llmsTxt.js')).href)
 const { articleSections } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'rekhonArticle.js')).href
 )
-const { designMeta, designDocs } = await import(
+const { designMeta, designDocs, designTotals } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'rekhonDesign.js')).href
 )
 
@@ -367,8 +373,13 @@ function buildHtml(route, appHtml) {
   return html
 }
 
+// Each route's rendered HTML, kept so the gates below can check what actually shipped rather than
+// what the data says should have.
+const renderedHtml = new Map()
+
 async function writeRoute(route) {
   const html = buildHtml(route, render(route))
+  renderedHtml.set(route, html)
   const outPath =
     route === '/'
       ? templatePath
@@ -515,6 +526,61 @@ ${routes
 `
 await writeFile(path.join(distDir, 'sitemap.xml'), sitemap, 'utf8')
 
+// Regenerate llms.txt from the data files, for the same reason the sitemap is generated: the
+// hand-maintained copy in public/ drifted. It claimed nine case studies after the tenth shipped,
+// quoted a page total typed from memory, and never listed a single journal entry page. The prose
+// lives in src/data/llms.js; every figure below is read from the export the page renders from.
+const { text: llmsTxt, routes: describedRoutes } = new LlmsTxt({
+  site,
+  profile,
+  experience,
+  projects,
+  projectCategories,
+  rekhon,
+  rekhonCounted,
+  docTotals,
+  docsSource,
+  designTotals,
+  journalMeta,
+  publishedEntries,
+  plannedEntries,
+  content: llmsContent,
+}).render()
+
+// The gate that stops it drifting again: the file and the route list must describe the same site.
+// A new page nobody wrote a note for fails here, and so does a note for a page that no longer
+// exists. Case studies and journal entries are derived, so in practice this fires on a new page
+// type — which is exactly when a human has to decide what to say about it.
+const undescribed = routes.filter((r) => !describedRoutes.includes(r))
+const phantom = describedRoutes.filter((r) => !routes.includes(r))
+if (undescribed.length || phantom.length) {
+  const lines = [
+    ...undescribed.map((r) => `${r} is built but not described — add it to llmsContent.pages in src/data/llms.js`),
+    ...phantom.map((r) => `${r} is described but not built — remove it from src/data/llms.js`),
+  ]
+  throw new Error(`prerender: llms.txt does not match the route list:\n  - ${lines.join('\n  - ')}`)
+}
+
+await writeFile(path.join(distDir, 'llms.txt'), llmsTxt, 'utf8')
+
+// `rekhonCounted` is the structured copy of figures that are also prose inside portfolio.js, which
+// by §2 imports nothing and so cannot read them. This is what keeps the two in step: recount one
+// and the build names the page that still states the old number.
+const statedFigures = renderedHtml.get('/works/rekhon') ?? ''
+const figureProblems = []
+if (!statedFigures.includes(rekhonCounted.tests)) {
+  figureProblems.push(`${rekhonCounted.tests} tests`)
+}
+if (!new RegExp(`\\b${rekhonCounted.adrs}\\b`).test(statedFigures)) {
+  figureProblems.push(`${rekhonCounted.adrs} decision records`)
+}
+if (figureProblems.length) {
+  throw new Error(
+    `prerender: /works/rekhon does not state ${figureProblems.join(' or ')}, so rekhonCounted in ` +
+      'src/data/rekhon.js and the case-study prose in src/data/portfolio.js disagree',
+  )
+}
+
 // Regenerate robots.txt so its Sitemap: line follows site.url instead of being a
 // second hardcoded copy of the domain that silently goes stale when the URL changes.
 const robotsSrc = await readFile(path.join(root, 'public', 'robots.txt'), 'utf8')
@@ -524,4 +590,6 @@ await writeFile(path.join(distDir, 'robots.txt'), robots, 'utf8')
 // Clean up the temporary SSR bundle.
 await rm(path.join(root, 'dist-ssr'), { recursive: true, force: true })
 
-console.log(`✓ prerender: ${routes.length} routes + 404 + sitemap written to dist/`)
+console.log(
+  `✓ prerender: ${routes.length} routes + 404 + sitemap + llms.txt (${describedRoutes.length} described) written to dist/`,
+)

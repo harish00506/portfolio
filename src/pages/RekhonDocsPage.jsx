@@ -4,8 +4,8 @@ import DocCard from '../components/DocCard.jsx'
 import ArticleFigure, { WorkedSum, DataTable, FlowDiagram } from '../components/ArticleFigure.jsx'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { rekhon } from '../data/rekhon.js'
-import { docsMeta, docGroups, docContents, docTotals } from '../data/rekhonDocs.js'
+import { rekhon, rekhonCounted } from '../data/rekhon.js'
+import { docsMeta, docGroups, docContents, docTotals, docsSource } from '../data/rekhonDocs.js'
 import { articleSections, articleContents } from '../data/rekhonArticle.js'
 
 /**
@@ -16,8 +16,23 @@ import { articleSections, articleContents } from '../data/rekhonArticle.js'
  *      somebody who does not write software.
  * What: /rekhon/docs — a short article, then the as-built documents, each downloadable.
  * Result: A page that gives the documents away and explains every one without jargon.
- * Changelog: 2026-10-24 - Created.
+ * Changelog:
+ *   2026-10-24 - Created.
+ *   2026-10-24 - The version and the two test/ADR counts in the closing prose now read from
+ *                `docsSource` and `rekhonCounted`. They were four literals in this file, which is
+ *                the wrong layer for a number (§1.1) and left llms.txt quoting them from memory.
  */
+
+/** Renders an ISO day as e.g. "23 October 2026". Input: iso - 'YYYY-MM-DD'. Output: string. */
+function formatDay(iso) {
+  return new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  })
+}
+
 export default function RekhonDocsPage() {
   return (
     <article className="pb-24 pt-28 sm:pt-32">
@@ -219,16 +234,18 @@ export default function RekhonDocsPage() {
           </h2>
           <p className="mt-4 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
             All {docTotals.documents} are copies of files in the app&rsquo;s own repository, taken
-            at version 0.13.10 on 23 October 2026 — the path under each download button is where the
-            original lives. They are written and rebuilt alongside the code, not assembled for this
-            page, which is the only reason the figures in them are worth anything.
+            at version {docsSource.version} on {formatDay(docsSource.copiedOn)} — the path under
+            each download button is where the original lives. They are written and rebuilt
+            alongside the code, not assembled for this page, which is the only reason the figures in
+            them are worth anything.
           </p>
           <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
-            One difference worth explaining before you notice it yourself. The case study counts
-            3,822 tests and 77 decision records, because it counts the public branch, which is still
-            at v0.13.9. These documents describe v0.13.10, where the same two figures are 3,986 and
-            82. Same project, a fortnight apart, and both numbers were counted rather than
-            remembered.
+            One difference worth explaining before you notice it yourself. The case study counts{' '}
+            {rekhonCounted.tests} tests and {rekhonCounted.adrs} decision records, because it counts
+            the public branch, which is still at v{rekhonCounted.version}. These documents describe
+            v{docsSource.version}, where the same two figures are {docsSource.tests} and{' '}
+            {docsSource.adrs}. Same project, a fortnight apart, and both numbers were counted rather
+            than remembered.
           </p>
           <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
             Every one of them is printed by a script from a source that lives beside the code, so

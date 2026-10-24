@@ -100,7 +100,7 @@ export default function Hero() {
                 alt="Harish G"
                 width={520}
                 height={540}
-                fetchPriority="high"
+                fetchpriority="high"
                 decoding="async"
                 className="absolute inset-0 h-full w-full rounded-lg object-cover"
               />

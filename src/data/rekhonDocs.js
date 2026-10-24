@@ -186,6 +186,31 @@ export const docTotals = {
 }
 
 /**
+ * Where this set of PDFs was taken from, and what the repository looked like that day.
+ *
+ * Why:  the page has to explain, without being asked, why its figures differ from the case
+ *       study's: the documents describe a newer version of the repository than the public branch
+ *       the case study counts. That sentence was four hard-typed numbers in the page's JSX, which
+ *       is both the wrong layer (§1.1) and a figure nobody could trace. The generated llms.txt
+ *       carries the same explanation and now reads it from here.
+ * What: the version the PDFs were copied at, the day they were copied, and the two figures that
+ *       moved — both read off `docs/blueprint-summary.md` §6 "By the numbers" in that version.
+ * Result: one place to edit when the documents are refreshed.
+ * Changelog: 2026-10-24 — Created, from the figures that were prose in RekhonDocsPage.jsx.
+ *
+ * Input:  none - this is data.
+ * Output: { repo, version, copiedOn, tests, adrs }. `tests` is formatted for printing; `adrs` is a
+ *         count. Compare with `rekhonCounted` in rekhon.js, which holds the public branch's.
+ */
+export const docsSource = {
+  repo: 'AI_personal_cfo',
+  version: '0.13.10',
+  copiedOn: '2026-10-23',
+  tests: '3,986',
+  adrs: 82,
+}
+
+/**
  * Page-level copy and search metadata.
  *
  * Declared last, after `docTotals`, because the kicker and the tagline quote the page total and a
@@ -195,9 +220,9 @@ export const docTotals = {
 export const docsMeta = {
   // 40 chars + ' | Harish G' = 51, inside the prerender's 60-char title gate.
   metaTitle: 'Rekhon explained simply, with the papers',
-  // 146 chars, inside the 160-char gate. Counts must match docTotals after a split.
-  metaDescription:
-    'How an offline money app actually works, explained in plain words with no jargon. Then the seven documents behind it, 387 pages, free to download.',
+  // Inside the 160-char gate at any plausible count. The two figures are read from docTotals
+  // rather than typed, because this description is the third place on the page that states them.
+  metaDescription: `How an offline money app actually works, explained in plain words with no jargon. Then the ${docTotals.documents} documents behind it, ${docTotals.pages} pages, free to download.`,
 
   h1: 'An offline money app, explained in plain words',
   kicker: `Rekhon · a short read · ${docTotals.documents} documents to take away`,

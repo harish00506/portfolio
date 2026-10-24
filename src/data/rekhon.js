@@ -20,6 +20,31 @@
 
 const REPO = 'https://github.com/harish00506/Rekhon'
 
+/**
+ * The counted figures, in one place.
+ *
+ * Why:  these numbers were prose in four different sentences across two files, and llms.txt quoted
+ *       them from memory on top of that — which is how it came to state a version the repository had
+ *       moved past. The recount commands are in this file's header; this is where their answers go,
+ *       so a recount is one edit and every sentence that quotes one follows.
+ * What: what was true on the public tree the day it was counted.
+ * Result: the page, the structured data and the generated llms.txt cannot state three different
+ *         test counts.
+ * Changelog: 2026-10-24 — Created, from the figures already in this file's changelog.
+ *
+ * Input:  none - this is data.
+ * Output: { version, asOf, modules, tests, testFiles, adrs }. `tests` is a formatted string because
+ *         every reader of it prints it; the rest are what they look like.
+ */
+export const rekhonCounted = {
+  version: '0.13.9',
+  asOf: '2026-10-11',
+  modules: 60,
+  tests: '3,822',
+  testFiles: 355,
+  adrs: 77,
+}
+
 export const rekhon = {
   slug: 'rekhon',
   name: 'Rekhon',
@@ -51,7 +76,7 @@ export const rekhon = {
   // Rendered as a definition list and reused in the MobileApplication structured data.
   facts: [
     { label: 'Platform', value: 'Android (Kotlin, Jetpack Compose)' },
-    { label: 'Version', value: 'v0.13.9 — epics 0–13 complete' },
+    { label: 'Version', value: `v${rekhonCounted.version} — epics 0–13 complete` },
     { label: 'Account required', value: 'None. No sign-up, no server' },
     { label: 'Network', value: 'Optional. Every core feature works offline' },
     { label: 'Storage', value: 'On device, SQLCipher-encrypted' },
@@ -171,7 +196,7 @@ val scrollFraction: Double  // passes                — floating point, but not
         { type: 'h2', id: 'how-its-built', text: 'How it is built' },
         {
           type: 'p',
-          text: 'The app is 60 Gradle modules on a one-way dependency rule — feature modules depend on domain, domain depends on data and core, and never the reverse. The calculation engines are pure Kotlin that cannot import Android, which is what makes the money maths testable on the JVM without a device, and what forced the honest answer when a Kotlin Multiplatform spike found that “Android-free” still did not mean “portable”.',
+          text: `The app is ${rekhonCounted.modules} Gradle modules on a one-way dependency rule — feature modules depend on domain, domain depends on data and core, and never the reverse. The calculation engines are pure Kotlin that cannot import Android, which is what makes the money maths testable on the JVM without a device, and what forced the honest answer when a Kotlin Multiplatform spike found that “Android-free” still did not mean “portable”.`,
         },
         {
           type: 'list',
@@ -195,7 +220,7 @@ val scrollFraction: Double  // passes                — floating point, but not
         { type: 'h2', id: 'verification', text: 'How the claims are checked' },
         {
           type: 'p',
-          text: 'The project treats its own rules as things to be enforced rather than asserted. 3,822 tests across 355 test files run on the JVM; six custom lint rules fail the build on a broken rule; and every decision that a reader could reasonably have expected to go the other way is written up as an architecture decision record, with 77 files in docs/adr at the time of writing.',
+          text: `The project treats its own rules as things to be enforced rather than asserted. ${rekhonCounted.tests} tests across ${rekhonCounted.testFiles} test files run on the JVM; six custom lint rules fail the build on a broken rule; and every decision that a reader could reasonably have expected to go the other way is written up as an architecture decision record, with ${rekhonCounted.adrs} files in docs/adr at the time of writing.`,
         },
         {
           type: 'p',
