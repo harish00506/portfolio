@@ -261,3 +261,24 @@
     scroll-behavior: auto;
   }
 }
+
+/* Scroll-reveal fallbacks.
+   framer-motion writes its `initial` state as an INLINE style, which a class cannot override — hence
+   !important on both rules below.
+
+   1. No JavaScript: nothing will ever animate these blocks, so show them. index.html adds `js-ready`
+      before first paint, so this applies exactly when the animation cannot run. Without it the
+      static HTML painted 15 blocks invisible on the home page alone.
+   2. Reduced motion: the CSS .rise/.rise-scale animations were already honoured, but framer-motion
+      reads none of that, so these blocks still faded in. Now they arrive at their final state. */
+html:not(.js-ready) [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

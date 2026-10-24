@@ -130,6 +130,13 @@ export default function RekhonDocsPage() {
             page, which is the only reason the figures in them are worth anything.
           </p>
           <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
+            One difference worth explaining before you notice it yourself. The case study counts
+            3,822 tests and 77 decision records, because it counts the public branch, which is still
+            at v0.13.9. These documents describe v0.13.10, where the same two figures are 3,986 and
+            82. Same project, a fortnight apart, and both numbers were counted rather than
+            remembered.
+          </p>
+          <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
             Every one of them is printed by a script from a source that lives beside the code, so
             none is a second copy somebody has to remember to update. Two go further: the picture
             book is assembled from the screenshots the test suite itself records, and the map is

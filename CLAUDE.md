@@ -7,6 +7,8 @@
     2026-08-21: Created (modelled on AI_personal_cfo/CLAUDE.md, cut down for a static site).
     2026-10-24: §10 added for /rekhon/docs — the eleven Rekhon PDFs, their provenance and
                 the three traps in rendering them.
+    2026-10-24: §4 records the data-reveal contract after a review found the prerendered
+                pages shipped their content invisible without JavaScript.
 -->
 
 # Harish G Portfolio: Project Rules
@@ -62,6 +64,17 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
 - **Text contrast is AA (4.5:1) in both themes.** An opacity modifier on a text colour is where this
   breaks: `text-muted-foreground/70` measured 3.12:1 on light and 4.13:1 on dark and failed both.
   Use the bare token; if a thing is decorative, mark it `aria-hidden` rather than fading it.
+- **Every scroll-reveal wrapper must carry `data-reveal`.** framer-motion serialises its `initial`
+  state into an *inline* style during SSR, so a reveal block ships as `opacity:0` and only
+  JavaScript ever clears it. Before this was fixed the prerendered home page painted 15 blocks
+  invisible, `/about` 17 and `/works` 11: with JS off the site was a hero and then nothing, which
+  quietly undid the SSG. `index.html` adds `js-ready` to `<html>` before first paint, and
+  `index.css` carries `html:not(.js-ready) [data-reveal]` plus a `prefers-reduced-motion` twin, both
+  `!important` because a class cannot otherwise beat an inline style. **A new `motion.*` wrapper with
+  an `initial` opacity and no `data-reveal` reintroduces the bug** — and nothing fails the build if
+  you forget, so check the rendered HTML: every `style="opacity:0"` element must also match
+  `data-reveal`. The reduced-motion twin is also the only thing that honours that setting for
+  framer-motion; the `.rise` media query below covers the CSS animations only.
 - **The three families are self-hosted from `public/fonts`,** not fetched from Google. Loading them
   from fonts.googleapis.com cost a render-blocking request to a third origin plus a second connection
   to fonts.gstatic.com before any text could paint: 960ms of the mobile LCP. `src/index.css` holds the

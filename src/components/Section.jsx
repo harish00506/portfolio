@@ -16,6 +16,7 @@ export default function Section({ id, index, kicker, title, children, className 
       <div className="container-x">
         {(kicker || title) && (
           <motion.header
+            data-reveal
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
@@ -45,6 +46,7 @@ export default function Section({ id, index, kicker, title, children, className 
 export function Reveal({ children, delay = 0, className = '' }) {
   return (
     <motion.div
+      data-reveal
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-60px' }}

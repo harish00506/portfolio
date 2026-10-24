@@ -6,9 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Apply the saved or system theme before first paint, so a dark-mode reload never flashes light.
-         ThemeToggle.jsx writes the same localStorage key. -->
+         ThemeToggle.jsx writes the same localStorage key.
+
+         Also marks the document as scriptable. framer-motion serialises its `initial` state into an
+         inline style during SSR, so every reveal block ships as opacity:0 and only JavaScript ever
+         clears it. Without this class the prerendered content below the hero stays invisible — see
+         the `js-ready` rules in index.css. It is set here rather than from the bundle so there is no
+         flash of visible content being hidden again. -->
     <script>
       (function () {
+        document.documentElement.classList.add('js-ready')
         try {
           var saved = localStorage.getItem('theme')
           var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches

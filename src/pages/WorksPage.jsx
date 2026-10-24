@@ -18,7 +18,7 @@ export default function WorksPage() {
       {/* The index had no prose at all, which left the page with nothing describing what these
           projects are — for a reader skimming, or for a search engine deciding what it is about. */}
       <p className="mb-10 max-w-[70ch] text-lg leading-relaxed text-muted-foreground">
-        Nine case studies, each with the problem it solved, the architecture behind it, real code
+        {projects.length} case studies, each with the problem it solved, the architecture behind it, real code
         from the repository and what actually shipped. The work spans AI engineering — Gemini Live
         voice agents, RAG retrieval, tool-calling agents and output guardrails — alongside
         full-stack platforms in FastAPI, Spring Boot and React, machine-learning forecasting, and
@@ -46,7 +46,7 @@ export default function WorksPage() {
       <motion.div layout className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {visible.map((project, i) => (
-            <ProjectCard key={project.slug} project={project} index={i} />
+            <ProjectCard key={project.slug} project={project} index={i} headingLevel={2} />
           ))}
         </AnimatePresence>
       </motion.div>
