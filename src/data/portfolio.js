@@ -75,7 +75,7 @@ export const skills = [
       'System Design',
       'Modular Architecture',
       'JWT Auth & RBAC',
-      'Query Optimization',
+      'Query Optimisation',
     ],
   },
 ]
@@ -125,7 +125,7 @@ export const projects = [
     featured: true,
     metaTitle: 'Rekhon: Offline-First Android Personal Finance',
     metaDescription:
-      'Android personal-finance app that shows its working: every figure cites the rule that produced it. Fully offline, encrypted on device, exact paise math.',
+      'Android personal-finance app that shows its working: every figure cites the rule that produced it. Fully offline, encrypted on device, exact paise maths.',
     categories: ['Mobile', 'AI'],
     note: 'Open source · dual-licensed',
     blurb:
@@ -148,6 +148,9 @@ export const projects = [
     links: { github: 'https://github.com/harish00506/Rekhon' },
     // The project's own page: what the app is, as opposed to this page, which is how it was built.
     appPage: '/rekhon',
+    // The documents page. Listed here for the same reason as appPage: an audit found it with one
+    // inbound link against three or more for every other page on the site.
+    docsPage: '/rekhon/docs',
     details: {
       role: 'Sole author',
       team: 'Solo project',
@@ -270,7 +273,7 @@ export const projects = [
       'Account Aggregator is designed and one reserved value has shipped, but the integration itself is not built (ADR-0074).',
       'iOS through Kotlin Multiplatform is blocked rather than scheduled, and the blocker is Money: the exact-paise type is the part that does not port (ADR-0075).',
       'ADR-0078 closed the import-batch finding and opened one of its own, on orphaned receipt blobs.',
-      'Publish the golden-file vectors for the wealth engines, so a reader can re-run the money math without building the app.',
+      'Publish the golden-file vectors for the wealth engines, so a reader can re-run the money maths without building the app.',
     ],
     star: {
       // The STAR labels stay as kickers; these become the page's h2s, because "Situation" is a
@@ -287,7 +290,7 @@ export const projects = [
         'Build a finance app where every figure is checkable and nothing about the money leaves the device. That makes two things non-negotiable rather than nice to have: the numbers must be exact, and the rule behind each one must be addressable — a specific id at a specific version — so an answer stays reproducible months later.',
       action: {
         narrative:
-          'The app is 60 Gradle modules on a one-way dependency rule (feature → domain → data/core), with the engines as pure Kotlin that cannot import Android — so the money math is unit-testable without a device, and 355 test files holding 3,822 tests run on the JVM. Money is integer paise end to end: a custom Android Lint module flags any floating-point declaration with a monetary name and fails the build, because binary floating point cannot represent 0.10 and the error is too small to notice until a reconciliation disagrees. Room sits on SQLCipher under a key held in the Android Keystore. ML Kit reads receipts and, with explicit consent that is off by default and revocable, bank SMS is parsed into proposed entries — neither leaves the phone. Financial thresholds are versioned JSON rows in ai/rules rather than constants in code, and every insight cites the rule id and version that produced it. 77 ADRs record why each of these is the way it is. The wealth math is where the determinism requirement bites hardest, and XIRR is the clearest case.',
+          'The app is 60 Gradle modules on a one-way dependency rule (feature → domain → data/core), with the engines as pure Kotlin that cannot import Android — so the money maths is unit-testable without a device, and 355 test files holding 3,822 tests run on the JVM. Money is integer paise end to end: a custom Android Lint module flags any floating-point declaration with a monetary name and fails the build, because binary floating point cannot represent 0.10 and the error is too small to notice until a reconciliation disagrees. Room sits on SQLCipher under a key held in the Android Keystore. ML Kit reads receipts and, with explicit consent that is off by default and revocable, bank SMS is parsed into proposed entries — neither leaves the phone. Financial thresholds are versioned JSON rows in ai/rules rather than constants in code, and every insight cites the rule id and version that produced it. 77 ADRs record why each of these is the way it is. The wealth maths is where the determinism requirement bites hardest, and XIRR is the clearest case.',
         samples: [
           {
             filename: 'domain/engines/investment/.../Xirr.kt',
@@ -530,7 +533,7 @@ while True:
         result: 'A multilingual voice survey platform without the literacy barrier',
       },
       situation:
-        'Field surveys of rural farmers are slow, expensive and exclude people who can not read or fill in forms. Enumerators travel village to village, and language barriers across regions make consistent data collection hard.',
+        'Field surveys of rural farmers are slow, expensive and exclude people who cannot read or fill in forms. Enumerators travel village to village, and language barriers across regions make consistent data collection hard.',
       task:
         'Build a platform that lets farmers answer surveys in their own language by voice over a channel they already use, WhatsApp, while giving administrators a real-time view of incoming responses and a way to verify audio quality.',
       action: {
@@ -581,10 +584,10 @@ for raw in config.get("languages") or []:
       'Item-level demand forecasting with LightGBM and Prophet, turned into safety stock, reorder points, EOQ and ABC classes behind a FastAPI service.',
     categories: ['ML', 'Full-Stack'],
     blurb:
-      'ML-powered demand-forecasting and stock-optimization platform: safety stock, reorder points, ABC classification and EOQ optimization with interactive dashboards.',
+      'ML-powered demand-forecasting and stock-optimisation platform: safety stock, reorder points, ABC classification and EOQ optimisation with interactive dashboards.',
     highlights: [
       'Time-series forecasting with LightGBM & Prophet models',
-      'Safety stock, reorder points and EOQ / ABC optimization',
+      'Safety stock, reorder points and EOQ / ABC optimisation',
       'FastAPI backend with React + Streamlit dashboards',
     ],
     tags: ['Python', 'FastAPI', 'LightGBM', 'Prophet', 'PostgreSQL', 'React', 'Streamlit', 'Docker'],
@@ -602,19 +605,19 @@ for raw in config.get("languages") or []:
         result: 'Sales history converted into an actionable inventory policy',
       },
       situation:
-        'Retailers lose money at both ends of inventory: overstocking ties up cash, while stockouts lose sales. Manual reorder rules can not keep up with seasonal, item-level demand.',
+        'Retailers lose money at both ends of inventory: overstocking ties up cash, while stockouts lose sales. Manual reorder rules cannot keep up with seasonal, item-level demand.',
       task:
         'Forecast demand per item and turn those forecasts into concrete inventory decisions: how much safety stock to hold, when to reorder, and which items matter most.',
       action: {
         narrative:
-          'I built a forecasting service with LightGBM and Prophet for item-level time-series prediction, then layered classic inventory science on top: safety stock, reorder points, EOQ and ABC classification. A FastAPI backend serves the models and a React + Streamlit dashboard lets users explore forecasts and optimization output interactively. The stack is Dockerized for deployment.',
+          'I built a forecasting service with LightGBM and Prophet for item-level time-series prediction, then layered classic inventory science on top: safety stock, reorder points, EOQ and ABC classification. A FastAPI backend serves the models and a React + Streamlit dashboard lets users explore forecasts and optimisation output interactively. The stack is Dockerised for deployment.',
       },
       result: {
         narrative:
           'A decision-support platform that converts raw sales history into actionable stocking policy, surfaced through interactive dashboards.',
         metrics: [
           { value: '2 models', label: 'LightGBM + Prophet' },
-          { value: 'EOQ / ABC', label: 'optimization' },
+          { value: 'EOQ / ABC', label: 'optimisation' },
           { value: 'Interactive', label: 'forecast dashboards' },
         ],
       },
@@ -814,7 +817,7 @@ async function semanticSearch(query, contentType = null, limit = 5) {
     highlights: [
       'Clean REST APIs with DTO-based design',
       'PostgreSQL persistence behind Spring Boot',
-      'Task prioritization and tracking in a Vite + TypeScript UI',
+      'Task prioritisation and tracking in a Vite + TypeScript UI',
     ],
     tags: ['Java', 'Spring Boot', 'Vite', 'TypeScript', 'PostgreSQL'],
     links: {},
@@ -835,7 +838,7 @@ async function semanticSearch(query, contentType = null, limit = 5) {
         'Build a productivity app with a clean, maintainable backend and a clear contract between the API and the database.',
       action: {
         narrative:
-          'I designed a Spring Boot backend around DTOs, so the API contract stays separate from the persistence model, backed by PostgreSQL, with a Vite + TypeScript front end for prioritizing and tracking tasks.',
+          'I designed a Spring Boot backend around DTOs, so the API contract stays separate from the persistence model, backed by PostgreSQL, with a Vite + TypeScript front end for prioritising and tracking tasks.',
       },
       result: {
         narrative:
@@ -911,7 +914,7 @@ export const education = {
   school: 'Vivekananda Institute of Technology, Bangalore',
   achievements: [
     'Built and deployed AI-powered and full-stack applications with real-user testing.',
-    'Strong experience in backend optimization, debugging and scalable system design.',
+    'Strong experience in backend optimisation, debugging and scalable system design.',
     'Practise a disciplined delivery workflow: feature branches, conventional commits, and automated tests in CI as the merge gate.',
   ],
 }

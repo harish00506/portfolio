@@ -85,6 +85,7 @@ export default function ProjectDetailPage() {
   const action = star.action ?? {}
   const headings = star.headings ?? {}
   const appPage = project.appPage
+  const docsPage = project.docsPage
   const samples = action.samples ?? []
   const screenshots = action.screenshots ?? []
   const metrics = star.result?.metrics ?? []
@@ -135,11 +136,16 @@ export default function ProjectDetailPage() {
           </h1>
           <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">{blurb}</p>
 
-          {(links.live || links.github || appPage) && (
+          {(links.live || links.github || appPage || docsPage) && (
             <div className="mt-8 flex flex-wrap items-center gap-3">
               {appPage && (
                 <Button asChild>
                   <Link to={appPage}>What the app does</Link>
+                </Button>
+              )}
+              {docsPage && (
+                <Button variant="outline" asChild>
+                  <Link to={docsPage}>The documents</Link>
                 </Button>
               )}
               {links.live && (
