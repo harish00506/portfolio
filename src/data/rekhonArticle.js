@@ -62,6 +62,16 @@ export const articleSections = [
       'Tell it you want ₹30,000 headphones and it will not just say yes. It checks seven things and shows you all seven. Money left afterwards: ₹70,000, fine. Rent and loan payments: 30 percent, fine. Your savings goals: they would arrive about 60 days later than planned, which it calls worth knowing rather than fine.',
       'Then the part most apps leave out. The time you could survive with no income at all drops from 2.4 months to 1.7. It still says yes. It just will not pretend the purchase was free.',
     ],
+    table: {
+      head: ['What it checked', 'Verdict', 'What it found'],
+      rows: [
+        ['Money available', 'Fine', '₹1,00,000 now, ₹70,000 left afterwards'],
+        ['EMIs and rent', 'Fine', '30% of your income afterwards'],
+        ['Your goals', 'Worth knowing', 'They would arrive about 60 days later'],
+      ],
+      caption:
+        'Three of the seven, as the app prints them. Underneath it adds what the purchase moves: money ₹1,00,000 → ₹70,000, and the months you could survive on nothing 2.4 → 1.7.',
+    },
   },
   {
     id: 'robot-cannot-count',
@@ -71,6 +81,24 @@ export const articleSections = [
       'So it is banned from doing any. The app works every figure out first; the assistant only wraps figures it was handed in a sentence. Then another piece of code reads every digit in that sentence and checks it against what was actually worked out. A number the assistant made up never reaches you. Neither does a rounded one, because ₹34,600 softened into "about ₹35,000" is a different claim about your money.',
       'Ask it something it cannot back up and it says so. One real answer from the app reads: I do not have enough recorded yet to answer that honestly. It would rather say nothing than say something it cannot stand behind.',
     ],
+    flow: {
+      steps: [
+        { label: 'The calculators', detail: 'Thirty of them. They work out every figure.' },
+        { label: '₹34,600', detail: 'The only number that now exists.' },
+        { label: 'The assistant', detail: 'Writes a sentence around the figure it was handed.' },
+        { label: 'The checker', detail: 'Reads every digit back and compares.' },
+      ],
+      outcomes: [
+        { label: 'Every digit matches', detail: 'The sentence reaches you.', tone: 'pass' },
+        {
+          label: 'Anything else',
+          detail: 'Refused — including “about ₹35,000”, which is a different claim.',
+          tone: 'fail',
+        },
+      ],
+      caption:
+        'The assistant never gets to the left-hand end of this. It cannot reach the calculators, so the only figures it can use are ones it was given.',
+    },
   },
   {
     id: 'stays-on-the-phone',
@@ -80,6 +108,17 @@ export const articleSections = [
       'Anything optional — reading your bank text messages, fetching gold prices — has its own switch. Every switch starts off. Turn one off again and whatever depended on it stops at once, not at the next restart.',
       'This is also why the code is public. "We do not send your money anywhere" is not something a shop listing can prove. Publishing it is what turns the promise into something a stranger can check.',
     ],
+    table: {
+      head: ['What happens', 'Where it happens', 'What leaves the phone'],
+      rows: [
+        ['Working out every figure', 'On the phone', 'Nothing'],
+        ['Reading a photo of a receipt', 'On the phone', 'Nothing'],
+        ['Reading your bank texts', 'On the phone, only if you allow it', 'Nothing'],
+        ['Valuing gold you own', 'Asks the internet for today’s price', 'The price question — never an amount, never what you own'],
+      ],
+      caption:
+        'The last row is the only one that touches a network at all, and it is off until you turn it on. The app also records the day you granted it and the day you took it back.',
+    },
   },
   {
     id: 'the-map',
