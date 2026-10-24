@@ -13,6 +13,7 @@
 //   2026-09-12 - Search titles/descriptions come from portfolio.js (metaTitle / metaDescription) with a
 //                length gate, BreadcrumbList on case studies, ProfilePage on /about, and a noindex 404.
 import { readFile, writeFile, rm, mkdir } from 'node:fs/promises'
+import { existsSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import path from 'node:path'
@@ -30,6 +31,9 @@ const { journalMeta, publishedEntries } = await import(
   pathToFileURL(path.join(root, 'src', 'data', 'journal.js')).href
 )
 const { rekhon } = await import(pathToFileURL(path.join(root, 'src', 'data', 'rekhon.js')).href)
+const { docsMeta, allDocs } = await import(
+  pathToFileURL(path.join(root, 'src', 'data', 'rekhonDocs.js')).href
+)
 
 const template = await readFile(templatePath, 'utf8')
 
@@ -175,6 +179,36 @@ const rekhonBreadcrumbLd = {
   ],
 }
 
+// /rekhon/docs hands over eleven downloadable PDFs, so it is a CollectionPage whose parts are
+// DigitalDocuments. `contentUrl` is the file the page actually serves, which is what makes the
+// markup checkable: a crawler can fetch every one of them.
+const docsCollectionLd = {
+  '@type': 'CollectionPage',
+  name: docsMeta.h1,
+  description: docsMeta.metaDescription,
+  url: abs('/rekhon/docs'),
+  author: { '@type': 'Person', name: profile.name, url: site.url },
+  about: { '@type': 'MobileApplication', name: rekhon.name, url: abs('/rekhon') },
+  hasPart: allDocs.map((d) => ({
+    '@type': 'DigitalDocument',
+    name: d.title,
+    description: d.what,
+    url: abs('/rekhon/docs'),
+    contentUrl: `${site.url}${d.href}`,
+    encodingFormat: 'application/pdf',
+    author: { '@type': 'Person', name: profile.name, url: site.url },
+  })),
+}
+
+const docsBreadcrumbLd = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: abs('/') },
+    { '@type': 'ListItem', position: 2, name: rekhon.name, item: abs('/rekhon') },
+    { '@type': 'ListItem', position: 3, name: 'Documents', item: abs('/rekhon/docs') },
+  ],
+}
+
 // --- per-route metadata + structured data ---------------------------------
 function metaFor(route) {
   if (route === '/') {
@@ -204,6 +238,13 @@ function metaFor(route) {
       title: `${rekhon.metaTitle} | ${profile.name}`,
       description: rekhon.metaDescription,
       ld: { '@context': 'https://schema.org', '@graph': [appLd, faqLd, rekhonBreadcrumbLd] },
+    }
+  }
+  if (route === '/rekhon/docs') {
+    return {
+      title: `${docsMeta.metaTitle} | ${profile.name}`,
+      description: docsMeta.metaDescription,
+      ld: { '@context': 'https://schema.org', '@graph': [docsCollectionLd, docsBreadcrumbLd] },
     }
   }
   if (route === '/journal') {
@@ -296,6 +337,34 @@ async function writeRoute(route) {
   await writeFile(outPath, html, 'utf8')
 }
 
+// --- gates ----------------------------------------------------------------
+// /rekhon/docs is the only page whose content is files rather than text, so a renamed or forgotten
+// PDF would ship as a download button that 404s and nothing in the rendered HTML would show it.
+// Vite has already copied public/ into dist/ by the time this runs, so the files are checkable.
+const DOC_FIELDS = ['slug', 'title', 'href', 'pages', 'size', 'source', 'what', 'why', 'like', 'inside']
+const docProblems = []
+for (const d of allDocs) {
+  for (const f of DOC_FIELDS) {
+    if (d[f] === undefined || d[f] === '') docProblems.push(`${d.slug ?? '(no slug)'}: missing "${f}"`)
+  }
+  if (typeof d.pages !== 'number' || d.pages < 1) {
+    docProblems.push(`${d.slug}: pages must be a positive number, got ${JSON.stringify(d.pages)}`)
+  }
+  if (d.href && !existsSync(path.join(distDir, d.href))) {
+    docProblems.push(`${d.slug}: no file at dist${d.href} — copy it into public${d.href}`)
+  }
+}
+const docSlugs = allDocs.map((d) => d.slug)
+const duplicateSlugs = docSlugs.filter((x, i) => docSlugs.indexOf(x) !== i)
+if (duplicateSlugs.length) docProblems.push(`duplicate doc slugs: ${[...new Set(duplicateSlugs)].join(', ')}`)
+if (docsMeta.form.length !== 4) {
+  // DocCard maps a label to a field by position, so a fifth label renders `undefined`.
+  docProblems.push(`docsMeta.form has ${docsMeta.form.length} labels; DocCard renders exactly 4`)
+}
+if (docProblems.length) {
+  throw new Error(`prerender: /rekhon/docs data is broken:\n  - ${docProblems.join('\n  - ')}`)
+}
+
 // --- run ------------------------------------------------------------------
 const routes = [
   '/',
@@ -303,6 +372,7 @@ const routes = [
   '/about',
   ...projects.map((p) => `/works/${p.slug}`),
   '/rekhon',
+  '/rekhon/docs',
   '/journal',
   // Only published entries get a page. A planned entry is listed on the index with its date and
   // has no body, so prerendering one would ship an empty page for a crawler to index.
@@ -354,6 +424,8 @@ const lastmodFor = (route) => {
   if (route === '/works') return lastCommitDate([dataFile, 'src/pages/WorksPage.jsx'])
   if (route === '/about') return lastCommitDate([dataFile, 'src/pages/AboutPage.jsx'])
   if (route === '/rekhon') return lastCommitDate(['src/data/rekhon.js', 'src/pages/RekhonPage.jsx'])
+  if (route === '/rekhon/docs')
+    return lastCommitDate(['src/data/rekhonDocs.js', 'src/pages/RekhonDocsPage.jsx'])
   if (route === '/journal') return lastCommitDate([journalFile, 'src/pages/JournalPage.jsx'])
   if (route.startsWith('/journal/')) return lastCommitDate([journalFile, 'src/pages/JournalPostPage.jsx'])
   return lastCommitDate([dataFile, 'src/pages/ProjectDetailPage.jsx'])

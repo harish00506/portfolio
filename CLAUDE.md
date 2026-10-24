@@ -5,6 +5,8 @@
   Result: A contributor knows the mandated patterns, the banned ones, and where content comes from.
   Changelog:
     2026-08-21: Created (modelled on AI_personal_cfo/CLAUDE.md, cut down for a static site).
+    2026-10-24: §10 added for /rekhon/docs — the eleven Rekhon PDFs, their provenance and
+                the three traps in rendering them.
 -->
 
 # Harish G Portfolio: Project Rules
@@ -16,7 +18,9 @@
 
 1. **`src/data/portfolio.js` is the only source of content.** Profile text, projects, skills,
    experience, education, all of it. A component that hardcodes a name, a blurb, a metric or a tag
-   is wrong, even if it renders correctly.
+   is wrong, even if it renders correctly. The long-form pages have their own data files beside it
+   — `journal.js`, `rekhon.js`, `rekhonDocs.js` (§10) — and the same rule applies to each: the page
+   reads, the data file holds.
 2. **The resume and `portfolio.js` must not disagree.** Same project names, same numbers, same
    claims. Change one, change the other in the same commit.
 3. **Never claim a number you cannot point at.** Every metric on this site traces to a real repo:
@@ -141,3 +145,24 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
 3. The page renders correctly at `npm run dev` in both themes, keyboard-navigable.
 4. `resume.tex` rebuilt and still one page, if the change touched resume content.
 5. Nothing hardcoded that belongs in `portfolio.js`.
+
+## 10. The Rekhon documents (`/rekhon/docs`)
+
+- **`public/docs/` holds eleven PDFs copied out of the `AI_personal_cfo` repository, ~53 MB.** They
+  are committed, not fetched at build time, so the page works with that repository absent — most of
+  them are not on its public branch at all, which is why linking to GitHub was not an option.
+- **`src/data/rekhonDocs.js` is the content and `source` is the provenance.** Every entry names the
+  file in `AI_personal_cfo` it was copied from, and the page prints that path under the download.
+  **Refreshing a PDF means re-copying it and re-reading `pages` from `pdfinfo`** — the page count,
+  the file size and the figures in the prose are all stated, and all of them move.
+- **Do not hand-type the totals.** `docTotals` sums the page counts and the kicker and tagline read
+  from it. The first draft said 336 pages against a real 536, which is exactly the bug this guards.
+- **The four labels (`docsMeta.form`) drive both the legend and every card.** `DocCard` maps a label
+  to a field *by position*, so reordering `form` reorders the rendered lines. Adding a fifth label
+  without adding a fifth field to the card renders `undefined`.
+- **A file path is not styled `uppercase`.** Paths are case-sensitive, and
+  `docs/AI_Personal_CFO_story.pdf` rendered as `DOCS/AI_PERSONAL_CFO_STORY.PDF` is a path that does
+  not exist. Only the "In the repo:" label is uppercased.
+- `vercel.json` gives `/docs` no explicit cache header, which is deliberate: it gets the 4-hour
+  default rather than the immutable year that `/assets` and `/fonts` get, because these filenames
+  are **not** content-hashed and a rebuilt PDF has to be able to replace its predecessor.

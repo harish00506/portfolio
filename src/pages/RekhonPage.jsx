@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ExternalLink, Github } from 'lucide-react'
+import { ExternalLink, FileText, Github } from 'lucide-react'
 import ProseBlock from '../components/ProseBlock.jsx'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -42,6 +42,12 @@ export default function RekhonPage() {
               <Link to={rekhon.caseStudy}>
                 How it was built
                 <ExternalLink />
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link to="/rekhon/docs">
+                <FileText />
+                The documents
               </Link>
             </Button>
           </div>
@@ -98,6 +104,34 @@ export default function RekhonPage() {
             <ProseBlock key={i} block={block} />
           ))}
         </div>
+
+        {/* The documents are the project's least visible asset and the thing a reviewer asks for
+            first, so they get a callout rather than only a header button. */}
+        <section
+          aria-labelledby="docs-title"
+          className="mt-20 rounded-lg border border-border bg-secondary/50 p-6 sm:p-8"
+        >
+          <h2
+            id="docs-title"
+            className="display text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl"
+          >
+            Read the documents, explained simply
+          </h2>
+          <p className="mt-4 max-w-[66ch] leading-relaxed text-muted-foreground">
+            Eleven documents come with this app: the as-built blueprint, a report listing
+            everything still wrong with it, a picture of every screen, the map of how a person
+            moves through it, and three proposals for what it could look like next. Each one is
+            explained in plain English on its own page, and each is free to download.
+          </p>
+          <div className="mt-7">
+            <Button asChild>
+              <Link to="/rekhon/docs">
+                <FileText />
+                All eleven documents
+              </Link>
+            </Button>
+          </div>
+        </section>
 
         {/* FAQ: visible answers, and the FAQPage structured data is generated from the same data. */}
         <section aria-labelledby="faq-title" className="mt-20">
