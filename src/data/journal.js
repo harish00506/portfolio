@@ -24,6 +24,10 @@
 //                origin/main and resolving publicly before the status changed, per the
 //                provenance rule above. Dated by the record, not by the schedule slot: the
 //                rules landed on main 2026-07-18, the architecture record is dated 2026-07-17.
+//   2026-10-31 — 'Money is a Long, and Double fails my build' published (slot 2026-10-27).
+//                ADR-0001 verified on origin/main and resolving (HTTP 200) first; dated by the
+//                record, 2026-07-25. Backticks dropped from the series title: the prerender
+//                prints titles as plain text, so they showed literally in the h1 and the tab.
 
 const REKHON = 'https://github.com/harish00506/Rekhon'
 const REKHON_ADR = `${REKHON}/blob`
@@ -379,24 +383,52 @@ private fun bisect(signAtLow: Int, values: List<Long>, exponents: List<Int>): Bi
       },
     ],
   },
-  // Covers ADR-0001, the same decision as the published entry
-  // 'a-lint-rule-instead-of-a-reviewer'. Kept because it is the series' own framing of it;
-  // delete this entry if one telling is enough.
+  // Same decision record as 'a-lint-rule-instead-of-a-reviewer', which tells why a reviewer was
+  // not enough. This one covers the detector's boundaries: what it flags, what it lets through on
+  // purpose, and what it took to make it run in every module.
   {
     slug: 'money-is-a-long-and-double-fails-my-build',
     project: 'rekhon',
-    title: 'Money is a `Long`, and `Double` fails my build',
-    date: '2026-10-27',
-    status: 'planned',
+    title: 'Money is a Long, and Double fails my build',
+    date: '2026-07-25',
+    status: 'published',
+    compiled: true,
     summary:
       '0.1 + 0.2 != 0.3. In a finance app that is not a curiosity, it is a bug you ship and find months later.',
+    metaDescription:
+      'Rekhon keeps rupees as a Long count of paise. What its custom lint rule flags, what it lets through on purpose, and how it was proved to run.',
     tags: ['Money', 'Lint'],
-    scope:
-      'Why exact paise is a build-blocking rule rather than a review note, and what the detector does and does not flag.',
     source: {
       label: 'ADR-0001 — custom lint module and money heuristic',
       href: `${REKHON_ADR}/main/docs/adr/0001-custom-lint-module-and-money-heuristic.md`,
     },
+    body: [
+      { type: 'p', text: "0.1 + 0.2 does not equal 0.3 in binary floating point. That is a party trick until the number is a rupee balance, and then it is a bug that ships quietly. In Rekhon, money is a Long count of paise inside a Money value class. This entry is about the part that is easy to skip: deciding exactly what the build should refuse." },
+      { type: 'h2', text: "A rule nobody enforced" },
+      { type: 'p', text: "The ban on Double for money was already written in the project's CLAUDE.md, next to three others: no wall-clock reads in domain code, no GlobalScope, no hardcoded user-visible strings. A governance audit on 25 July 2026 found that none of them was enforced by anything. There was no lint.xml and no custom lint module, and lintDebug ran with the Android Gradle Plugin's defaults, which know nothing about this project." },
+      { type: 'p', text: "The audit called that its systemic finding. A rule documented as a gate but implemented as nothing gives false confidence to human reviewers and to AI agents alike, because both treat CLAUDE.md as ground truth." },
+      { type: 'h2', text: "What counts as money" },
+      { type: 'p', text: "The detector cannot ask the type system whether a Double is money. If the type could say so, Money would not need to exist. So it checks two things together. The declared type is floating point (Double, Float or BigDecimal), and the name contains a monetary word. Both have to be true." },
+      {
+        type: 'list',
+        items: [
+          "val amountPaise: Double fails. Floating point, and the name holds a money word.",
+          "val emiPrice: BigDecimal fails too. BigDecimal is in the floating-point set, so an exact decimal type still trips the rule when the name is monetary.",
+          "val scrollFraction: Double passes. Floating point, but nothing in the name is money.",
+          "val amountPaise: Long passes. That is the representation the codebase wants.",
+        ],
+      },
+      { type: 'p', text: "Names are split into whole camelCase words before matching, never searched as substrings, so in the ADR's own example expand does not match pan. The money words live in MoneyDoubleDetector.MONEY_WORDS: amount, price, balance, cost, paise, rupee, money, fee, salary, income, expense, spend, budget, emi, premium, minor, payment, principal, interest, cashflow and networth, with their plurals." },
+      { type: 'h2', text: "What it lets through on purpose" },
+      { type: 'p', text: "The heuristic will miss money kept under a bad name, and it can flag a Double that only sounds monetary. The ADR accepts both. A rule that blocks valid work gets disabled, and a disabled rule protects nothing. For a genuine false positive there are two ways out: rename the variable, which is usually the right fix anyway, or @Suppress it with a comment saying why." },
+      { type: 'p', text: "Two stricter designs were turned down. Flagging every Double would block the floating point the app legitimately needs for animation fractions, ratios and progress bars." },
+      { type: 'quote', text: "A blanket ban is the rule that gets turned off in week two.", cite: "ADR-0001" },
+      { type: 'p', text: "An @MonetaryAmount annotation was rejected as self-defeating. It only fires when a developer remembers to annotate, which is the exact moment they would also have remembered to use Money." },
+      { type: 'h2', text: "Making sure it actually runs" },
+      { type: 'p', text: "Two details decide whether the rule fires at all. Lint does not run on a pure-Kotlin module unless com.android.lint is applied to it, and :core:model, where Money itself lives, is one of those. Without that one line it would have been the only module the money rule never checked." },
+      { type: 'p', text: "The other is version drift. lintVersion in the catalog has to move in lockstep with the Android Gradle Plugin, lint version being the AGP version plus 23, or the detectors compile against a different API from the one that runs them." },
+      { type: 'p', text: "The proof that it worked was never the detector file existing. Each rule was checked by seeding a real violation in a real module and watching ./gradlew lint go red." },
+    ],
   },
   {
     slug: 'indian-digit-grouping-is-not-a-formatting-detail',
