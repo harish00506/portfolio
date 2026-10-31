@@ -19,11 +19,11 @@ export default function RekhonDesignPage() {
     <article className="pb-24 pt-28 sm:pt-32">
       <div className="container-x">
         <header>
-          <h1 className="display max-w-[24ch] text-balance text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase leading-[0.98] text-foreground">
+          <h1 className="display max-w-[22ch] text-balance text-[clamp(1.875rem,6vw,4.5rem)] font-extrabold leading-[0.98] text-foreground">
             {designMeta.h1}
           </h1>
           <p className="kicker mt-4">{designMeta.kicker}</p>
-          <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">
+          <p className="mt-6 max-w-3xl text-xl leading-relaxed text-foreground">
             {designMeta.tagline}
           </p>
 
@@ -47,7 +47,7 @@ export default function RekhonDesignPage() {
           {designMeta.intro.map((p) => (
             <p
               key={p.slice(0, 40)}
-              className="max-w-[68ch] text-lg leading-relaxed text-foreground/85"
+              className="max-w-[68ch] text-lg leading-relaxed text-foreground"
             >
               {p}
             </p>
@@ -55,7 +55,7 @@ export default function RekhonDesignPage() {
         </div>
 
         <section aria-labelledby="proposals-title" className="mt-16">
-          <h2 id="proposals-title" className="kicker">
+          <h2 id="proposals-title" className="display text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl">
             {designTotals.documents} documents · {designTotals.pages} pages
           </h2>
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
@@ -72,7 +72,7 @@ export default function RekhonDesignPage() {
           >
             What would have to happen to adopt one
           </h2>
-          <p className="mt-4 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
+          <p className="mt-4 max-w-[68ch] text-lg leading-relaxed text-foreground">
             More than redrawing. Every screen in the app is checked against a committed picture on
             each build, so changing the navigation means a written decision recording why, and
             every one of those pictures re-recorded in light, dark and at double-size text. That
@@ -82,19 +82,19 @@ export default function RekhonDesignPage() {
           <div className="mt-8 flex flex-wrap gap-6">
             <Link
               to="/rekhon/docs"
-              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-base font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-[6px] transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               The documents
             </Link>
             <Link
               to="/rekhon"
-              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-base font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-[6px] transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               What the app is
             </Link>
             <Link
               to={rekhon.caseStudy}
-              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-base font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-[6px] transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               How it was built
             </Link>

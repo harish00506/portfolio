@@ -1,4 +1,4 @@
-import { Download, FileText } from 'lucide-react'
+import { Download } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button'
  *   2026-10-24 - The four lines moved behind a disclosure. Eleven cards showing four lines each
  *                came to 1,488 words, half the page, and buried the article above them. The first
  *                line now shows and the rest open on request.
+ *   2026-10-31 - Taste-skill restyle: a filled surface with no outline, no file icon in the meta
+ *                line, labels in full ink, and the note on a tone step instead of a left rule.
  *
  * The disclosure is a native <details>, not a scripted accordion: it is keyboard accessible for
  * free, and it still opens when JavaScript has not loaded — which matters on a site whose
@@ -28,13 +30,12 @@ export default function DocCard({ doc, form }) {
   const hidden = [doc.why, doc.like, doc.inside]
 
   return (
-    <Card className="flex flex-col p-6">
+    <Card className="flex flex-col border-0 bg-secondary p-6 sm:p-7">
       <div>
         <h3 className="display text-balance text-xl font-bold leading-tight text-foreground">
           {doc.title}
         </h3>
         <p className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm font-medium text-muted-foreground">
-          <FileText aria-hidden className="h-3.5 w-3.5" />
           <span>PDF</span>
           <span aria-hidden>·</span>
           <span>
@@ -45,26 +46,26 @@ export default function DocCard({ doc, form }) {
         </p>
       </div>
 
-      <p className="mt-4 max-w-[60ch] leading-relaxed text-foreground/85">{doc.what}</p>
+      <p className="mt-4 max-w-[60ch] leading-relaxed text-foreground">{doc.what}</p>
 
       <details className="group mt-4">
-        <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-sm text-sm font-medium text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-sm text-sm font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-[5px] transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
           <span className="group-open:hidden">Why I wrote it, and what is inside</span>
           <span className="hidden group-open:inline">Close</span>
         </summary>
         <dl className="mt-4 space-y-4">
           {form.slice(1).map((field, i) => (
             <div key={field.label}>
-              <dt className=" text-sm font-medium text-brand">
+              <dt className="font-semibold text-foreground">
                 {field.label}
               </dt>
-              <dd className="mt-1.5 max-w-[60ch] leading-relaxed text-foreground/85">
+              <dd className="mt-1 max-w-[60ch] leading-relaxed text-foreground">
                 {hidden[i]}
               </dd>
             </div>
           ))}
           {doc.note && (
-            <p className="max-w-[60ch] border-l-2 border-border pl-4 text-sm leading-relaxed text-muted-foreground">
+            <p className="max-w-[60ch] bg-background p-4 text-sm leading-relaxed text-muted-foreground">
               {doc.note}
             </p>
           )}
@@ -80,8 +81,8 @@ export default function DocCard({ doc, form }) {
             Download the PDF
           </a>
         </Button>
-        <p className="mt-3 text-sm font-medium leading-relaxed text-muted-foreground">
-          <span className="">In the repo:</span> {doc.source}
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          In the repo: <span className="break-all">{doc.source}</span>
         </p>
       </div>
     </Card>
