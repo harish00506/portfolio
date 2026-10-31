@@ -123,7 +123,8 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
   **changing `site.url` means re-running that script** or the share card advertises the old
   address. It reads `public/profile.jpg` and the light-theme tokens from `src/index.css`.
 - **`vercel.json` is the host contract, and JSON cannot hold a Why/What header, so it is documented
-  here.** `trailingSlash: false` makes Vercel redirect `/works/zentrax/` to `/works/zentrax`; without
+  here.** `redirects` maps the pre-rename `/resume-<role>.pdf` URLs to `/Harish-resume-<role>.pdf` (§6).
+  `trailingSlash: false` makes Vercel redirect `/works/zentrax/` to `/works/zentrax`; without
   it the host answered 200 at *both*, so every page existed at two URLs and split its own ranking
   signals. The `headers` entries give the content-hashed `/assets` and the self-hosted `/fonts` a
   one-year immutable cache, in place of the 4-hour default that applied to everything.
@@ -156,6 +157,11 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
   the *site* shows; a variant may go beyond it, but may never contradict it, and every number must
   still trace to something real (§1.3). The skill's evaluator enforces exactly that.
 - One page. If something new goes on, something old comes off.
+- **Variant PDFs are named `Harish-resume-<role>.pdf`** so a recruiter's download folder shows whose
+  it is; the source stays `resume-<role>.tex`. Build one with
+  `pdflatex -interaction=nonstopmode -jobname=Harish-resume-<role> -output-directory=public public/resume-<role>.tex`.
+  The main `resume.pdf` keeps its name because the site links to it. `vercel.json` redirects the
+  old `/resume-<role>.pdf` URLs (permanent) so links already sent in applications still resolve.
 - `dist/` is gitignored build output. Editing a `.tex` under `dist/` changes nothing.
 
 ## 7. Coding standards

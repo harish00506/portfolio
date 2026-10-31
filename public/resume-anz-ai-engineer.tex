@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{article}
+\documentclass[10pt,a4paper]{article}
 
 % ----------------------------------------------------------------------
 % Packages
@@ -6,7 +6,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
-\usepackage[a4paper,margin=1.6cm]{geometry}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.4cm,right=1.4cm]{geometry}
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{xcolor}
@@ -22,14 +22,15 @@
 % Section styling: sans-serif bold heading with a thin rule beneath
 % ----------------------------------------------------------------------
 \titleformat{\section}
-  {\large\sffamily\bfseries}{}{0em}{}[\titlerule]
-\titlespacing*{\section}{0pt}{9pt}{5pt}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{6pt}{3pt}
 
 % Compact bullet lists
 \setlist[itemize]{leftmargin=1.4em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
 
 \setlength{\parindent}{0pt}
-\pagestyle{plain}
+\linespread{0.97}\selectfont
+\pagestyle{empty}
 
 % ----------------------------------------------------------------------
 % Helper: entry heading row with right-aligned date
@@ -41,11 +42,11 @@
 % ----------------------------------------------------------------------
 % Header
 % ----------------------------------------------------------------------
-{\Huge\bfseries Harish G}\\[2pt]
+{\LARGE\bfseries Harish G}\\[2pt]
 {\large\bfseries AI Engineer \textbar{} LLM, Agentic AI \& Full-Stack}\\[3pt]
 Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
 \href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com}\\[1pt]
-\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad \href{https://github.com/harish00506/}{GitHub}
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad \href{https://github.com/harish00506/}{GitHub} \quad\textbar\quad \href{https://www.harishg.com}{harishg.com}
 
 % ----------------------------------------------------------------------
 % Profile
@@ -92,7 +93,7 @@ modular / microservice design
   \item Iterate on AI quality, accuracy, latency and cost with an evaluation-driven approach, embedding engineering hygiene: testing, modular design and observability.
 \end{itemize}
 
-\vspace{3pt}
+\vspace{1pt}
 \entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
 \begin{itemize}
   \item Delivered full-stack web and app projects end-to-end for clients using React, Node.js and Python.
@@ -111,29 +112,21 @@ modular / microservice design
   \item Demonstrates compliance-aware patterns for regulated banking: least-privilege access, auditability and safe failure modes.
 \end{itemize}
 
-\vspace{3pt}
+\vspace{1pt}
 \textbf{Refyne Voice Agent: Real-Time Contact-Centre Voice AI} \textit{Python, FastAPI, Pipecat, Plivo, Sarvam, WebSocket, VAD}
 \begin{itemize}
   \item Built a real-time phone-call voice agent streaming STT $\rightarrow$ LLM $\rightarrow$ TTS over telephony, orchestrated with Pipecat.
   \item Low-latency turn-taking via voice activity detection, automatic language detection, and inbound + outbound call handling.
-  \item Mirrors contact-centre concierge / triage and real-time assist patterns over voice channels.
 \end{itemize}
 
-\vspace{3pt}
+\vspace{1pt}
 \textbf{KisanVoice AI: Multilingual Voice \& Messaging Platform} \textit{Node.js, Express, React, MongoDB, Twilio / WhatsApp, Sarvam STT/TTS, Socket.io, Docker}
 \begin{itemize}
   \item WhatsApp-based voice survey platform with STT/TTS in 5 Indian languages and conditional conversation logic.
   \item Real-time admin dashboard over Socket.io with an audio QC workflow; containerised with Docker.
 \end{itemize}
 
-\vspace{3pt}
-\textbf{MediGraph AI: Hybrid RAG Clinical Assistant} \textit{Node.js, React, Neo4j, Supabase pgvector, HF Embeddings}
-\begin{itemize}
-  \item Hybrid retrieval fusing a Neo4j knowledge graph with pgvector semantic search for grounded answers.
-  \item Role-based access isolating patient and clinician data; interactive force-directed graph visualisation.
-\end{itemize}
-
-\vspace{3pt}
+\vspace{1pt}
 \textbf{Zentrax: Agentic Desktop Assistant} \textit{Python, Whisper, Ollama, MediaPipe, WebSocket, Docker}
 \begin{itemize}
   \item LLM-based intent recognition (Ollama) with a modular tool / execution engine and fallback pipelines for reliability.
@@ -143,17 +136,13 @@ modular / microservice design
 % ----------------------------------------------------------------------
 % Highlights
 % ----------------------------------------------------------------------
-\section{Highlights}
-\begin{itemize}
-  \item Built and deployed production-style AI and full-stack applications with real-user testing.
-  \item Comfortable owning features end-to-end: design, implementation, observability and iteration.
-\end{itemize}
 
 % ----------------------------------------------------------------------
 % Education
 % ----------------------------------------------------------------------
+\enlargethispage{2\baselineskip}
 \section{Education}
-\textbf{B.E., Information Science and Engineering}\par
+\textbf{B.E., Information Science and Engineering},
 Vivekananda Institute of Technology, Bangalore
 
 \end{document}

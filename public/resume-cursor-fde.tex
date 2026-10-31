@@ -1,0 +1,152 @@
+% ----------------------------------------------------------------------
+% Why:     A Forward Deployed Engineer is hired on one question: has this
+%          person shipped AI-native workflows that survive production, or only
+%          demos? The general resume answers it in passing. This one leads with
+%          the exhibits -- ticket-to-PR automation behind a human merge gate,
+%          a platform other products run on, a live migration nobody noticed.
+% What:    One-page resume targeting the Cursor Forward Deployed Engineer role
+%          (Solutions; Bengaluru / New Delhi / Mumbai), built from the
+%          resume-forge evidence ledger. Every number traces to a repository.
+% Result:  Through-line is end-to-end ownership after the demo works: scope,
+%          ship, then harden with tracing, evals, guardrails and rollback.
+% Changed: 2026-10-07 -- created from assets/resume-template.tex for the
+%          Cursor FDE (India) job ad; scored against the agentic-ai profile,
+%          which is the closest shipped role profile to this ad.
+% Build:   bash ~/.claude/skills/resume-forge/scripts/build_resume.sh \
+%            public/resume-cursor-fde.tex
+% Check:   python3 ~/.claude/skills/resume-forge/scripts/evaluate_resume.py \
+%            public/resume-cursor-fde.tex --role agentic-ai --min-score 85
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.25cm,right=1.25cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - Forward Deployed Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+\setlist[itemize]{leftmargin=1.2em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.97}\selectfont
+\pagestyle{empty}
+
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+\newcommand{\sep}{\,\textperiodcentered\,}
+% Fixed-width label so every skills row starts at the same column. The gap is
+% measured rather than fixed, so a long label degrades to a plain space instead
+% of printing through its own row.
+\newlength{\skillwidth}\setlength{\skillwidth}{6.4em}
+\newlength{\skilllabel}
+\newcommand{\skill}[2]{%
+  \settowidth{\skilllabel}{\textbf{#1}}%
+  \hangindent=\skillwidth\hangafter=1%
+  \mbox{\textbf{#1}}%
+  \ifdim\skilllabel<\skillwidth\hspace{\dimexpr\skillwidth-\skilllabel}\else\hspace{0.6em}\fi
+  #2\par}
+
+\begin{document}
+
+{\LARGE\bfseries Harish G}\\[1pt]
+{\normalsize\bfseries Forward Deployed Engineer \textbar{} AI Workflows in Production, Agent Orchestration, Platform Reliability}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad
+\href{https://github.com/harish00506/}{GitHub} \quad\textbar\quad \href{https://www.harishg.com}{harishg.com}}
+
+\section{Profile}
+I am the engineer who stays after the demo works. At CortexCraft.ai I built the voice-agent platform
+our other shipped products now drive through its REST API, and most of my hours there went into
+routing, Gemini socket reconnects and a TLS failure traced to NAT hairpinning rather than into new
+features. I work in Python and TypeScript, I sit with whoever owns the problem until the real
+bottleneck is named, and I treat model output as a claim to verify rather than a result to display.
+
+\section{Core Skills}
+\skill{Languages}{Python \sep TypeScript / JavaScript \sep Java \sep Kotlin \sep SQL}
+\skill{AI Systems}{LLM Integration \sep Agents \& Tool Calling \sep RAG \sep Output Guardrails \sep Prompt Frameworks \sep Agent Orchestration \sep Gemini Live \sep Eval Fixtures}
+\skill{Backend}{FastAPI \sep Node.js / Express \sep Spring Boot \sep Celery \sep WebSockets \sep REST API Design}
+\skill{Frontend}{React \sep Vite \sep Tailwind CSS \sep Streamlit}
+\skill{Production}{Request-ID Tracing \sep JSON Logs \sep Prometheus Metrics \sep pytest in CI \sep Docker \& Compose \sep Jenkins \sep GitLab CI \sep Runbooks \& Rollback}
+\skill{Data}{PostgreSQL \sep MongoDB \sep Redis \sep Neo4j \sep Supabase / pgvector}
+
+\section{Experience}
+
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Built and maintain the voice-agent platform (589 of 626 commits on the SaaS platform, 67 of 75
+        on the core engine): Gemini Live phone agents over Twilio and Plivo, per-agent RAG grounding,
+        prompt generation, transcripts, and an external REST API that other products call instead of
+        forking the stack, so one fix to the call pipeline reaches every product at once.
+  \item Own production reliability of that pipeline. Fixed outbound routing, added reconnect handling
+        for dropped Gemini 1006 sockets, tightened goodbye detection so calls end cleanly, and traced
+        a Docker TLS failure to NAT hairpinning rather than restarting past it.
+  \item Shipped LeadCall AI into client deployments on the platform: multi-tenant outbound calling,
+        Celery dial and callback workers behind Redis dial locks, pitch documents re-indexed for RAG so
+        the script matches what the client sells, per-tenant credentials encrypted at rest, and an
+        append-only audit log of every operator action.
+  \item Design the guardrails and tool-calling orchestration that keep model output constrained. Tools
+        are declared functions, extracted call data is coerced to its declared type before anything
+        downstream reads it, and escalation to a human is an explicit path rather than a fallback.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+\begin{itemize}
+  \item Delivered projects end to end for local clients, from the first scoping conversation through
+        launch and the fixes afterwards: React/Vite front ends, Python and Node.js services,
+        automation scripts and deployment support.
+\end{itemize}
+
+\section{Selected Projects}
+
+\textbf{JiraFlow Agent and AI Code-Review Gate} \textit{Python, FastAPI, Jira API, GitHub API, Ollama, React}
+\begin{itemize}
+  \item Turns a Jira ticket into a branch, a code change and a pull request, one
+        \texttt{ai/scrum-<id>} branch per ticket whose commit cites the issue. The agent proposes and
+        a human merges, so a wrong edit costs a rejected PR rather than a broken main branch.
+  \item The review gate is the part an agent cannot argue past: high-risk changes are blocked from
+        approval outright, a rejection requires a written reason that is fed back into regeneration,
+        every reviewer action lands in an append-only audit log, and nothing auto-merges.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{KisanVoice AI} \textit{Python, FastAPI, React, MongoDB, WhatsApp Flows, Google STT/TTS, Prometheus, Jenkins}
+\begin{itemize}
+  \item 172 of 192 commits. Migrated a live platform off its Node backend onto FastAPI and off Sarvam
+        onto Google STT/TTS behind a config-driven registry of 24 locales (10 Indian), so adding one
+        is a config row rather than a deploy, and no survey in flight was interrupted. Then operated
+        it: request-ID tracing, JSON log lines, a Prometheus metrics endpoint, Jenkins CI and a
+        runbook with a rollback path.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{AI Personal CFO and Talo} \textit{Kotlin, Jetpack Compose, Hilt, Room/SQLCipher, ML Kit, Gemini Live}
+\begin{itemize}
+  \item Sole author, 159 commits, 34 Gradle modules, 199 test files. Twelve deterministic engines
+        compute every figure and the model is only permitted to explain them, on a written rule:
+        numbers from math, words from AI.
+  \item An output guardrail rewrites any number in model text that is absent from the tool result as
+        \texttt{[unverified]}. An MCP-style in-process tool host exposes the engines through a JSON
+        registry carrying \texttt{inputSchema}, \texttt{readOnlyHint} and \texttt{destructiveHint};
+        chat reads through the registry and never writes. The OCR and SMS parsers are scored against
+        frozen evaluation fixtures, so a model regression shows up as a failing test.
+\end{itemize}
+
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore\\
+Feature branches and conventional commits; GitLab CI with 132 pytest files as the merge gate on the
+voice-agent platform. Ship a thin first version early, then harden it where the usage says to.
+
+\end{document}

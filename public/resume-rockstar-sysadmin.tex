@@ -1,0 +1,181 @@
+% ----------------------------------------------------------------------
+% Why:     Role-targeted resume variant written against the Rockstar Games
+%          "Online Systems Administrator" req (Bengaluru, 24x7 NOC for the
+%          online games platform). Every other variant sells feature or AI
+%          delivery. This req is a run-the-platform role: keep a public-facing
+%          service up, monitor it, find the root cause, write the runbook, and
+%          automate the repetitive parts over REST. Those things are genuinely
+%          in the repositories and are invisible in every other variant.
+% What:    Source for public/resume-rockstar-sysadmin.pdf. Per CLAUDE.md
+%          section 6 this is a role-targeted variant: it drifts from
+%          resume.tex on purpose and must NOT be "synced" back to it.
+% Result:  One page. Every claim traces to docs/resume-evidence.json.
+%          DELIBERATELY SILENT on the half of the req that no repository on
+%          disk supports (section 1.3): Windows Server administration, Active
+%          Directory, SQL Server 2017/2019 clustering, VMware, IIS/.NET C#,
+%          PowerShell/DSC, Chef, Check MK, Splunk, Grafana and Cisco IOS.
+%          Claiming any of them would be an invented keyword. The covering
+%          letter is where that gap gets addressed honestly, not the resume.
+% Changed: 2026-10-05 - created for the Rockstar Games Online Systems
+%          Administrator req.
+% Build:   bash ~/.claude/skills/resume-forge/scripts/build_resume.sh \
+%            public/resume-rockstar-sysadmin.tex
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+% ----------------------------------------------------------------------
+% Packages
+% ----------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.25cm,right=1.25cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - Online Systems Administrator Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+% ----------------------------------------------------------------------
+% Section styling: sans-serif bold heading with a thin rule beneath
+% ----------------------------------------------------------------------
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+% Compact bullet lists: the single biggest lever on whether this fits a page.
+\setlist[itemize]{leftmargin=1.2em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.97}\selectfont
+\pagestyle{empty}
+
+% ----------------------------------------------------------------------
+% Helpers
+% ----------------------------------------------------------------------
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+\newcommand{\sep}{\,\textperiodcentered\,}
+\newlength{\skillwidth}\setlength{\skillwidth}{6.4em}
+\newlength{\skilllabel}
+\newcommand{\skill}[2]{%
+  \settowidth{\skilllabel}{\textbf{#1}}%
+  \hangindent=\skillwidth\hangafter=1%
+  \mbox{\textbf{#1}}%
+  \ifdim\skilllabel<\skillwidth\hspace{\dimexpr\skillwidth-\skilllabel}\else\hspace{0.6em}\fi
+  #2\par}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% Header
+% ----------------------------------------------------------------------
+{\LARGE\bfseries Harish G}\\[1pt]
+{\normalsize\bfseries Systems \& Platform Operations \textbar{} Production Support, Monitoring \& Automation}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad
+\href{https://github.com/harish00506/}{GitHub} \quad\textbar\quad \href{https://www.harishg.com}{harishg.com}}
+
+% ----------------------------------------------------------------------
+% Profile
+% ----------------------------------------------------------------------
+\section{Profile}
+I stay with a system after it ships. On a public-facing telephony platform I own the call pipeline
+in production: fixed outbound routing, added reconnect handling for dropped Gemini 1006 sockets, and
+traced a Docker TLS failure back to NAT hairpinning on a self-hosted domain, which read as an
+application bug until somebody followed the packet path. I build the observability in rather than bolt
+it on, and write the runbook that says what to do at 2am. Software Developer at CortexCraft.ai.
+
+% ----------------------------------------------------------------------
+% Core Skills
+% ----------------------------------------------------------------------
+\section{Core Skills}
+\skill{Operations}{24x7 ownership of a live, public-facing call pipeline \sep root-cause analysis
+from symptom to packet path \sep runbooks, a hotfix flow and a rollback procedure \sep backend and
+provider migrations run without interrupting live traffic}
+\skill{Monitoring}{single-line structured JSON logging \sep \texttt{X-Request-ID} correlated end to
+end \sep per-response status and duration in milliseconds \sep Prometheus instrumentator on
+\texttt{/metrics} \sep health endpoints \sep a real-time WebSocket monitoring
+dashboard over a Windows desktop agent \sep append-only audit logs with TTL retention}
+\skill{Platform}{Linux hosts under Docker and Docker Compose \sep Jenkins, GitLab CI and GitHub
+Actions as the merge gate \sep containerised multi-service deploys \sep TLS, DNS and NAT fault
+isolation \sep configuration in the database, so a change is a config row and not a deploy}
+\skill{Scripting}{Python \sep Java \sep JavaScript / TypeScript \sep SQL \sep Celery workers and
+scheduled jobs \sep bulk CSV and Excel import / export jobs}
+\skill{Databases}{PostgreSQL with Alembic and Flyway versioned migrations \sep MongoDB \sep Redis
+(locks and queues) \sep Neo4j \sep credentials encrypted at rest}
+\skill{Automation}{External REST API that other products drive \sep webhook callback handlers \sep
+ticket-to-pull-request workflows over the Jira and GitHub APIs \sep 132 pytest files acting as the
+CI merge gate}
+
+% ----------------------------------------------------------------------
+% Experience
+% ----------------------------------------------------------------------
+\section{Experience}
+
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Authored 589 of 626 commits on the voice-agent SaaS platform and 67 of 75 on its core
+        engine, and own production reliability of the call pipeline it runs: fixed outbound routing,
+        added reconnect handling for dropped Gemini 1006 sockets, and traced a Docker TLS failure to
+        NAT hairpinning on a self-hosted domain.
+  \item Lead author (172 of 192 commits) on the multilingual survey platform. Migrated it off a Node
+        backend onto FastAPI and off one speech provider onto another behind a config-driven
+        registry of 24 locales, both without interrupting surveys that were running at the time.
+  \item Run the build and deploy path behind it: Jenkins and GitLab CI, Docker Compose, 132 pytest
+        files gating every merge, and Alembic-migrated PostgreSQL treated as a release.
+  \item Maintain integration workflows against two telephony vendors and several partner APIs: an
+        external REST API other products call, webhook callback handlers, per-tenant credentials
+        encrypted at rest, and an agent that turns Jira tickets into reviewed pull requests.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+Delivered client systems end to end, then supported them: deployment, environment changes, upgrades
+and fixes, with direct client contact for triage and release sign-off.
+
+% ----------------------------------------------------------------------
+% Projects
+% ----------------------------------------------------------------------
+\section{Selected Projects}
+
+\textbf{CortexCraft Voice Agent, production telephony platform} \textit{Python, FastAPI, WebSocket, Docker, React}
+\begin{itemize}
+  \item 589 of 626 commits. One platform behind several shipped products, so a fix to the call
+        pipeline reaches all of them at once. Most of the real work was keeping it up: routing,
+        socket reconnects and TLS, each traced to a cause rather than restarted past.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{KisanVoice AI, multilingual survey platform} \textit{Python, FastAPI, MongoDB, Jenkins, Docker Compose}
+\begin{itemize}
+  \item 172 of 192 commits. Operations built in rather than added later: every request carries an
+        \texttt{X-Request-ID} that is forwarded or generated and echoed back, every log line is a
+        single JSON object carrying that ID, each response is logged with its status and duration in
+        milliseconds, and a Prometheus instrumentator exposes \texttt{/metrics}.
+  \item Ships with a deployment runbook covering prerequisites, environment setup, a verification
+        step and a symptom-to-fix section for the failures the team actually hit, plus a written
+        release process with a hotfix flow and a rollback procedure. 24 configured locales come from
+        a config-driven registry, so adding one is a config row rather than a deploy.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{LeadCall AI, multi-tenant outbound calling} \textit{FastAPI, Celery, PostgreSQL, Redis, React}
+\begin{itemize}
+  \item Queued the slow work instead of blocking on it: Celery dial and callback workers behind
+        Redis dial locks, per-tenant credentials encrypted at rest, bulk Excel import and call-log
+        export, and an append-only audit log of every operator action.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% Education
+% ----------------------------------------------------------------------
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore.
+One issue per branch, tests as the merge gate, a runbook entry for every failure seen twice.
+
+\end{document}
