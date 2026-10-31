@@ -12,8 +12,15 @@
  *   2026-10-31 - Taste-skill restyle: no outlined boxes or dashed borders; surfaces separate by a
  *                tone step, outcomes use drawn check/cross icons instead of text glyphs, and the
  *                data table stacks into labelled rows on a phone instead of scrolling sideways.
+ *   2026-10-31 - Scroll motion: the sum fills in line by line and lands its total last, and the
+ *                guardrail plays out step by step before its two outcomes appear. Both are the
+ *                page's argument ("it shows its working") performed, not decoration.
  */
 import { Check, X } from 'lucide-react'
+import { Reveal, stagger } from './Section.jsx'
+
+// One beat of the sum and of the flow: slower than a list stagger, because each line is read.
+const BEAT = 0.12
 
 /**
  * A small subtraction, rendered as a table.
@@ -32,24 +39,25 @@ export function WorkedSum({ sum }) {
       <div className="max-w-[30rem] overflow-hidden bg-secondary">
         <table className="w-full text-left">
           <tbody>
-            {sum.rows.map(([label, value]) => (
-              <tr key={label}>
+            {sum.rows.map(([label, value], i) => (
+              <Reveal as="tr" key={label} delay={i * BEAT}>
                 <th scope="row" className="px-5 py-2.5 font-normal text-muted-foreground">
                   {label}
                 </th>
                 <td className="px-5 py-2.5 text-right tabular-nums text-foreground">
                   {value}
                 </td>
-              </tr>
+              </Reveal>
             ))}
-            <tr className="border-t-2 border-foreground">
+            {/* The total arrives a beat after the last line, the way it would on paper. */}
+            <Reveal as="tr" delay={(sum.rows.length + 1) * BEAT} className="border-t-2 border-foreground">
               <th scope="row" className="px-5 py-3.5 font-semibold text-foreground">
                 {totalLabel}
               </th>
               <td className="px-5 py-3.5 text-right text-lg font-semibold tabular-nums text-primary">
                 {totalValue}
               </td>
-            </tr>
+            </Reveal>
           </tbody>
         </table>
       </div>
@@ -96,8 +104,13 @@ export function DataTable({ table }) {
             </tr>
           </thead>
           <tbody>
-            {table.rows.map((row) => (
-              <tr key={row[0]} className="border-b border-border last:border-0 max-sm:block max-sm:py-3">
+            {table.rows.map((row, r) => (
+              <Reveal
+                as="tr"
+                key={row[0]}
+                delay={stagger(r)}
+                className="border-b border-border last:border-0 max-sm:block max-sm:py-3"
+              >
                 {row.map((cell, i) => (
                   <td
                     key={i}
@@ -111,7 +124,7 @@ export function DataTable({ table }) {
                     {cell}
                   </td>
                 ))}
-              </tr>
+              </Reveal>
             ))}
           </tbody>
         </table>
@@ -145,7 +158,12 @@ export function FlowDiagram({ flow }) {
       <div className="bg-secondary p-5 sm:p-6">
         <ol className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-0">
           {flow.steps.map((step, i) => (
-            <li key={step.label} className="flex flex-1 flex-col sm:flex-row sm:items-center">
+            <Reveal
+              as="li"
+              key={step.label}
+              delay={i * BEAT}
+              className="flex flex-1 flex-col sm:flex-row sm:items-center"
+            >
               <div className="flex-1 bg-background px-4 py-3">
                 <p className="font-semibold leading-snug text-foreground">{step.label}</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{step.detail}</p>
@@ -159,18 +177,20 @@ export function FlowDiagram({ flow }) {
                   <span className="hidden sm:inline">→</span>
                 </span>
               )}
-            </li>
+            </Reveal>
           ))}
         </ol>
 
-        <p aria-hidden className="mt-4 text-center text-muted-foreground">
+        <Reveal as="p" aria-hidden delay={flow.steps.length * BEAT} className="mt-4 text-center text-muted-foreground">
           ↓
-        </p>
+        </Reveal>
 
         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-          {flow.outcomes.map((o) => (
-            <li
+          {flow.outcomes.map((o, i) => (
+            <Reveal
+              as="li"
               key={o.label}
+              delay={(flow.steps.length + 1 + i) * BEAT}
               // Pass is the solid surface; fail is the carmine field, so the branch reads by
               // colour and by icon, never by colour alone.
               className={`px-4 py-3 ${
@@ -188,7 +208,7 @@ export function FlowDiagram({ flow }) {
               <p className={`mt-1 text-sm leading-relaxed ${o.tone === 'pass' ? 'text-muted-foreground' : ''}`}>
                 {o.detail}
               </p>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </div>
@@ -216,7 +236,7 @@ export default function ArticleFigure({ figure }) {
   if (!figure) return null
 
   return (
-    <figure className="mt-10">
+    <Reveal as="figure" className="mt-10">
       <div className="overflow-hidden bg-secondary p-3 sm:p-5">
         <img
           src={figure.src}
@@ -229,6 +249,6 @@ export default function ArticleFigure({ figure }) {
       <figcaption className="mt-3 max-w-[62ch] text-sm leading-relaxed text-muted-foreground">
         {figure.caption}
       </figcaption>
-    </figure>
+    </Reveal>
   )
 }
