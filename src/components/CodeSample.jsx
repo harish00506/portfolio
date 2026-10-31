@@ -10,8 +10,8 @@ export default function CodeSample({ sample }) {
   const { filename, language, code } = sample
   const tokens = tokenize(code)
   return (
-    <figure className="overflow-hidden rounded-lg border border-border bg-card shadow-card">
-      <figcaption className="flex items-center justify-between border-b border-border bg-muted/60 px-4 py-2.5">
+    <figure className="overflow-hidden bg-secondary">
+      <figcaption className="flex items-center justify-between bg-muted/60 px-4 py-2.5">
         <span className="flex items-center gap-2">
           <span className="flex gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-border" />

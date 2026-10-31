@@ -9,8 +9,8 @@ import { Link } from 'react-router-dom'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 const cardClass =
-  'group bg-card p-6 transition-colors hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring sm:p-8'
-const directionClass = 'flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground'
+  'group bg-secondary p-6 transition-colors hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring sm:p-8'
+const directionClass = 'flex items-center gap-2 text-sm font-medium text-muted-foreground'
 const nameClass = 'display mt-2 block text-2xl font-bold leading-tight text-foreground group-hover:text-primary'
 
 /**
@@ -23,7 +23,7 @@ export default function ProjectPager({ prev, next }) {
   return (
     <nav
       aria-label="More case studies"
-      className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2"
+      className="grid gap-2 sm:grid-cols-2"
     >
       <Link to={`/works/${prev.slug}`} className={cardClass}>
         <span className={directionClass}>

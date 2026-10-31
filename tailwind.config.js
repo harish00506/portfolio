@@ -6,6 +6,8 @@
  *         light or dark Switchboard palette, plus the site's three font roles.
  * Changelog: 2026-09-12 - Switchboard: Schibsted Grotesk / Atkinson Hyperlegible Next / Martian Mono,
  *            and shadows derived from theme tokens instead of fixed rgba values.
+ *            2026-10-31 - Removed the card shadows: surfaces are separated by a tone step now.
+ *            Martian Mono (font-mono) is for code blocks only.
  */
 import tailwindcssAnimate from 'tailwindcss-animate'
 
@@ -70,11 +72,6 @@ export default {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-      },
-      boxShadow: {
-        // Soft elevation derived from the ink and brand tokens, so it adapts to both themes.
-        card: '0 1px 2px hsl(var(--foreground) / 0.04), 0 12px 28px -18px hsl(var(--foreground) / 0.18)',
-        cardHover: '0 1px 2px hsl(var(--foreground) / 0.05), 0 24px 48px -24px hsl(var(--primary) / 0.28)',
       },
       keyframes: {
         'fade-up': {

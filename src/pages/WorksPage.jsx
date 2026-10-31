@@ -14,7 +14,7 @@ export default function WorksPage() {
   }, [filter])
 
   return (
-    <Section id="works" kicker="Work" title="Everything I've built" className="pt-28 sm:pt-32" headingLevel={1}>
+    <Section id="works" title="Everything I've built" className="pt-28 sm:pt-32" alt headingLevel={1}>
       {/* The index had no prose at all, which left the page with nothing describing what these
           projects are — for a reader skimming, or for a search engine deciding what it is about. */}
       <p className="mb-10 max-w-[70ch] text-lg leading-relaxed text-muted-foreground">
@@ -37,8 +37,8 @@ export default function WorksPage() {
               ))}
             </TabsList>
           </div>
-          <span className="font-mono text-xs text-muted-foreground">
-            {String(visible.length).padStart(2, '0')} projects
+          <span className="text-sm font-medium text-muted-foreground">
+            {visible.length} projects
           </span>
         </div>
       </Tabs>

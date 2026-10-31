@@ -37,9 +37,9 @@ function Chapter({ label, heading, text, media }) {
   // stays the h2 so the older case studies keep their heading outline unchanged.
   const Label = heading ? 'p' : 'h2'
   return (
-    <section className="border-t border-border pt-10">
+    <section className="pt-10">
       <div className="grid gap-4 md:grid-cols-[12rem_1fr] md:gap-12">
-        <Label className="font-mono text-xs font-medium uppercase tracking-[0.18em] text-primary md:pt-1.5">
+        <Label className="text-sm font-medium text-primary md:pt-1.5">
           {label}
         </Label>
         <div>
@@ -109,7 +109,7 @@ export default function ProjectDetailPage() {
     ) : null
 
   const resultMedia = metrics.length ? (
-    <div className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
+    <div className="grid gap-2 sm:grid-cols-3">
       {metrics.map((m) => (
         <MetricStat key={m.label} metric={m} />
       ))}
@@ -121,21 +121,21 @@ export default function ProjectDetailPage() {
       <div className="container-x">
         <Link
           to="/works"
-          className="group inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="group inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <ArrowLeft size={14} aria-hidden className="transition-transform group-hover:-translate-x-1" />
           All work
         </Link>
 
         <header className="mt-10">
-          <p className="kicker">{[...categories, 'Case study'].join(' · ')}</p>
-          {note && (
-            <p className="mt-2 font-mono text-xs uppercase tracking-[0.14em] text-brand-accent">{note}</p>
-          )}
-          <h1 className="display mt-5 max-w-[18ch] text-balance text-[clamp(2.5rem,7vw,5rem)] font-extrabold uppercase leading-[0.95] text-foreground">
+          <h1 className="display max-w-[18ch] text-balance text-[clamp(2.5rem,7vw,5rem)] font-extrabold uppercase leading-[0.95] text-foreground">
             {name}
           </h1>
-          <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">{blurb}</p>
+          <p className="kicker mt-4">
+            {[...categories, 'Case study'].join(' · ')}
+            {note && <span className="text-brand-accent">{note}</span>}
+          </p>
+          <p className="mt-6 max-w-3xl text-xl leading-relaxed text-foreground">{blurb}</p>
 
           {(links.live || links.github || appPage || docsPage || designPage) && (
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -215,7 +215,7 @@ export default function ProjectDetailPage() {
               Dated entries on the decisions behind this project, each linking to the record it came
               from.
             </p>
-            <ul className="mt-8 divide-y divide-border border-y border-border">
+            <ul className="mt-8">
               {entries.map((entry) => (
                 <li key={entry.slug}>
                   <Link
@@ -224,7 +224,7 @@ export default function ProjectDetailPage() {
                   >
                     <time
                       dateTime={entry.date}
-                      className="min-w-[7rem] flex-none font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground"
+                      className="min-w-[7rem] flex-none text-sm font-medium text-muted-foreground"
                     >
                       {entry.date}
                     </time>
@@ -242,7 +242,7 @@ export default function ProjectDetailPage() {
             </ul>
             <Link
               to="/journal"
-              className="mt-7 inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="mt-7 inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               All entries
             </Link>

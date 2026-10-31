@@ -62,6 +62,13 @@ framer-motion · lucide-react. Ship no new dependency for what a few lines of th
 > Martian Mono, carmine primary, and a live dark palette (`.dark` on `<html>`, set before paint by
 > `index.html` and toggled by `ThemeToggle.jsx`). `scripts/make-og-image.py` mirrors the light tokens as
 > RGB tuples, so a palette change means updating and re-running it.
+>
+> **2026-10-31:** Taste-skill restyle, same palette and faces. Martian Mono is now for **code only**
+> (`CodeSample`, `<pre>/<code>`): no mono labels, no tracked-caps kickers, no `01 / 02` index numbers,
+> no hairline rules or 1px outlined boxes, no resting shadows, no glass. Surfaces separate by a tone
+> step (`bg-card` on a `bg-secondary` section, `bg-secondary` on the page). A `.kicker` context line goes
+> *under* a heading, never above it. Check a page with the skill's `inspect.mjs` against a static serve
+> of `dist/`.
 
 ## 4. Styling
 

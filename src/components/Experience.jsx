@@ -3,7 +3,7 @@ import { experience } from '../data/portfolio.js'
 
 export default function Experience() {
   return (
-    <Section id="experience" index="03" kicker="Experience" title="Where I've worked" alt>
+    <Section id="experience" title="Where I've worked" alt>
       <div className="relative border-l border-border pl-7 sm:pl-10">
         {experience.map((job, i) => (
           <Reveal key={`${job.company}-${i}`} delay={i * 0.05}>
@@ -16,7 +16,7 @@ export default function Experience() {
                   {job.role}
                   <span className="text-primary"> · {job.company}</span>
                 </h3>
-                <span className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                <span className="text-sm font-medium text-muted-foreground">
                   {job.period}
                 </span>
               </div>

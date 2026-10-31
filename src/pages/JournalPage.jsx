@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import Section, { Reveal } from '../components/Section.jsx'
 import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import { journalMeta, publishedEntries, plannedEntries } from '../data/journal.js'
 
 /**
@@ -40,17 +39,14 @@ function PublishedRow({ entry, index }) {
           className="group block rounded-sm py-7 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            <span className="font-mono text-xs text-muted-foreground">
-              {String(index + 1).padStart(2, '0')}
-            </span>
             <time
               dateTime={date}
-              className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground"
+              className="text-sm font-medium text-muted-foreground"
             >
               {formatDay(date)}
             </time>
             {compiled && (
-              <span className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-brand-accent">
+              <span className="text-sm font-medium text-brand-accent">
                 Compiled
               </span>
             )}
@@ -72,7 +68,6 @@ function PublishedRow({ entry, index }) {
           )}
         </Link>
       </Reveal>
-      <Separator />
     </li>
   )
 }
@@ -89,7 +84,7 @@ function PlannedRow({ entry }) {
     <li className="flex flex-col gap-1.5 border-l border-dashed border-border pl-5 sm:flex-row sm:gap-6 sm:pl-6">
       <time
         dateTime={date}
-        className="min-w-[8.5rem] flex-none font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground"
+        className="min-w-[8.5rem] flex-none text-sm font-medium text-muted-foreground"
       >
         {formatDay(date)}
       </time>
@@ -101,7 +96,7 @@ function PlannedRow({ entry }) {
             href={source.href}
             target="_blank"
             rel="noreferrer"
-            className="mt-1.5 inline-block rounded-sm font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="mt-1.5 inline-block rounded-sm text-sm font-medium text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             {source.label}
           </a>
@@ -115,7 +110,7 @@ export default function JournalPage() {
   return (
     <Section
       id="journal"
-      kicker={journalMeta.kicker}
+     
       title={journalMeta.title}
       className="pt-28 sm:pt-32"
       headingLevel={1}
@@ -131,11 +126,10 @@ export default function JournalPage() {
         <>
           <div className="mt-16 flex flex-wrap items-baseline justify-between gap-4">
             <h2 className="kicker">Published</h2>
-            <span className="font-mono text-xs text-muted-foreground">
-              {String(publishedEntries.length).padStart(2, '0')} entries
+            <span className="text-sm font-medium text-muted-foreground">
+              {publishedEntries.length} entries
             </span>
           </div>
-          <Separator className="mt-4" />
           <ul>
             {publishedEntries.map((entry, i) => (
               <PublishedRow key={entry.slug} entry={entry} index={i} />
@@ -148,11 +142,10 @@ export default function JournalPage() {
         <div className="mt-20">
           <div className="flex flex-wrap items-baseline justify-between gap-4">
             <h2 className="kicker">Planned</h2>
-            <span className="font-mono text-xs text-muted-foreground">
+            <span className="text-sm font-medium text-muted-foreground">
               {journalMeta.cadenceLabel}
             </span>
           </div>
-          <Separator className="mt-4" />
           <p className="mt-6 max-w-[68ch] text-sm leading-relaxed text-muted-foreground">
             These are scheduled topics, each tied to a decision already recorded in the repository.
             They are not drafts being withheld, and nothing below has been written yet.

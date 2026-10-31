@@ -5,6 +5,8 @@
  * Result: A fully clickable card (stretched link) with the project's category, name, blurb, highlights
  *         and stack; external links sit above the overlay so they stay separately clickable.
  * Changelog: 2026-09-12 - Category kicker replaces the running index number (Switchboard restyle).
+ *            2026-10-31 - Title leads; categories and the featured mark moved under it. No outline,
+ *            shadow or top bar: the card is a white surface on the grey section.
  */
 import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
@@ -40,12 +42,9 @@ const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3 
       exit={{ opacity: 0, y: 8 }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        'group relative flex h-full flex-col overflow-hidden rounded-lg border bg-card p-6 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-cardHover sm:p-7',
-        featured ? 'border-primary/40' : 'border-border hover:border-primary/40',
+        'group relative flex h-full flex-col overflow-hidden rounded-lg bg-card p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-8',
       )}
     >
-      {featured && <span className="absolute inset-x-0 top-0 h-[3px] bg-primary" />}
-
       {/* Stretched link: makes the entire card clickable to the detail page. */}
       <Link
         to={`/works/${slug}`}
@@ -53,37 +52,36 @@ const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3 
         className="absolute inset-0 z-0 rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       />
 
-      <div className="flex items-center justify-between">
-        <span className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
-          {categories.join(' · ')}
-        </span>
-        <div className="relative z-10 flex items-center gap-3 text-muted-foreground">
-          {featured && (
-            <span className="flex items-center gap-1 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-primary">
-              <Star size={11} className="fill-primary text-primary" />
-              Featured
-            </span>
-          )}
-          {links.github && (
-            <a
-              href={links.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${name} source code`}
-              className="transition-colors hover:text-primary"
-            >
-              <Github size={17} />
-            </a>
-          )}
-        </div>
+      {/* Title first; the categories and the featured mark sit under it as one plain line. */}
+      <div className="flex items-start justify-between gap-4">
+        <Heading className="display text-[1.75rem] font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+          {name}
+        </Heading>
+        {links.github && (
+          <a
+            href={links.github}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${name} source code`}
+            className="relative z-10 mt-1.5 rounded-sm text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <Github size={18} />
+          </a>
+        )}
       </div>
 
-      <Heading className="display mt-4 text-2xl font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
-        {name}
-      </Heading>
+      <p className="mt-1.5 flex flex-wrap items-center gap-x-3 text-sm text-muted-foreground">
+        {categories.join(' · ')}
+        {featured && (
+          <span className="flex items-center gap-1 font-medium text-primary">
+            <Star size={13} aria-hidden className="fill-primary text-primary" />
+            Featured
+          </span>
+        )}
+      </p>
 
       {note && (
-        <p className="mt-1.5 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-brand-accent">
+        <p className="mt-1.5 text-sm font-medium text-brand-accent">
           {note}
         </p>
       )}
@@ -102,7 +100,7 @@ const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3 
               <Link
                 key={l.to}
                 to={l.to}
-                className="inline-block rounded-sm font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-block rounded-sm text-sm font-medium text-foreground underline decoration-primary underline-offset-[3px] transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {l.label} →
               </Link>
@@ -110,7 +108,7 @@ const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3 
         </div>
       )}
 
-      <p className="mt-3 leading-relaxed text-muted-foreground">{blurb}</p>
+      <p className="mt-3 leading-relaxed text-foreground">{blurb}</p>
 
       {highlights?.length > 0 && (
         <ul className="mt-5 space-y-2">
@@ -130,13 +128,13 @@ const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3 
           </Badge>
         ))}
         {tags.length > 5 && (
-          <span className="font-mono text-[0.7rem] text-muted-foreground">
+          <span className="text-sm font-medium text-muted-foreground">
             +{tags.length - 5}
           </span>
         )}
         <ArrowUpRight
           size={18}
-          className="ml-auto flex-none text-muted-foreground/60 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary group-hover:opacity-100"
+          className="ml-auto flex-none text-muted-foreground opacity-0 transition-[opacity,transform,color] duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary group-hover:opacity-100"
         />
       </div>
     </motion.article>

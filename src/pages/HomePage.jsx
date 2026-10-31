@@ -22,10 +22,15 @@ export default function HomePage() {
       <Hero />
 
       {/* Selected work: the featured projects, projects-first ordering */}
-      <Section id="projects" index="01" kicker="Selected work" title="Voice agents, AI platforms and Android apps" alt>
+      <Section id="projects" title="Selected work" alt>
         <div className="grid gap-5 sm:grid-cols-2">
           {featuredProjects.map((project, i) => (
-            <Reveal key={project.slug} delay={i * 0.05}>
+            <Reveal
+              key={project.slug}
+              delay={i * 0.05}
+              // An odd last card spans the row so it never leaves half the grid empty.
+              className={i === featuredProjects.length - 1 && i % 2 === 0 ? 'sm:col-span-2' : ''}
+            >
               <ProjectCard project={project} index={i} />
             </Reveal>
           ))}
@@ -34,7 +39,7 @@ export default function HomePage() {
         <Reveal delay={0.1}>
           <Link
             to="/works"
-            className="group mt-10 inline-flex items-center gap-2 font-mono text-sm font-medium text-foreground transition-colors hover:text-primary"
+            className="group mt-10 inline-flex items-center gap-2 text-base font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-[6px] transition-colors hover:text-primary"
           >
             View all work
             <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
@@ -43,7 +48,7 @@ export default function HomePage() {
       </Section>
 
       {/* Snapshot: skills and about teaser, secondary content */}
-      <Section id="snapshot" index="02" kicker="Snapshot" title="A quick look">
+      <Section id="snapshot" title="About me">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr] md:gap-16">
           <Reveal>
             <p className="display text-2xl font-medium leading-snug text-foreground sm:text-[1.7rem]">
@@ -51,7 +56,7 @@ export default function HomePage() {
             </p>
             <Link
               to="/about"
-              className="group mt-7 inline-flex items-center gap-2 font-mono text-sm font-medium text-foreground transition-colors hover:text-primary"
+              className="group mt-7 inline-flex items-center gap-2 text-base font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-[6px] transition-colors hover:text-primary"
             >
               More about me
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
@@ -59,9 +64,7 @@ export default function HomePage() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
-              Core toolkit
-            </p>
+            <h3 className="display text-lg font-semibold text-foreground">Core toolkit</h3>
             <div className="mt-4 flex flex-wrap gap-2">
               {skillPreview.map((s) => (
                 <Badge key={s} variant="secondary" className="px-3 py-1 text-sm font-medium">

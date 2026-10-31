@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { ExternalLink, FileText, Github } from 'lucide-react'
 import ProseBlock from '../components/ProseBlock.jsx'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { rekhon, rekhonBlocks, rekhonContents } from '../data/rekhon.js'
 import { publishedEntriesForProject } from '../data/journal.js'
 
@@ -23,10 +22,10 @@ export default function RekhonPage() {
     <article className="pb-24 pt-28 sm:pt-32">
       <div className="container-x">
         <header>
-          <p className="kicker">{rekhon.kicker}</p>
-          <h1 className="display mt-5 max-w-[24ch] text-balance text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase leading-[0.98] text-foreground">
+          <h1 className="display max-w-[24ch] text-balance text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase leading-[0.98] text-foreground">
             {rekhon.h1}
           </h1>
+          <p className="kicker mt-4">{rekhon.kicker}</p>
           <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">
             {rekhon.tagline}
           </p>
@@ -58,10 +57,10 @@ export default function RekhonPage() {
           <h2 id="facts-title" className="kicker">
             At a glance
           </h2>
-          <dl className="mt-5 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
+          <dl className="mt-5 grid gap-2 sm:grid-cols-2">
             {rekhon.facts.map((f) => (
-              <div key={f.label} className="bg-card p-5">
-                <dt className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              <div key={f.label} className="bg-secondary p-5">
+                <dt className="text-sm font-medium text-muted-foreground">
                   {f.label}
                 </dt>
                 <dd className="mt-1.5 text-sm font-medium leading-snug text-foreground">
@@ -82,7 +81,7 @@ export default function RekhonPage() {
 
         {/* On-page contents. A long page needs jump links, and they sometimes surface as sitelinks. */}
         {rekhonContents.length > 0 && (
-          <nav aria-label="On this page" className="mt-14 rounded-lg border border-border bg-secondary/50 p-6">
+          <nav aria-label="On this page" className="mt-14 bg-secondary p-6">
             <p className="kicker">On this page</p>
             <ul className="mt-4 grid gap-2 sm:grid-cols-2">
               {rekhonContents.map((c) => (
@@ -156,7 +155,6 @@ export default function RekhonPage() {
 
         {entries.length > 0 && (
           <section aria-labelledby="writing-title" className="mt-20">
-            <Separator className="mb-10" />
             <h2
               id="writing-title"
               className="display text-balance text-3xl font-bold leading-tight text-foreground sm:text-4xl"
@@ -166,7 +164,7 @@ export default function RekhonPage() {
             <p className="mt-4 max-w-[66ch] leading-relaxed text-muted-foreground">
               Dated entries on the decisions behind the app, each linking to the record it came from.
             </p>
-            <ul className="mt-8 divide-y divide-border border-y border-border">
+            <ul className="mt-8">
               {entries.map((entry) => (
                 <li key={entry.slug}>
                   <Link
@@ -175,7 +173,7 @@ export default function RekhonPage() {
                   >
                     <time
                       dateTime={entry.date}
-                      className="min-w-[7rem] flex-none font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground"
+                      className="min-w-[7rem] flex-none text-sm font-medium text-muted-foreground"
                     >
                       {entry.date}
                     </time>
@@ -194,13 +192,13 @@ export default function RekhonPage() {
             <div className="mt-7 flex flex-wrap gap-6">
               <Link
                 to="/journal"
-                className="inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 All journal entries
               </Link>
               <Link
                 to={rekhon.caseStudy}
-                className="inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 The full case study
               </Link>

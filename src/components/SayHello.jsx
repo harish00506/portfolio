@@ -26,15 +26,14 @@ export default function SayHello({ profile }) {
   ]
 
   return (
-    <footer id="contact" className="border-t border-border bg-background">
+    <footer id="contact" className="bg-secondary">
       <div className="container-x py-20 sm:py-28">
-        <p className="kicker">Get in touch</p>
-        <h2 className="display mt-5 text-[clamp(3.5rem,14vw,10rem)] font-extrabold leading-[0.88] text-foreground">
+        <h2 className="display text-[clamp(3.5rem,14vw,10rem)] font-extrabold leading-[0.88] text-foreground">
           Say hello<span className="text-primary">.</span>
         </h2>
 
         {contactNote && (
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">{contactNote}</p>
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-foreground sm:text-xl">{contactNote}</p>
         )}
 
         <a
@@ -62,14 +61,14 @@ export default function SayHello({ profile }) {
         </ul>
       </div>
 
-      <div className="border-t border-border">
+      <div>
         <div className="container-x flex flex-col items-center justify-between gap-3 py-6 sm:flex-row">
-          <p className="font-mono text-xs text-muted-foreground">
+          <p className="text-sm font-medium text-muted-foreground">
             © {new Date().getFullYear()} {name}
           </p>
           <a
             href="#top"
-            className="inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             Back to top
             <ArrowUp size={14} aria-hidden />

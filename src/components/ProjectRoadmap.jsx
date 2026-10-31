@@ -33,11 +33,11 @@ function Lane({ lane }) {
     <section aria-labelledby={`lane-${id}`} className="min-w-0">
       <h3
         id={`lane-${id}`}
-        className="flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground"
+        className="flex items-center gap-2.5 text-sm font-medium text-muted-foreground"
       >
         <span aria-hidden className={`h-2 w-2 flex-none rounded-full ${style.dot}`} />
         {label}
-        <span className="text-muted-foreground/50">{String(items.length).padStart(2, '0')}</span>
+        <span className="text-muted-foreground">{items.length}</span>
       </h3>
 
       <ul className={`mt-4 ${compact ? 'space-y-1.5' : 'space-y-4'}`}>
@@ -61,7 +61,7 @@ function Lane({ lane }) {
               <p className="mt-1 max-w-[62ch] text-muted-foreground">{item.detail}</p>
             )}
             {item.ref && (
-              <p className="mt-1 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted-foreground/70">
+              <p className="mt-1 text-sm font-medium text-muted-foreground">
                 {item.ref}
               </p>
             )}
@@ -88,7 +88,7 @@ export default function ProjectRoadmap({ roadmap }) {
   return (
     <section
       aria-labelledby="roadmap-title"
-      className="rounded-lg border border-border bg-card p-6 shadow-card sm:p-10"
+      className="bg-secondary p-6 sm:p-10"
     >
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
         <div>
@@ -101,7 +101,7 @@ export default function ProjectRoadmap({ roadmap }) {
           </h2>
         </div>
         {(version || asOf) && (
-          <dl className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
+          <dl className="text-sm font-medium text-muted-foreground">
             {version && (
               <div className="flex gap-2">
                 <dt>Version</dt>
@@ -126,7 +126,7 @@ export default function ProjectRoadmap({ roadmap }) {
       </div>
 
       {source && (
-        <p className="mt-10 border-t border-border pt-5 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-10 pt-5 text-xs leading-relaxed text-muted-foreground">
           Read from {source}. Items that are designed, open or blocked are labelled as such and are
           not claimed as shipped.
         </p>

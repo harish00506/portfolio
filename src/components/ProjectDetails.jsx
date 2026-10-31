@@ -35,12 +35,12 @@ export default function ProjectDetails({ details = {}, stack = [] }) {
   return (
     <section
       aria-label="Project details"
-      className="grid gap-10 border-y border-border py-8 md:grid-cols-[1.25fr_1fr] md:gap-14"
+      className="grid gap-10 py-8 md:grid-cols-[1.25fr_1fr] md:gap-14"
     >
       <dl className="space-y-3">
         {rows.map(({ label, value }) => (
           <div key={label} className="flex items-baseline gap-3">
-            <dt className="flex min-w-[5.5rem] flex-1 items-baseline gap-3 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground after:h-px after:min-w-[1.5rem] after:flex-1 after:border-b after:border-dotted after:border-border after:content-['']">
+            <dt className="flex min-w-[5.5rem] flex-1 items-baseline gap-3 text-sm font-medium text-muted-foreground">
               {label}
             </dt>
             <dd className="max-w-[65%] text-right text-sm font-medium leading-snug text-foreground">
@@ -52,7 +52,7 @@ export default function ProjectDetails({ details = {}, stack = [] }) {
 
       {responsibilities.length > 0 && (
         <div>
-          <h2 className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+          <h2 className="text-sm font-medium text-muted-foreground">
             Responsibilities
           </h2>
           <ul className="mt-4 space-y-2.5">

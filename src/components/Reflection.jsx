@@ -18,7 +18,7 @@ export default function Reflection({ items = [] }) {
   return (
     <section
       aria-labelledby="reflection-title"
-      className="rounded-lg border border-border bg-secondary/60 p-6 sm:p-10"
+      className="bg-secondary p-6 sm:p-10"
     >
       <p className="kicker">Looking back</p>
       <h2

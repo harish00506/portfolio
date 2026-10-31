@@ -12,8 +12,8 @@ const badgeVariants = cva(
         secondary: 'border-transparent bg-secondary text-secondary-foreground',
         destructive: 'border-transparent bg-destructive text-destructive-foreground',
         outline: 'text-foreground',
-        // Editorial mono tag, used for tech-stack chips.
-        tech: 'border-border bg-card font-mono text-[0.7rem] tracking-tight text-muted-foreground hover:border-primary/40 hover:text-foreground',
+        // Tech-stack chip: a filled tone step in the text face, no outline.
+        tech: 'border-transparent bg-secondary text-[0.8125rem] text-foreground',
       },
     },
     defaultVariants: {

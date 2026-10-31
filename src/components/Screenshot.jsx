@@ -28,7 +28,7 @@ export default function Screenshot({ shot }) {
   return (
     <figure
       hidden={!loaded}
-      className="overflow-hidden rounded-lg border border-border bg-card shadow-card"
+      className="overflow-hidden bg-secondary"
     >
       {/* No loading="lazy": a lazy image inside a hidden figure would never start loading. */}
       <img
@@ -39,7 +39,7 @@ export default function Screenshot({ shot }) {
         className="w-full object-cover"
       />
       {caption && (
-        <figcaption className="border-t border-border px-4 py-2.5 text-sm text-muted-foreground">
+        <figcaption className="px-4 py-2.5 text-sm text-muted-foreground">
           {caption}
         </figcaption>
       )}
