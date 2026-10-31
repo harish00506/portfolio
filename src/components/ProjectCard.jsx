@@ -23,11 +23,16 @@ import { cn } from '@/lib/utils'
  *         tags, links, featured, note }); ref - forwarded to the root <article>;
  *         headingLevel - 2 where the card sits directly under the page's <h1> (/works), 3 where a
  *         section <h2> comes between (the home page). Mirrors Section's own `headingLevel` prop.
+ *         delay - seconds to wait once in view, so a row of cards ripples (see Section's `stagger`).
+ *         className - extra classes for the grid cell, e.g. a column span.
  * Output: <motion.article>.
  * Changelog: 2026-10-24 - headingLevel added; /works went <h1> straight to <h3>, leaving a hole in
  *            the screen-reader outline. data-reveal added so the no-JS fallback can reach the card.
+ *            2026-10-31 - Reveals when it scrolls into view instead of on mount: on /works every
+ *            card used to fade in at load, below the fold included, so scrolling showed nothing
+ *            arrive. `animate` became `whileInView`; exit and layout still drive the filter.
  */
-const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3 }, ref) {
+const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3, delay = 0, className }, ref) {
   const Heading = headingLevel === 2 ? 'h2' : 'h3'
   const { slug, name, blurb, categories = [], highlights, tags, links = {}, featured, note, appPage, docsPage } =
     project
@@ -37,12 +42,18 @@ const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3 
       ref={ref}
       data-reveal
       layout
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      // The lift lives here, not in a CSS hover class: framer writes an inline transform once the
+      // card has revealed, and that would silently beat `hover:-translate-y-1`. Its own timing,
+      // so a hover never waits out the reveal delay.
+      whileHover={{ y: -4, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } }}
       exit={{ opacity: 0, y: 8 }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay }}
       className={cn(
-        'group relative flex h-full flex-col overflow-hidden rounded-lg bg-card p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-8',
+        'group relative flex h-full flex-col overflow-hidden rounded-lg bg-card p-6 sm:p-8',
+        className,
       )}
     >
       {/* Stretched link: makes the entire card clickable to the detail page. */}
