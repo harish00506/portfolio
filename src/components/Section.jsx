@@ -20,7 +20,7 @@ export default function Section({ id, title, children, className = '', alt = fal
             data-reveal
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
+            viewport={{ once: true, margin: '-80px 0px' }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="mb-10 sm:mb-14"
           >
@@ -44,6 +44,9 @@ export default function Section({ id, title, children, className = '', alt = fal
  * Output: a framer-motion element that rises 16px and fades in once, when it enters the viewport.
  * Changelog: 2026-10-31 - `as` and prop pass-through added so headings, list items and table rows
  *            can reveal themselves without a wrapper div breaking their markup.
+ *            2026-10-31 - Viewport inset is '-60px 0px', vertical only. A bare '-60px' also cut
+ *            60px off the left and right, so on a phone (20px gutter) a short chip at the start of a
+ *            line, like 'Git', never intersected and stayed invisible however far you scrolled.
  */
 export function Reveal({ children, as = 'div', delay = 0, className = '', ...rest }) {
   const Comp = motion[as]
@@ -52,7 +55,7 @@ export function Reveal({ children, as = 'div', delay = 0, className = '', ...res
       data-reveal
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
+      viewport={{ once: true, margin: '-60px 0px' }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay }}
       className={className}
       {...rest}
@@ -72,4 +75,19 @@ export function Reveal({ children, as = 'div', delay = 0, className = '', ...res
  */
 export function stagger(i, step = 0.07, max = 0.35) {
   return Math.min(i * step, max)
+}
+
+/**
+ * Stagger for the i-th block of a prose array, counted from the nearest h2 before it.
+ *
+ * Why:  long-form pages (/rekhon, journal posts) render data blocks in one flat list. Counting
+ *       from the section's heading makes the heading lead and its paragraphs follow, instead of a
+ *       whole section popping in at once or the hundredth paragraph waiting the full cap.
+ * Input:  blocks - the prose block array ({ type }); i - index into it.
+ * Output: seconds, a number (see `stagger`).
+ */
+export function proseStagger(blocks, i) {
+  let j = i
+  while (j > 0 && blocks[j].type !== 'h2') j -= 1
+  return stagger(i - j)
 }

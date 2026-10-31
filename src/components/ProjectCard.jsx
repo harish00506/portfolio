@@ -44,7 +44,8 @@ const ProjectCard = forwardRef(function ProjectCard({ project, headingLevel = 3,
       layout
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
+      // Vertical inset only: see Reveal in Section.jsx for why a bare '-60px' hides things on phones.
+      viewport={{ once: true, margin: '-60px 0px' }}
       // The lift lives here, not in a CSS hover class: framer writes an inline transform once the
       // card has revealed, and that would silently beat `hover:-translate-y-1`. Its own timing,
       // so a hover never waits out the reveal delay.

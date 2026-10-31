@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { ExternalLink, FileText, Github } from 'lucide-react'
 import ProseBlock from '../components/ProseBlock.jsx'
-import { Reveal, stagger } from '../components/Section.jsx'
+import { Reveal, stagger, proseStagger } from '../components/Section.jsx'
 import { Button } from '@/components/ui/button'
 import { rekhon, rekhonBlocks, rekhonContents } from '../data/rekhon.js'
 import { publishedEntriesForProject } from '../data/journal.js'
@@ -18,18 +18,6 @@ import { publishedEntriesForProject } from '../data/journal.js'
  *            2026-10-31 - Scroll motion and the taste-skill restyle: the header rises in with CSS,
  *            every block below reveals as it scrolls in, staggered within its group.
  */
-/**
- * Index of the nearest h2 block at or before position i in rekhonBlocks.
- *
- * Why:  blocks reveal as they scroll in; staggering by distance from their section's heading
- *       makes the heading lead and its paragraphs follow, instead of a whole section popping in.
- * Input:  i - index into rekhonBlocks.  Output: an index (0 when no heading precedes it).
- */
-function lastHeadingBefore(i) {
-  for (let j = i; j >= 0; j -= 1) if (rekhonBlocks[j].type === 'h2') return j
-  return 0
-}
-
 export default function RekhonPage() {
   const entries = publishedEntriesForProject('rekhon')
 
@@ -115,7 +103,7 @@ export default function RekhonPage() {
 
         <div>
           {rekhonBlocks.map((block, i) => (
-            <Reveal key={i} delay={stagger(i - lastHeadingBefore(i))}>
+            <Reveal key={i} delay={proseStagger(rekhonBlocks, i)}>
               <ProseBlock block={block} />
             </Reveal>
           ))}

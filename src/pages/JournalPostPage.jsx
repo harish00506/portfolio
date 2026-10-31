@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
 import ProseBlock from '../components/ProseBlock.jsx'
+import { Reveal, stagger, proseStagger } from '../components/Section.jsx'
 import NotFoundPage from './NotFoundPage.jsx'
 import { Badge } from '@/components/ui/badge'
 import { getEntryBySlug, publishedEntries } from '../data/journal.js'
@@ -13,6 +14,9 @@ import { getProjectBySlug } from '../data/portfolio.js'
  * What: /journal/:slug — renders a published entry's blocks, its provenance link and its neighbours.
  * Result: One readable page per published entry; anything else falls through to the 404.
  * Changelog: 2026-10-11 - Created.
+ *            2026-10-31 - Scroll motion: the header rises in with CSS at first paint, the body
+ *            reveals block by block (a heading leads its paragraphs), then the source and the
+ *            neighbours. Restyle: sentence-case h1, full-ink summary, a real h2 for the source.
  */
 
 /** Renders an ISO day as e.g. "25 July 2026". Input: iso - 'YYYY-MM-DD'. Output: string. */
@@ -60,10 +64,10 @@ export default function JournalPostPage() {
         </Link>
 
         <header className="mt-10">
-          <h1 className="display max-w-[22ch] text-balance text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase leading-[0.98] text-foreground">
+          <h1 className="display rise max-w-[22ch] text-balance text-[clamp(1.875rem,6vw,4.25rem)] font-extrabold leading-[0.98] text-foreground">
             {title}
           </h1>
-          <p className="kicker mt-4">
+          <p style={{ animationDelay: '0.06s' }} className="kicker rise mt-4">
             <time dateTime={date}>{formatDay(date)}</time>
             {parent && (
               <>
@@ -79,10 +83,10 @@ export default function JournalPostPage() {
               </>
             )}
           </p>
-          <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">{summary}</p>
+          <p style={{ animationDelay: '0.12s' }} className="rise mt-6 max-w-3xl text-xl leading-relaxed text-foreground">{summary}</p>
 
           {tags.length > 0 && (
-            <div className="mt-7 flex flex-wrap gap-2">
+            <div style={{ animationDelay: '0.18s' }} className="rise mt-7 flex flex-wrap gap-2">
               {tags.map((t) => (
                 <Badge key={t} variant="secondary">
                   {t}
@@ -92,7 +96,7 @@ export default function JournalPostPage() {
           )}
 
           {compiled && (
-            <p className="mt-8 max-w-[68ch] bg-secondary p-4 text-sm leading-relaxed text-muted-foreground">
+            <p style={{ animationDelay: '0.24s' }} className="rise mt-8 max-w-[68ch] bg-secondary p-4 text-sm leading-relaxed text-foreground">
               Compiled from the repository’s decision records and changelog rather than written as a
               first-person account. The reasoning is the project’s; the summarising is editorial.
               {source && ' The record itself is linked at the end.'}
@@ -103,13 +107,15 @@ export default function JournalPostPage() {
 
         <div className="mt-2">
           {body.map((block, i) => (
-            <ProseBlock key={i} block={block} />
+            <Reveal key={i} delay={proseStagger(body, i)}>
+              <ProseBlock block={block} />
+            </Reveal>
           ))}
         </div>
 
         {source && (
-          <aside className="mt-16 bg-secondary p-6 sm:p-7">
-            <p className="kicker">Source</p>
+          <Reveal as="aside" className="mt-16 bg-secondary p-6 sm:p-7">
+            <h2 className="display text-xl font-bold text-foreground">Source</h2>
             <a
               href={source.href}
               target="_blank"
@@ -122,11 +128,11 @@ export default function JournalPostPage() {
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
               Read the decision at its source instead of taking this summary on trust.
             </p>
-          </aside>
+          </Reveal>
         )}
 
         {(prev || next) && (
-          <nav aria-label="Other entries" className="mt-20 grid gap-px pt-10 sm:grid-cols-2">
+          <Reveal as="nav" delay={stagger(1)} aria-label="Other entries" className="mt-20 grid gap-6 pt-10 sm:grid-cols-2">
             {prev ? (
               <Link
                 to={`/journal/${prev.slug}`}
@@ -157,7 +163,7 @@ export default function JournalPostPage() {
                 </p>
               </Link>
             )}
-          </nav>
+          </Reveal>
         )}
       </div>
     </article>
