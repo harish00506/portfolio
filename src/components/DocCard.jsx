@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
  *                line now shows and the rest open on request.
  *   2026-10-31 - Taste-skill restyle: a filled surface with no outline, no file icon in the meta
  *                line, labels in full ink, and the note on a tone step instead of a left rule.
+ *   2026-10-31 - Lifts 4px on hover, so the card answers the pointer before the button does.
  *
  * The disclosure is a native <details>, not a scripted accordion: it is keyboard accessible for
  * free, and it still opens when JavaScript has not loaded — which matters on a site whose
@@ -30,7 +31,7 @@ export default function DocCard({ doc, form }) {
   const hidden = [doc.why, doc.like, doc.inside]
 
   return (
-    <Card className="flex flex-col border-0 bg-secondary p-6 sm:p-7">
+    <Card className="flex h-full flex-col border-0 bg-secondary p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-7">
       <div>
         <h3 className="display text-balance text-xl font-bold leading-tight text-foreground">
           {doc.title}
