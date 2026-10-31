@@ -9,7 +9,11 @@
  * Changelog:
  *   2026-10-24 - Created to frame app screenshots.
  *   2026-10-24 - Screenshots dropped; replaced by WorkedSum, and the figure frame simplified.
+ *   2026-10-31 - Taste-skill restyle: no outlined boxes or dashed borders; surfaces separate by a
+ *                tone step, outcomes use drawn check/cross icons instead of text glyphs, and the
+ *                data table stacks into labelled rows on a phone instead of scrolling sideways.
  */
+import { Check, X } from 'lucide-react'
 
 /**
  * A small subtraction, rendered as a table.
@@ -29,7 +33,7 @@ export function WorkedSum({ sum }) {
         <table className="w-full text-left">
           <tbody>
             {sum.rows.map(([label, value]) => (
-              <tr key={label} className="border-b border-border/60">
+              <tr key={label}>
                 <th scope="row" className="px-5 py-2.5 font-normal text-muted-foreground">
                   {label}
                 </th>
@@ -38,7 +42,7 @@ export function WorkedSum({ sum }) {
                 </td>
               </tr>
             ))}
-            <tr className="bg-secondary/60">
+            <tr className="border-t-2 border-foreground">
               <th scope="row" className="px-5 py-3.5 font-semibold text-foreground">
                 {totalLabel}
               </th>
@@ -73,17 +77,18 @@ export function DataTable({ table }) {
 
   return (
     <figure className="mt-8">
-      {/* Horizontal scroll rather than a squeeze: three columns of real text cannot wrap into
-          320px without becoming unreadable, and a scrolling table is honest about that. */}
-      <div className="overflow-x-auto rounded-lg border border-border bg-card">
-        <table className="w-full min-w-[32rem] text-left text-sm">
-          <thead>
-            <tr className="border-b border-border bg-secondary/60">
+      {/* Below the sm breakpoint each row stacks into a block and every cell carries its column
+          name (data-label), so three columns of real text read top to bottom on a phone instead
+          of scrolling sideways past the screen edge. */}
+      <div className="bg-secondary">
+        <table className="w-full text-left text-sm">
+          <thead className="max-sm:sr-only">
+            <tr className="border-b-2 border-foreground">
               {table.head.map((h) => (
                 <th
                   key={h}
                   scope="col"
-                  className="px-5 py-3 text-sm font-medium text-muted-foreground"
+                  className="px-5 py-3 text-sm font-semibold text-foreground"
                 >
                   {h}
                 </th>
@@ -92,14 +97,15 @@ export function DataTable({ table }) {
           </thead>
           <tbody>
             {table.rows.map((row) => (
-              <tr key={row[0]} className="border-b border-border/60 last:border-0">
+              <tr key={row[0]} className="border-b border-border last:border-0 max-sm:block max-sm:py-3">
                 {row.map((cell, i) => (
                   <td
                     key={i}
+                    data-label={table.head[i]}
                     className={
                       i === 0
-                        ? 'px-5 py-3 font-medium text-foreground'
-                        : 'px-5 py-3 leading-relaxed text-muted-foreground'
+                        ? 'px-5 py-3 font-semibold text-foreground max-sm:block max-sm:py-1 max-sm:text-base'
+                        : 'px-5 py-3 leading-relaxed text-foreground max-sm:block max-sm:py-1 max-sm:before:block max-sm:before:font-semibold max-sm:before:text-muted-foreground max-sm:before:content-[attr(data-label)]'
                     }
                   >
                     {cell}
@@ -140,7 +146,7 @@ export function FlowDiagram({ flow }) {
         <ol className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-0">
           {flow.steps.map((step, i) => (
             <li key={step.label} className="flex flex-1 flex-col sm:flex-row sm:items-center">
-              <div className="flex-1 rounded-md border border-border bg-background px-4 py-3">
+              <div className="flex-1 bg-background px-4 py-3">
                 <p className="font-semibold leading-snug text-foreground">{step.label}</p>
                 <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{step.detail}</p>
               </div>
@@ -165,17 +171,23 @@ export function FlowDiagram({ flow }) {
           {flow.outcomes.map((o) => (
             <li
               key={o.label}
-              className={`rounded-md border px-4 py-3 ${
-                o.tone === 'pass' ? 'border-border bg-background' : 'border-dashed border-border bg-secondary/50'
+              // Pass is the solid surface; fail is the carmine field, so the branch reads by
+              // colour and by icon, never by colour alone.
+              className={`px-4 py-3 ${
+                o.tone === 'pass' ? 'bg-background text-foreground' : 'bg-primary text-primary-foreground'
               }`}
             >
-              <p className="font-semibold leading-snug text-foreground">
-                <span aria-hidden className="mr-1.5 text-muted-foreground">
-                  {o.tone === 'pass' ? '✓' : '✕'}
-                </span>
+              <p className="flex items-center gap-2 font-semibold leading-snug">
+                {o.tone === 'pass' ? (
+                  <Check aria-hidden size={18} strokeWidth={2.5} className="flex-none text-primary" />
+                ) : (
+                  <X aria-hidden size={18} strokeWidth={2.5} className="flex-none" />
+                )}
                 {o.label}
               </p>
-              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{o.detail}</p>
+              <p className={`mt-1 text-sm leading-relaxed ${o.tone === 'pass' ? 'text-muted-foreground' : ''}`}>
+                {o.detail}
+              </p>
             </li>
           ))}
         </ul>
@@ -197,15 +209,15 @@ export function FlowDiagram({ flow }) {
  * Input:  figure - { src, alt, caption }.
  * Output: a <figure>, or null when no figure was supplied.
  *
- * The pale surface is kept in both themes: the map is drawn on white, and a light panel reads as
- * a diagram rather than as a styling mistake when the page is dark.
+ * The map is drawn on white, so its panel is the secondary tone step rather than a raw hex: light
+ * in the light theme, and a framed plate around the white drawing in the dark one.
  */
 export default function ArticleFigure({ figure }) {
   if (!figure) return null
 
   return (
     <figure className="mt-10">
-      <div className="overflow-hidden rounded-lg border border-border bg-[#fcfcfd] p-3 sm:p-5">
+      <div className="overflow-hidden bg-secondary p-3 sm:p-5">
         <img
           src={figure.src}
           alt={figure.alt}

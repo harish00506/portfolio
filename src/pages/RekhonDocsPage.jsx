@@ -37,11 +37,11 @@ export default function RekhonDocsPage() {
     <article className="pb-24 pt-28 sm:pt-32">
       <div className="container-x">
         <header>
-          <h1 className="display max-w-[24ch] text-balance text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase leading-[0.98] text-foreground">
+          <h1 className="display max-w-[22ch] text-balance text-[clamp(1.875rem,6vw,4.5rem)] font-extrabold leading-[0.98] text-foreground">
             {docsMeta.h1}
           </h1>
           <p className="kicker mt-4">{docsMeta.kicker}</p>
-          <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">
+          <p className="mt-6 max-w-3xl text-xl leading-relaxed text-foreground">
             {docsMeta.tagline}
           </p>
 
@@ -65,7 +65,7 @@ export default function RekhonDocsPage() {
           {docsMeta.intro.map((p) => (
             <p
               key={p.slice(0, 40)}
-              className="max-w-[68ch] text-lg leading-relaxed text-foreground/85"
+              className="max-w-[68ch] text-lg leading-relaxed text-foreground"
             >
               {p}
             </p>
@@ -77,15 +77,15 @@ export default function RekhonDocsPage() {
             whether you do. Every picture is an artefact the app's own build produces. */}
         <nav
           aria-label="What this page explains"
-          className="mt-14 rounded-lg border border-border bg-secondary/50 p-6"
+          className="mt-14 bg-secondary p-6"
         >
-          <p className="kicker">What this page explains</p>
+          <h2 className="display text-xl font-bold text-foreground">What this page explains</h2>
           <ol className="mt-4 grid gap-2 sm:grid-cols-2">
             {articleContents.map((c, i) => (
               <li key={c.id}>
                 <a
                   href={`#${c.id}`}
-                  className="rounded-sm text-sm leading-relaxed text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="rounded-sm leading-relaxed text-foreground underline decoration-primary/60 underline-offset-[4px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {c.heading}
                 </a>
@@ -105,7 +105,7 @@ export default function RekhonDocsPage() {
             {section.body.map((para) => (
               <p
                 key={para.slice(0, 40)}
-                className="mt-5 max-w-[68ch] text-lg leading-relaxed text-foreground/85"
+                className="mt-5 max-w-[68ch] text-lg leading-relaxed text-foreground"
               >
                 {para}
               </p>
@@ -125,7 +125,7 @@ export default function RekhonDocsPage() {
           >
             Now the papers themselves
           </h2>
-          <p className="mt-4 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
+          <p className="mt-4 max-w-[68ch] text-lg leading-relaxed text-foreground">
             That was the short version. Underneath it sit {docTotals.documents} documents and{' '}
             {docTotals.pages} pages, free to download, none of which you need in order to have
             understood the article above. Each one gets the same four lines so you can tell in ten
@@ -136,16 +136,14 @@ export default function RekhonDocsPage() {
         {/* The four labels, explained once. Every card below repeats them in this order, so a
             reader who reads one knows the shape of the rest. */}
         <section aria-labelledby="form-title" className="mt-14">
-          <h2 id="form-title" className="kicker">
+          <h2 id="form-title" className="display text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl">
             Every document gets the same four lines
           </h2>
-          <ol className="mt-5 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
+          <ol className="mt-5 grid gap-2 sm:grid-cols-2">
             {docsMeta.form.map((field) => (
-              <li key={field.label} className="bg-card p-5">
-                <p className="text-sm font-medium text-brand">
-                  {field.label}
-                </p>
-                <p className="mt-1.5 text-sm leading-snug text-muted-foreground">{field.hint}</p>
+              <li key={field.label} className="bg-secondary p-5">
+                <p className="font-semibold text-foreground">{field.label}</p>
+                <p className="mt-1 leading-snug text-muted-foreground">{field.hint}</p>
               </li>
             ))}
           </ol>
@@ -155,18 +153,18 @@ export default function RekhonDocsPage() {
             sitelinks in search results. */}
         <nav
           aria-label="On this page"
-          className="mt-14 rounded-lg border border-border bg-secondary/50 p-6"
+          className="mt-14 bg-secondary p-6"
         >
-          <p className="kicker">On this page</p>
+          <h2 className="display text-xl font-bold text-foreground">On this page</h2>
           <ul className="mt-4 grid gap-2 sm:grid-cols-2">
             {docContents.map((c) => (
               <li key={c.id}>
                 <a
                   href={`#${c.id}`}
-                  className="rounded-sm text-sm leading-relaxed text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="rounded-sm leading-relaxed text-foreground underline decoration-primary/60 underline-offset-[4px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {c.title}{' '}
-                  <span className="text-sm font-medium text-muted-foreground">({c.count})</span>
+                  <span className="text-muted-foreground">({c.count})</span>
                 </a>
               </li>
             ))}
@@ -196,7 +194,7 @@ export default function RekhonDocsPage() {
             the reader who might want them, so the pointer goes here rather than only in the nav. */}
         <section
           aria-labelledby="design-title"
-          className="mt-20 rounded-lg border border-border bg-secondary/50 p-6 sm:p-8"
+          className="mt-20 bg-secondary p-6 sm:p-8"
         >
           <h2
             id="design-title"
@@ -226,14 +224,14 @@ export default function RekhonDocsPage() {
           >
             Where these come from
           </h2>
-          <p className="mt-4 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
+          <p className="mt-4 max-w-[68ch] text-lg leading-relaxed text-foreground">
             All {docTotals.documents} are copies of files in the app&rsquo;s own repository, taken
             at version {docsSource.version} on {formatDay(docsSource.copiedOn)} — the path under
             each download button is where the original lives. They are written and rebuilt
             alongside the code, not assembled for this page, which is the only reason the figures in
             them are worth anything.
           </p>
-          <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
+          <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground">
             One difference worth explaining before you notice it yourself. The case study counts{' '}
             {rekhonCounted.tests} tests and {rekhonCounted.adrs} decision records, because it counts
             the public branch, which is still at v{rekhonCounted.version}. These documents describe
@@ -241,7 +239,7 @@ export default function RekhonDocsPage() {
             {docsSource.adrs}. Same project, a fortnight apart, and both numbers were counted rather
             than remembered.
           </p>
-          <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground/85">
+          <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground">
             Every one of them is printed by a script from a source that lives beside the code, so
             none is a second copy somebody has to remember to update. Two go further: the picture
             book is assembled from the screenshots the test suite itself records, and the map is
@@ -252,19 +250,19 @@ export default function RekhonDocsPage() {
           <div className="mt-8 flex flex-wrap gap-6">
             <Link
               to="/rekhon"
-              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-base font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-[6px] transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               What the app is
             </Link>
             <Link
               to={rekhon.caseStudy}
-              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-base font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-[6px] transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               How it was built
             </Link>
             <Link
               to="/journal"
-              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-base font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-[6px] transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Journal entries
             </Link>
