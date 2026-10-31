@@ -22,3 +22,6 @@ pnpm-debug.log*
 .DS_Store
 *.local
 Thumbs.db
+
+# design-taste-frontend working files (screenshots, reports)
+.taste-skill/

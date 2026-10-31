@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { ArrowLeft, Github } from 'lucide-react'
 import DocCard from '../components/DocCard.jsx'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { rekhon } from '../data/rekhon.js'
 import { designMeta, designDocs, designTotals } from '../data/rekhonDesign.js'
 
@@ -20,10 +19,10 @@ export default function RekhonDesignPage() {
     <article className="pb-24 pt-28 sm:pt-32">
       <div className="container-x">
         <header>
-          <p className="kicker">{designMeta.kicker}</p>
-          <h1 className="display mt-5 max-w-[24ch] text-balance text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase leading-[0.98] text-foreground">
+          <h1 className="display max-w-[24ch] text-balance text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase leading-[0.98] text-foreground">
             {designMeta.h1}
           </h1>
+          <p className="kicker mt-4">{designMeta.kicker}</p>
           <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">
             {designMeta.tagline}
           </p>
@@ -67,7 +66,6 @@ export default function RekhonDesignPage() {
         </section>
 
         <section aria-labelledby="whats-next-title" className="mt-20">
-          <Separator className="mb-10" />
           <h2
             id="whats-next-title"
             className="display text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl"
@@ -84,19 +82,19 @@ export default function RekhonDesignPage() {
           <div className="mt-8 flex flex-wrap gap-6">
             <Link
               to="/rekhon/docs"
-              className="inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               The documents
             </Link>
             <Link
               to="/rekhon"
-              className="inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               What the app is
             </Link>
             <Link
               to={rekhon.caseStudy}
-              className="inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               How it was built
             </Link>

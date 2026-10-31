@@ -13,7 +13,7 @@ const meta = [
  */
 export default function About({ headingLevel = 2 }) {
   return (
-    <Section id="about" index="01" kicker="About" title="A bit about me" alt headingLevel={headingLevel}>
+    <Section id="about" title="A bit about me" alt headingLevel={headingLevel}>
       <div className="grid gap-12 md:grid-cols-[1.7fr_1fr] md:gap-16">
         <Reveal className="space-y-6">
           {profile.about.map((para, i) => (
@@ -22,7 +22,7 @@ export default function About({ headingLevel = 2 }) {
               className={
                 i === 0
                   ? 'display text-2xl font-medium leading-snug text-foreground sm:text-[1.7rem]'
-                  : 'max-w-prose text-lg leading-relaxed text-muted-foreground'
+                  : 'max-w-prose text-lg leading-relaxed text-foreground'
               }
             >
               {para}
@@ -31,13 +31,13 @@ export default function About({ headingLevel = 2 }) {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <dl className="divide-y divide-border border-y border-border">
+          <dl className="space-y-5 bg-background p-6 sm:p-8">
             {meta.map((item) => (
-              <div key={item.k} className="flex items-baseline justify-between gap-4 py-4">
-                <dt className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
+              <div key={item.k} className="flex flex-col gap-1">
+                <dt className="text-sm font-medium text-muted-foreground">
                   {item.k}
                 </dt>
-                <dd className="text-right font-medium text-foreground">{item.v}</dd>
+                <dd className="text-lg font-semibold text-foreground">{item.v}</dd>
               </div>
             ))}
           </dl>

@@ -24,15 +24,11 @@ import { profile } from '../data/portfolio.js'
 import ThemeToggle from './ThemeToggle.jsx'
 
 const links = [
-  { to: '/', label: 'Home', n: '01', end: true },
-  { to: '/works', label: 'Work', n: '02' },
-  { to: '/journal', label: 'Journal', n: '03' },
-  { to: '/about', label: 'About', n: '04' },
+  { to: '/', label: 'Home', end: true },
+  { to: '/works', label: 'Work' },
+  { to: '/journal', label: 'Journal' },
+  { to: '/about', label: 'About' },
 ]
-
-// Contact is not a route, so it is not in `links`, and its number was typed in twice as "04" —
-// the same number About already carries. Derived here so the sequence cannot break again.
-const contactIndex = String(links.length + 1).padStart(2, '0')
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -60,10 +56,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? 'border-b border-border bg-background/80 backdrop-blur-md'
-          : 'border-b border-transparent bg-transparent'
+          ? 'bg-background'
+          : 'bg-transparent'
       }`}
     >
       <nav className="container-x flex h-16 items-center justify-between">
@@ -74,7 +70,7 @@ export default function Navbar() {
           <span className="grid h-8 w-8 place-items-center rounded-md bg-foreground font-display text-sm font-bold text-background transition-colors group-hover:bg-primary">
             HG
           </span>
-          <span className="hidden font-mono text-sm font-medium tracking-tight text-foreground sm:inline">
+          <span className="hidden font-display text-base font-semibold tracking-tight text-foreground sm:inline">
             harish<span className="text-primary">.</span>g
           </span>
           <span className="sr-only">Home</span>
@@ -90,19 +86,11 @@ export default function Navbar() {
                   to={l.to}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'group flex items-baseline gap-1.5 text-sm font-medium transition-colors',
+                    'group flex items-baseline text-[0.95rem] font-medium transition-colors',
                     active ? 'text-foreground' : 'text-muted-foreground hover:text-foreground',
                   )}
                 >
-                  <span
-                    className={cn(
-                      'font-mono text-[0.65rem] transition-colors',
-                      active ? 'text-primary' : 'text-muted-foreground group-hover:text-primary',
-                    )}
-                  >
-                    {l.n}
-                  </span>
-                  <span className={cn('link-underline', active && 'bg-[length:100%_1.5px]')}>
+                  <span className="link-underline">
                     {l.label}
                   </span>
                 </Link>
@@ -112,11 +100,8 @@ export default function Navbar() {
           <li>
             <Link
               to="/#contact"
-              className="group flex items-baseline gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="group flex items-baseline text-[0.95rem] font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              <span className="font-mono text-[0.65rem] text-muted-foreground group-hover:text-primary">
-                {contactIndex}
-              </span>
               <span className="link-underline">Contact</span>
             </Link>
           </li>
@@ -153,7 +138,7 @@ export default function Navbar() {
                 {links.map((l) => {
                   const active = isActive(l.to, l.end)
                   return (
-                    <li key={l.to} className="border-b border-border/70">
+                    <li key={l.to}>
                       <SheetClose asChild>
                         <Link
                           to={l.to}
@@ -163,20 +148,18 @@ export default function Navbar() {
                             active ? 'text-primary' : 'text-muted-foreground hover:text-primary',
                           )}
                         >
-                          <span className="font-mono text-xs text-muted-foreground">{l.n}</span>
                           {l.label}
                         </Link>
                       </SheetClose>
                     </li>
                   )
                 })}
-                <li className="border-b border-border/70">
+                <li>
                   <SheetClose asChild>
                     <Link
                       to="/#contact"
                       className="flex items-baseline gap-3 py-3.5 text-base font-medium text-muted-foreground transition-colors hover:text-primary"
                     >
-                      <span className="font-mono text-xs text-muted-foreground">{contactIndex}</span>
                       Contact
                     </Link>
                   </SheetClose>

@@ -12,7 +12,8 @@ export const site = {
 export const profile = {
   name: 'Harish G',
   title: 'Agentic AI & Automation Engineer',
-  tagline: 'Multi-stack engineer (Java · Python · JavaScript) building scalable backends and AI-driven applications.',
+  tagline: 'I build voice agents, RAG pipelines and the Java, Python and JavaScript backends they run on.',
+  availability: 'Open to AI, backend and full-stack roles.',
   location: 'Bengaluru, India',
   metaDescription:
     'Harish G is an Agentic AI & Automation Engineer in Bengaluru building Gemini Live voice agents, tool-calling systems and RAG with Python, FastAPI and Java.',
@@ -21,15 +22,15 @@ export const profile = {
   resumeUrl: '/resume.pdf',
   photo: '/profile.jpg',
   contactNote:
-    'I am open to AI engineering, backend and full-stack roles. Whether you have a role in mind or just want to talk shop, my inbox is always open.',
+    'I am looking for AI engineering, backend or full-stack work. If you are hiring for one of those, or want to compare notes on voice agents or RAG, email me.',
   socials: {
     github: 'https://github.com/harish00506/',
     linkedin: 'https://www.linkedin.com/in/harishgreddy/',
   },
   about: [
-    'Software Developer at CortexCraft.ai since January 2026, with hands-on experience across the Java, Python and JavaScript ecosystems and several years of freelance web and app development. I build scalable backend systems with Spring Boot, Express.js and FastAPI, and integrate AI technologies such as LLMs, STT, TTS and agent-based workflows into real-world products.',
+    'I have been a Software Developer at CortexCraft.ai since January 2026, after several years of freelance web and app work. I write backends in Spring Boot, Express.js and FastAPI, and connect them to LLMs, speech-to-text, text-to-speech and tool-calling agents.',
     'I work the way the repositories show: feature branches, a GitLab CI pipeline, and 132 pytest files on the voice-agent platform acting as the merge gate rather than an afterthought. On the AI side I keep the model constrained: tool calls go through declared functions, and extracted call data is coerced to its declared type before anything downstream trusts it.',
-    'I focus on intelligent, automation-driven systems and clean, modular architecture, and I am looking for roles in AI engineering, backend, or full-stack development where I can ship products that combine solid engineering with practical AI.',
+    'Most of what I build automates a job someone used to do by hand: dialling a lead list, taking a survey call, answering a banking question. I want to keep doing that in an AI engineering, backend or full-stack role.',
   ],
 }
 

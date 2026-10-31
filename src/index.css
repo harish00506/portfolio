@@ -7,6 +7,9 @@
  *         `dark` class on <html> (set before paint by index.html, then by ThemeToggle) swaps the palette.
  * Changelog: 2026-09-12 - Replaced Editorial Light with Switchboard (carmine on near-white, graphite
  *            dark) and activated the dark palette. Contrast: every text pairing is at least 5.6:1.
+ *            2026-10-31 - Taste-skill restyle: the kicker is sentence case in the text face, the link
+ *            underline is a real text-decoration instead of a background gradient, and Martian Mono
+ *            is kept for code only.
  */
 /* ---- Self-hosted type ------------------------------------------------------
  * The three families used to come from fonts.googleapis.com, which cost a
@@ -236,22 +239,24 @@
     @apply display text-4xl font-bold leading-[1.02] text-foreground sm:text-5xl lg:text-6xl;
   }
 
-  /* Monospace kicker label. Martian Mono runs wide, so the tracking stays modest. */
+  /* A short context line (category, date) in sentence case. It sits beside or below a heading,
+     never as a tracked-caps label above one: those read as template costume. */
   .kicker {
-    @apply inline-flex items-center gap-2 font-mono text-[0.68rem] font-medium uppercase tracking-[0.16em] text-brand;
+    @apply inline-flex items-center gap-2 text-sm font-semibold text-brand;
   }
 
-  /* Animated underline that wipes in on hover. */
+  /* Underline that fades in on hover and stays on the current page's link. */
   .link-underline {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-position: 0% 100%;
-    background-repeat: no-repeat;
-    background-size: 0% 1.5px;
-    transition: background-size 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: transparent;
+    text-underline-offset: 6px;
+    transition: text-decoration-color 0.2s ease-out;
   }
 
-  .link-underline:hover {
-    background-size: 100% 1.5px;
+  .link-underline:hover,
+  [aria-current='page'] > .link-underline {
+    text-decoration-color: hsl(var(--primary));
   }
 }
 

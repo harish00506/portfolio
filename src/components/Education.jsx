@@ -5,11 +5,11 @@ import { education } from '../data/portfolio.js'
 
 export default function Education() {
   return (
-    <Section id="education" index="04" kicker="Education" title="Academic background" alt>
+    <Section id="education" title="Academic background" alt>
       <div className="grid gap-6 md:grid-cols-[1.3fr_1fr]">
         <Reveal>
           <Card className="flex h-full flex-col p-7">
-            <span className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-brand-accent">
+            <span className="text-sm font-medium text-brand-accent">
               Degree
             </span>
             <h3 className="display mt-3 text-2xl font-medium leading-snug text-foreground">
@@ -21,7 +21,7 @@ export default function Education() {
 
         <Reveal delay={0.1}>
           <Card className="flex h-full flex-col p-7">
-            <h3 className="flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-brand-accent">
+            <h3 className="flex items-center gap-2 text-sm font-medium text-brand-accent">
               <Award size={15} />
               Highlights
             </h3>

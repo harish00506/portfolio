@@ -25,7 +25,7 @@ export function WorkedSum({ sum }) {
 
   return (
     <figure className="mt-8">
-      <div className="max-w-[30rem] overflow-hidden rounded-lg border border-border bg-card shadow-card">
+      <div className="max-w-[30rem] overflow-hidden bg-secondary">
         <table className="w-full text-left">
           <tbody>
             {sum.rows.map(([label, value]) => (
@@ -33,7 +33,7 @@ export function WorkedSum({ sum }) {
                 <th scope="row" className="px-5 py-2.5 font-normal text-muted-foreground">
                   {label}
                 </th>
-                <td className="px-5 py-2.5 text-right font-mono tabular-nums text-foreground">
+                <td className="px-5 py-2.5 text-right tabular-nums text-foreground">
                   {value}
                 </td>
               </tr>
@@ -42,7 +42,7 @@ export function WorkedSum({ sum }) {
               <th scope="row" className="px-5 py-3.5 font-semibold text-foreground">
                 {totalLabel}
               </th>
-              <td className="px-5 py-3.5 text-right font-mono text-lg font-semibold tabular-nums text-primary">
+              <td className="px-5 py-3.5 text-right text-lg font-semibold tabular-nums text-primary">
                 {totalValue}
               </td>
             </tr>
@@ -75,7 +75,7 @@ export function DataTable({ table }) {
     <figure className="mt-8">
       {/* Horizontal scroll rather than a squeeze: three columns of real text cannot wrap into
           320px without becoming unreadable, and a scrolling table is honest about that. */}
-      <div className="overflow-x-auto rounded-lg border border-border bg-card shadow-card">
+      <div className="overflow-x-auto rounded-lg border border-border bg-card">
         <table className="w-full min-w-[32rem] text-left text-sm">
           <thead>
             <tr className="border-b border-border bg-secondary/60">
@@ -83,7 +83,7 @@ export function DataTable({ table }) {
                 <th
                   key={h}
                   scope="col"
-                  className="px-5 py-3 font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground"
+                  className="px-5 py-3 text-sm font-medium text-muted-foreground"
                 >
                   {h}
                 </th>
@@ -136,7 +136,7 @@ export function FlowDiagram({ flow }) {
 
   return (
     <figure className="mt-8">
-      <div className="rounded-lg border border-border bg-card p-5 shadow-card sm:p-6">
+      <div className="bg-secondary p-5 sm:p-6">
         <ol className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-0">
           {flow.steps.map((step, i) => (
             <li key={step.label} className="flex flex-1 flex-col sm:flex-row sm:items-center">
@@ -147,7 +147,7 @@ export function FlowDiagram({ flow }) {
               {i < flow.steps.length - 1 && (
                 <span
                   aria-hidden
-                  className="flex-none self-center px-2 py-1 font-mono text-muted-foreground"
+                  className="flex-none self-center px-2 py-1 text-muted-foreground"
                 >
                   <span className="sm:hidden">↓</span>
                   <span className="hidden sm:inline">→</span>
@@ -157,7 +157,7 @@ export function FlowDiagram({ flow }) {
           ))}
         </ol>
 
-        <p aria-hidden className="mt-4 text-center font-mono text-muted-foreground">
+        <p aria-hidden className="mt-4 text-center text-muted-foreground">
           ↓
         </p>
 
@@ -170,7 +170,7 @@ export function FlowDiagram({ flow }) {
               }`}
             >
               <p className="font-semibold leading-snug text-foreground">
-                <span aria-hidden className="mr-1.5 font-mono text-muted-foreground">
+                <span aria-hidden className="mr-1.5 text-muted-foreground">
                   {o.tone === 'pass' ? '✓' : '✕'}
                 </span>
                 {o.label}
@@ -205,7 +205,7 @@ export default function ArticleFigure({ figure }) {
 
   return (
     <figure className="mt-10">
-      <div className="overflow-hidden rounded-lg border border-border bg-[#fcfcfd] p-3 shadow-card sm:p-5">
+      <div className="overflow-hidden rounded-lg border border-border bg-[#fcfcfd] p-3 sm:p-5">
         <img
           src={figure.src}
           alt={figure.alt}

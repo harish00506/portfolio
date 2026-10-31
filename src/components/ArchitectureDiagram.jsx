@@ -21,9 +21,9 @@ export default function ArchitectureDiagram({ diagram }) {
   const { title, steps = [], stores = [] } = diagram
 
   return (
-    <figure className="rounded-lg border border-border bg-card p-5 sm:p-8">
+    <figure className="bg-secondary p-5 sm:p-8">
       <figcaption className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-        <span className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+        <span className="text-sm font-medium text-muted-foreground">
           How it works
         </span>
         <span className="display text-lg font-bold text-foreground sm:text-xl">{title}</span>
@@ -35,13 +35,13 @@ export default function ArchitectureDiagram({ diagram }) {
       >
         {steps.map(({ label, detail }, i) => (
           <li key={label} className="relative">
-            <div className="h-full rounded-md border border-border bg-background p-3">
-              <span className="font-mono text-[0.65rem] text-primary">
-                {String(i + 1).padStart(2, '0')}
+            <div className="h-full bg-secondary p-4">
+              <span className="text-sm font-medium text-primary">
+                {i + 1}
               </span>
               <p className="mt-1 text-sm font-semibold leading-snug text-foreground">{label}</p>
               {detail && (
-                <p className="mt-1 break-words font-mono text-[0.65rem] leading-snug text-muted-foreground">
+                <p className="mt-1 break-words text-sm font-medium leading-snug text-muted-foreground">
                   {detail}
                 </p>
               )}
@@ -65,10 +65,10 @@ export default function ArchitectureDiagram({ diagram }) {
       </ol>
 
       {stores.length > 0 && (
-        <p className="mt-7 flex flex-wrap items-center gap-2 border-t border-border pt-4 font-mono text-xs text-muted-foreground">
-          <span className="mr-1 uppercase tracking-[0.14em]">Data</span>
+        <p className="mt-7 flex flex-wrap items-center gap-2 pt-4 text-sm font-medium text-muted-foreground">
+          <span className="mr-1">Data</span>
           {stores.map((store) => (
-            <span key={store} className="rounded border border-border px-2 py-0.5 text-foreground">
+            <span key={store} className="bg-background px-2 py-0.5 text-foreground">
               {store}
             </span>
           ))}

@@ -47,7 +47,7 @@ export default function ProseBlock({ block, headingClass }) {
             {block.text}
           </blockquote>
           {block.cite && (
-            <figcaption className="mt-2 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+            <figcaption className="mt-2 text-sm font-medium text-muted-foreground">
               {block.cite}
             </figcaption>
           )}

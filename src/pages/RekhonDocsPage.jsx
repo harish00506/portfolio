@@ -3,7 +3,6 @@ import { ArrowLeft, Github, Palette } from 'lucide-react'
 import DocCard from '../components/DocCard.jsx'
 import ArticleFigure, { WorkedSum, DataTable, FlowDiagram } from '../components/ArticleFigure.jsx'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { rekhon, rekhonCounted } from '../data/rekhon.js'
 import { docsMeta, docGroups, docContents, docTotals, docsSource } from '../data/rekhonDocs.js'
 import { articleSections, articleContents } from '../data/rekhonArticle.js'
@@ -38,10 +37,10 @@ export default function RekhonDocsPage() {
     <article className="pb-24 pt-28 sm:pt-32">
       <div className="container-x">
         <header>
-          <p className="kicker">{docsMeta.kicker}</p>
-          <h1 className="display mt-5 max-w-[24ch] text-balance text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase leading-[0.98] text-foreground">
+          <h1 className="display max-w-[24ch] text-balance text-[clamp(2.25rem,6vw,4.5rem)] font-extrabold uppercase leading-[0.98] text-foreground">
             {docsMeta.h1}
           </h1>
+          <p className="kicker mt-4">{docsMeta.kicker}</p>
           <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">
             {docsMeta.tagline}
           </p>
@@ -88,9 +87,6 @@ export default function RekhonDocsPage() {
                   href={`#${c.id}`}
                   className="rounded-sm text-sm leading-relaxed text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <span className="font-mono text-xs text-muted-foreground">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>{' '}
                   {c.heading}
                 </a>
               </li>
@@ -121,7 +117,6 @@ export default function RekhonDocsPage() {
           </section>
         ))}
 
-        <Separator className="mt-20" />
 
         <section aria-labelledby="library-title" className="mt-16">
           <h2
@@ -147,7 +142,7 @@ export default function RekhonDocsPage() {
           <ol className="mt-5 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
             {docsMeta.form.map((field) => (
               <li key={field.label} className="bg-card p-5">
-                <p className="font-mono text-xs uppercase tracking-[0.14em] text-brand">
+                <p className="text-sm font-medium text-brand">
                   {field.label}
                 </p>
                 <p className="mt-1.5 text-sm leading-snug text-muted-foreground">{field.hint}</p>
@@ -171,7 +166,7 @@ export default function RekhonDocsPage() {
                   className="rounded-sm text-sm leading-relaxed text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {c.title}{' '}
-                  <span className="font-mono text-xs text-muted-foreground">({c.count})</span>
+                  <span className="text-sm font-medium text-muted-foreground">({c.count})</span>
                 </a>
               </li>
             ))}
@@ -225,7 +220,6 @@ export default function RekhonDocsPage() {
         </section>
 
         <section aria-labelledby="whole-set-title" className="mt-20">
-          <Separator className="mb-10" />
           <h2
             id="whole-set-title"
             className="display text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl"
@@ -258,19 +252,19 @@ export default function RekhonDocsPage() {
           <div className="mt-8 flex flex-wrap gap-6">
             <Link
               to="/rekhon"
-              className="inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               What the app is
             </Link>
             <Link
               to={rekhon.caseStudy}
-              className="inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               How it was built
             </Link>
             <Link
               to="/journal"
-              className="inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Journal entries
             </Link>

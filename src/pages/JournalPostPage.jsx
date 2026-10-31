@@ -3,7 +3,6 @@ import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
 import ProseBlock from '../components/ProseBlock.jsx'
 import NotFoundPage from './NotFoundPage.jsx'
 import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import { getEntryBySlug, publishedEntries } from '../data/journal.js'
 import { getProjectBySlug } from '../data/portfolio.js'
 
@@ -54,18 +53,21 @@ export default function JournalPostPage() {
       <div className="container-x">
         <Link
           to="/journal"
-          className="group inline-flex items-center gap-2 rounded-sm font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="group inline-flex items-center gap-2 rounded-sm text-sm font-medium text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <ArrowLeft size={14} aria-hidden className="transition-transform group-hover:-translate-x-1" />
           Build journal
         </Link>
 
         <header className="mt-10">
-          <p className="kicker">
+          <h1 className="display max-w-[22ch] text-balance text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase leading-[0.98] text-foreground">
+            {title}
+          </h1>
+          <p className="kicker mt-4">
             <time dateTime={date}>{formatDay(date)}</time>
             {parent && (
               <>
-                <span aria-hidden className="text-muted-foreground/40">
+                <span aria-hidden className="text-muted-foreground">
                   /
                 </span>
                 <Link
@@ -77,10 +79,6 @@ export default function JournalPostPage() {
               </>
             )}
           </p>
-
-          <h1 className="display mt-5 max-w-[22ch] text-balance text-[clamp(2.25rem,6vw,4.25rem)] font-extrabold uppercase leading-[0.98] text-foreground">
-            {title}
-          </h1>
           <p className="mt-6 max-w-3xl text-xl leading-relaxed text-muted-foreground">{summary}</p>
 
           {tags.length > 0 && (
@@ -94,7 +92,7 @@ export default function JournalPostPage() {
           )}
 
           {compiled && (
-            <p className="mt-8 max-w-[68ch] rounded-lg border border-dashed border-border bg-secondary/50 p-4 text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-8 max-w-[68ch] bg-secondary p-4 text-sm leading-relaxed text-muted-foreground">
               Compiled from the repository’s decision records and changelog rather than written as a
               first-person account. The reasoning is the project’s; the summarising is editorial.
               {source && ' The record itself is linked at the end.'}
@@ -102,7 +100,6 @@ export default function JournalPostPage() {
           )}
         </header>
 
-        <Separator className="mt-12" />
 
         <div className="mt-2">
           {body.map((block, i) => (
@@ -111,7 +108,7 @@ export default function JournalPostPage() {
         </div>
 
         {source && (
-          <aside className="mt-16 rounded-lg border border-border bg-card p-6 shadow-card sm:p-7">
+          <aside className="mt-16 bg-secondary p-6 sm:p-7">
             <p className="kicker">Source</p>
             <a
               href={source.href}
@@ -129,13 +126,13 @@ export default function JournalPostPage() {
         )}
 
         {(prev || next) && (
-          <nav aria-label="Other entries" className="mt-20 grid gap-px border-t border-border pt-10 sm:grid-cols-2">
+          <nav aria-label="Other entries" className="mt-20 grid gap-px pt-10 sm:grid-cols-2">
             {prev ? (
               <Link
                 to={`/journal/${prev.slug}`}
                 className="group rounded-sm py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
                   <ArrowLeft size={14} aria-hidden className="transition-transform group-hover:-translate-x-1" />
                   Earlier
                 </span>
@@ -151,7 +148,7 @@ export default function JournalPostPage() {
                 to={`/journal/${next.slug}`}
                 className="group rounded-sm py-2 text-right focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:justify-self-end"
               >
-                <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                <span className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground">
                   Later
                   <ArrowRight size={14} aria-hidden className="transition-transform group-hover:translate-x-1" />
                 </span>

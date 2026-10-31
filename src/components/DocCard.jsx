@@ -33,7 +33,7 @@ export default function DocCard({ doc, form }) {
         <h3 className="display text-balance text-xl font-bold leading-tight text-foreground">
           {doc.title}
         </h3>
-        <p className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
+        <p className="mt-2 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm font-medium text-muted-foreground">
           <FileText aria-hidden className="h-3.5 w-3.5" />
           <span>PDF</span>
           <span aria-hidden>·</span>
@@ -48,14 +48,14 @@ export default function DocCard({ doc, form }) {
       <p className="mt-4 max-w-[60ch] leading-relaxed text-foreground/85">{doc.what}</p>
 
       <details className="group mt-4">
-        <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-sm font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-sm text-sm font-medium text-muted-foreground underline decoration-border underline-offset-[3px] transition-colors hover:text-primary hover:decoration-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
           <span className="group-open:hidden">Why I wrote it, and what is inside</span>
           <span className="hidden group-open:inline">Close</span>
         </summary>
         <dl className="mt-4 space-y-4">
           {form.slice(1).map((field, i) => (
             <div key={field.label}>
-              <dt className="font-mono text-[0.68rem] font-medium uppercase tracking-[0.16em] text-brand">
+              <dt className=" text-sm font-medium text-brand">
                 {field.label}
               </dt>
               <dd className="mt-1.5 max-w-[60ch] leading-relaxed text-foreground/85">
@@ -80,8 +80,8 @@ export default function DocCard({ doc, form }) {
             Download the PDF
           </a>
         </Button>
-        <p className="mt-3 font-mono text-[0.68rem] leading-relaxed text-muted-foreground">
-          <span className="uppercase tracking-[0.12em]">In the repo:</span> {doc.source}
+        <p className="mt-3 text-sm font-medium leading-relaxed text-muted-foreground">
+          <span className="">In the repo:</span> {doc.source}
         </p>
       </div>
     </Card>
