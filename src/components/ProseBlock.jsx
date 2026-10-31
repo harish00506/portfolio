@@ -7,6 +7,8 @@ import CodeSample from './CodeSample.jsx'
  * What: The shared renderer for a prose block array.
  * Result: One definition of how a paragraph, heading, quote, list and code sample look.
  * Changelog: 2026-10-11 - Extracted from JournalPostPage so the Rekhon page can share it.
+ *            2026-10-31 - Paragraphs and lists in full ink (the /85 fade failed the house rule
+ *            on running text); the quote sits on a tone step instead of a left rule.
  *
  * Blocks are data, not markup: a block cannot inject HTML, and an unrecognised `type` renders
  * nothing rather than throwing, so adding a type to the data before its case exists here cannot
@@ -38,11 +40,11 @@ export default function ProseBlock({ block, headingClass }) {
       )
     case 'p':
       return (
-        <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground/85">{block.text}</p>
+        <p className="mt-6 max-w-[68ch] text-lg leading-relaxed text-foreground">{block.text}</p>
       )
     case 'quote':
       return (
-        <figure className="mt-8 max-w-[62ch] border-l-2 border-primary pl-6">
+        <figure className="mt-8 max-w-[62ch] bg-secondary px-6 py-5">
           <blockquote className="text-lg italic leading-relaxed text-foreground">
             {block.text}
           </blockquote>
@@ -59,7 +61,7 @@ export default function ProseBlock({ block, headingClass }) {
           {block.items.map((item) => (
             <li
               key={item}
-              className="flex max-w-[66ch] gap-4 text-lg leading-relaxed text-foreground/85"
+              className="flex max-w-[66ch] gap-4 text-lg leading-relaxed text-foreground"
             >
               <span aria-hidden className="mt-3 h-1.5 w-1.5 flex-none bg-primary" />
               {item}
