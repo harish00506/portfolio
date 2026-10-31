@@ -1,0 +1,163 @@
+% ----------------------------------------------------------------------
+% Why:     Sticker Mule is hiring someone to build, run and retire a fleet of
+%          AI agents, and screens on whether the candidate has shipped agents
+%          that work unattended -- not on whether they can describe one. This
+%          variant leads with the agents that run on their own, the tool
+%          registries that connect them to real systems, and the measurement
+%          that decides whether one stays.
+% What:    One-page resume targeting the Sticker Mule AI Agents Engineer role,
+%          built from the resume-forge evidence ledger. Every number traces to
+%          a repository.
+% Result:  Four exhibits in the JD's own order -- build the agent, connect it
+%          to tools, measure it, swap the model when a better one ships.
+% Changed: 2026-10-05 -- created from assets/resume-template.tex for the
+%          Sticker Mule AI Agents Engineer posting.
+% Build:   bash ~/.claude/skills/resume-forge/scripts/build_resume.sh \
+%            public/resume-stickermule-ai-agents.tex
+% Check:   python3 ~/.claude/skills/resume-forge/scripts/evaluate_resume.py \
+%            public/resume-stickermule-ai-agents.tex --role agentic-ai \
+%            --min-score 85
+% Note:    The posting asks for Go and GraphQL. No repository in the ledger
+%          uses either, so neither is claimed anywhere on this page.
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.25cm,right=1.25cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - AI Agents Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+\setlist[itemize]{leftmargin=1.2em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.97}\selectfont
+\pagestyle{empty}
+
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+\newcommand{\sep}{\,\textperiodcentered\,}
+% Fixed-width label so every skills row starts at the same column. A fixed
+% \makebox overlapped its own content whenever a label was wider than the box,
+% so the gap is measured instead: aligned when the label fits, and a plain 0.6em
+% gap when it does not. A long label can never collide with the row again.
+\newlength{\skillwidth}\setlength{\skillwidth}{6.4em}
+\newlength{\skilllabel}
+\newcommand{\skill}[2]{%
+  \settowidth{\skilllabel}{\textbf{#1}}%
+  \hangindent=\skillwidth\hangafter=1%
+  \mbox{\textbf{#1}}%  \mbox so inner spaces cannot stretch under justification
+  \ifdim\skilllabel<\skillwidth\hspace{\dimexpr\skillwidth-\skilllabel}\else\hspace{0.6em}\fi
+  #2\par}
+
+\begin{document}
+
+{\LARGE\bfseries Harish G}\\[1pt]
+{\normalsize\bfseries AI Agents Engineer \textbar{} Autonomous Agents, Tool Calling, Guardrails, Agent Orchestration}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad
+\href{https://github.com/harish00506/}{GitHub} \quad\textbar\quad \href{https://www.harishg.com}{harishg.com}}
+
+\section{Profile}
+I build agents that run unattended, and I instrument them well enough to know when one should be
+switched off. At CortexCraft.ai that is a fleet of Gemini Live phone agents taking real calls in
+production; on my own projects it is a tool host that hands an LLM a registry of declared functions
+and refuses to print a number no tool produced. I have also swapped a live platform's speech provider
+and backend without dropping traffic.
+
+\section{Core Skills}
+\skill{Languages}{Python \sep TypeScript \sep JavaScript \sep Java \sep Kotlin \sep SQL}
+\skill{Agents}{Autonomous Agents \sep Tool Calling \sep MCP-style Registries \sep Output Guardrails \sep RAG \sep Orchestration}
+\skill{Models}{Gemini Live \sep Groq \sep Ollama (local open-weight) \sep SmolLM2 QLoRA \sep Hugging Face \sep Whisper}
+\skill{Backend}{FastAPI \sep Node.js / Express \sep Spring Boot \sep Celery \sep WebSockets \sep REST APIs}
+\skill{Data}{PostgreSQL \sep pgvector \sep MongoDB \sep Neo4j \sep Redis}
+\skill{Platform}{Google Cloud (Gemini, STT/TTS) \sep Docker \sep GitLab CI \sep Prometheus \sep Twilio \sep Plivo \sep WhatsApp}
+
+\section{Experience}
+
+\entry{Software Developer, CortexCraft.ai}{Jan 2026 -- Present}
+\begin{itemize}
+  \item Built and maintain the voice-agent platform (589 of 626 commits on the SaaS platform, 67 of 75
+        on the core engine): Gemini Live phone agents that run calls end to end over Twilio and Plivo,
+        with per-agent RAG grounding, generated prompts, transcripts and an external REST API other
+        products drive instead of forking the stack.
+  \item Design the tool-calling orchestration and guardrails that constrain what an agent may do.
+        Tools are declared functions, extracted call data is coerced to its declared type before anything
+        downstream reads it, and handing a call to a human is an explicit path, not a fallback.
+  \item Own production reliability for the call pipeline, which is where most of the real work lives.
+        Fixed outbound routing, added reconnect handling for dropped Gemini 1006 sockets, and traced a
+        Docker TLS failure to NAT hairpinning rather than restarting past it.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+\begin{itemize}
+  \item Scoped and delivered full-stack projects directly with non-technical clients: React and Vite
+        front ends, Python and Node.js services, automation scripts, then the fixes and deployment
+        support afterwards.
+\end{itemize}
+
+\section{Selected Projects}
+
+\textbf{AI Personal CFO and Talo} \textit{Kotlin, Compose, Hilt, Room/SQLCipher, ML Kit, Gemini Live}
+\begin{itemize}
+  \item Sole author, 159 commits, 34 Gradle modules, 199 test files. An MCP-style in-process tool host
+        exposes twelve deterministic engines through a JSON registry carrying \texttt{inputSchema},
+        \texttt{readOnlyHint} and \texttt{destructiveHint}; chat reads through the registry and never
+        writes.
+  \item An output guardrail rewrites any number in model text that is absent from the tool result as
+        \texttt{[unverified]}, on a written rule: numbers from math, words from AI. On-device ML Kit OCR
+        and the SMS parser are both scored against frozen evaluation fixtures.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Dental Clinic AI Assistant} \textit{Python, Flask, PostgreSQL/pgvector, Gemini, WhatsApp Business API}
+\begin{itemize}
+  \item An agent that books appointments on its own: Gemini function calling with preconditions
+        encoded in the tool descriptions, behind a role-based tool router admitting one tool per turn,
+        over a 19-state WhatsApp state machine that hands off to a phone agent with context preserved.
+  \item Chunked document RAG (800-token chunks, 100 overlap) embedded with
+        \texttt{text-embedding-004} into pgvector, retrieved by cosine distance with a Postgres
+        full-text fallback and role-scoped row filtering inside the retriever, so authorisation cannot
+        be prompted around.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{KisanVoice AI} \textit{Python, FastAPI, React, MongoDB, Google STT/TTS, Prometheus, Jenkins}
+\begin{itemize}
+  \item 172 of 192 commits. Swapped the speech provider for Google Cloud STT/TTS and replaced the Node
+        backend with FastAPI without interrupting live surveys; 24 locales (10 Indian) now come from a
+        config-driven registry, so adding one is a config row rather than a deploy.
+  \item Measured it rather than assumed it: every request carries an \texttt{X-Request-ID} echoed
+        back, every log line is one JSON object carrying that ID, each response is logged with its
+        status and duration in milliseconds, and a Prometheus instrumentator exposes
+        \texttt{/metrics}.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{JiraFlow Agent} \textit{Python, React, Jira API, GitHub API, LLM Agents}
+\begin{itemize}
+  \item The place an agent earned in our own delivery process: it reads a Jira ticket, applies the
+        change, and opens a pull request from an \texttt{ai/scrum-<id>} branch whose commit cites the
+        ticket. The agent proposes and a human merges, so a wrong edit costs a rejected PR rather than
+        a broken main branch.
+\end{itemize}
+
+\section{Education \& Ways of Working}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore\\
+Feature branches, conventional commits, and 132 pytest files as the GitLab CI merge gate. I write the
+deployment runbooks and rollback procedures too.
+
+\end{document}

@@ -1,0 +1,143 @@
+% ----------------------------------------------------------------------
+% Why:     Flexera's Software Engineer role asks for backend services, APIs,
+%          integrations and data pipelines in Go or Python, plus CI/CD and
+%          production debugging. This variant leads with that work and is
+%          honest that Go and Kubernetes are still being learned.
+% What:    One-page resume targeting the Flexera Software Engineer opening.
+%          Built from the resume-forge evidence ledger (backend-platform
+%          profile); every number traces to a repository. No commit counts.
+% Result:  Python backend, async workers, external SaaS integrations,
+%          multi-tenant data and CI gates as the through-line.
+% Changed: 2026-10-31 -- created from resume-backend-platform.tex; split the
+%          CortexCraft role into internship (Jan-May 2026) and Software
+%          Developer (May 2026-present); removed commit counts.
+% Build:   bash ~/.claude/skills/resume-forge/scripts/build_resume.sh \
+%            public/resume-flexera-software-engineer.tex
+% ----------------------------------------------------------------------
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=0.9cm,bottom=0.8cm,left=1.25cm,right=1.25cm]{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\hypersetup{
+  pdftitle={Harish G - Software Engineer Resume},
+  pdfauthor={Harish G},
+  colorlinks=false
+}
+
+\titleformat{\section}
+  {\normalsize\sffamily\bfseries}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{8pt}{3pt}
+
+\setlist[itemize]{leftmargin=1.2em,itemsep=1.5pt,topsep=2pt,parsep=0pt}
+
+\setlength{\parindent}{0pt}
+\linespread{0.97}\selectfont
+\pagestyle{empty}
+
+% Entry heading row with a right-aligned date: \entry{Title}{Date}
+\newcommand{\entry}[2]{\textbf{#1}\hfill{#2}\par}
+\newcommand{\sep}{\,\textperiodcentered\,}
+% Skills row whose label gap is measured, so a long label never collides
+% with the text after it.
+\newlength{\skillwidth}\setlength{\skillwidth}{7.6em}
+\newlength{\skilllabel}
+\newcommand{\skill}[2]{%
+  \settowidth{\skilllabel}{\textbf{#1}}%
+  \hangindent=\skillwidth\hangafter=1%
+  \mbox{\textbf{#1}}%
+  \ifdim\skilllabel<\skillwidth\hspace{\dimexpr\skillwidth-\skilllabel}\else\hspace{0.6em}\fi
+  #2\par}
+
+\begin{document}
+
+{\LARGE\bfseries Harish G}\\[1pt]
+{\normalsize\bfseries Software Engineer \textbar{} Python Backend, APIs, Integrations, CI/CD}\\[2pt]
+{\small Bengaluru, India \quad\textbar\quad +91 7892855850 \quad\textbar\quad
+\href{mailto:harishgreddy.work@gmail.com}{harishgreddy.work@gmail.com} \quad\textbar\quad
+\href{https://www.linkedin.com/in/harishgreddy/}{LinkedIn} \quad\textbar\quad
+\href{https://github.com/harish00506/}{GitHub} \quad\textbar\quad \href{https://www.harishg.com}{harishg.com}}
+
+\section{Profile}
+I write backend code in Python and spend a fair share of my time on what happens after it ships.
+At CortexCraft I started as an intern and now work as a software developer on a voice-agent
+platform: REST APIs that other products call, Celery workers, telephony integrations and the CI
+that gates every merge. Most of what I know about debugging came from production, like the week a
+Docker TLS failure turned out to be NAT hairpinning. I am learning Go and Kubernetes now, and I use
+AI tools for code exploration and tests, but I read and own every change that goes in.
+
+\section{Core Skills}
+\skill{Languages}{Python \sep SQL \sep JavaScript \sep TypeScript \sep Java 21}
+\skill{Learning}{Go \sep Kubernetes}
+\skill{Backend}{FastAPI \sep REST API Design \sep Celery \sep WebSockets \sep Node.js/Express \sep Multi-Tenant SaaS}
+\skill{Data}{PostgreSQL \sep Alembic \sep Flyway \sep Redis \sep MongoDB \sep Neo4j}
+\skill{Platform}{Docker \& Compose \sep GitLab CI \sep GitHub Actions \sep Jenkins \sep Git}
+\skill{Integrations}{Twilio \sep Plivo \sep WhatsApp \sep Gemini API \sep Webhooks}
+\skill{Observability}{Structured JSON Logging \sep Request-ID Tracing \sep Prometheus Metrics \sep Runbooks}
+
+\section{Experience}
+\entry{Software Developer, CortexCraft.ai}{May 2026 -- Present}
+\begin{itemize}
+  \item Build and maintain the voice-agent platform, including the external REST API other products
+        integrate against, so one backend serves several shipped products instead of several codebases.
+  \item Own reliability of the call pipeline: fixed outbound routing that picked the wrong carrier,
+        added reconnect handling for sockets that drop mid-call, and tightened termination detection
+        so calls end cleanly.
+  \item Shipped LeadCall AI on the platform: Celery dial and callback workers behind Redis dial locks,
+        per-tenant telephony credentials encrypted at rest, Alembic-migrated PostgreSQL, and an
+        append-only audit log of operator actions.
+  \item Gate merges on GitLab CI with 132 pytest files, working on feature branches with
+        conventional commits and code review.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Software Developer Intern, CortexCraft.ai}{Jan 2026 -- May 2026}
+\begin{itemize}
+  \item Four months on the same platform. Traced a Docker TLS failure on a self-hosted domain to NAT
+        hairpinning and wrote it up as an incident report.
+  \item Fixed bugs in the Twilio and Plivo telephony integrations and the WebSocket audio path,
+        adding pytest coverage with each fix.
+\end{itemize}
+
+\vspace{1pt}
+\entry{Freelance Web \& App Developer (Self-Employed)}{2023 -- 2026}
+\begin{itemize}
+  \item Delivered backend services, automation scripts and deployment support for local clients in
+        Python and Node.js.
+\end{itemize}
+
+\section{Selected Projects}
+\textbf{KisanVoice AI, multilingual survey platform} \textit{Python, FastAPI, MongoDB, Jenkins, Docker}
+\begin{itemize}
+  \item Every request carries an \texttt{X-Request-ID} that is forwarded or generated and echoed back,
+        every log line is one JSON object with that ID, and each response is logged with status and
+        duration. A Prometheus instrumentator exposes \texttt{/metrics}.
+  \item Replaced the Node.js backend with FastAPI and moved the speech provider behind a
+        config-driven registry of 24 locales without interrupting live surveys. Ships with a
+        deployment runbook, a hotfix flow and a rollback procedure.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{Lendly, lending platform backend} \textit{Java 21, Spring Boot 3.5, PostgreSQL, Flyway, Docker}
+\begin{itemize}
+  \item Spring Security with JJWT, Data JPA and Bean Validation; Flyway versioned migrations against
+        PostgreSQL with H2 for tests; GitHub Actions CI and Docker Compose for local environments.
+\end{itemize}
+
+\vspace{1pt}
+\textbf{FinGraph AI} \textit{Node.js, Express, Neo4j, Supabase pgvector, JWT}
+\begin{itemize}
+  \item Two stores behind one query path: pgvector for similarity search and Neo4j for the
+        relationships each hit is enriched with, under JWT authentication and role-restricted
+        admin routes.
+\end{itemize}
+
+\section{Education}
+\textbf{B.E., Information Science and Engineering}, Vivekananda Institute of Technology, Bangalore
+
+\end{document}
