@@ -67,7 +67,7 @@ export default function Hero() {
             </div>
 
             <div {...riseDelay(0.32)} className="rise mt-9 flex flex-wrap items-center gap-x-4 gap-y-3">
-              <p className="mr-2 text-base text-muted-foreground">{profile.availability}</p>
+              <p className="mr-2 basis-full text-base text-muted-foreground sm:basis-auto">{profile.availability}</p>
               {contactLinks.map(({ href, icon: Icon, label }) => (
                 <a
                   key={label}
